@@ -27,7 +27,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id$
  */
@@ -35,9 +35,9 @@
 /**
  * Класс плагина
  *
- * @package FGallery
+ * @package Gallery
  */
-class FGallery extends ContentPlugin
+class Gallery extends ContentPlugin
 {
 	/**
 	 * Название плагина

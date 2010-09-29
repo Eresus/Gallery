@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id$
  */
@@ -42,7 +42,7 @@
  * @property       string $position     Порядковый номер
  * @property-read  array  $images       Изображения группы
  *
- * @package FGallery
+ * @package Gallery
  */
 class GalleryGroup extends GalleryAbstractActiveRecord
 {
@@ -80,7 +80,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 
 	/**
 	 * (non-PHPdoc)
-	 * @see src/fgallery/classes/GalleryAbstractActiveRecord::delete()
+	 * @see src/gallery/classes/GalleryAbstractActiveRecord::delete()
 	 */
 	public function delete()
 	{

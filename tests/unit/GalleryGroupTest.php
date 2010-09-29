@@ -26,18 +26,18 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  *
  * $Id$
  */
 
 include_once dirname(__FILE__) . '/helpers.php';
-include_once dirname(__FILE__) . '/../../src/fgallery/classes/AbstractActiveRecord.php';
-include_once dirname(__FILE__) . '/../../src/fgallery/classes/Group.php';
+include_once dirname(__FILE__) . '/../../src/gallery/classes/AbstractActiveRecord.php';
+include_once dirname(__FILE__) . '/../../src/gallery/classes/Group.php';
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class GalleryGroupTest extends PHPUnit_Framework_TestCase
@@ -89,7 +89,7 @@ class GalleryGroupTest extends PHPUnit_Framework_TestCase
 }
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class GalleryGroupTest_Stub extends GalleryGroup
@@ -98,7 +98,7 @@ class GalleryGroupTest_Stub extends GalleryGroup
 	{
 		parent::__construct();
 		// Предовтращаем использование одного и того же экземпляра во все всех тестах.
-		self::plugin($GLOBALS['Eresus']->plugins->load('fgallery'));
+		self::plugin($GLOBALS['Eresus']->plugins->load('gallery'));
 	}
 	//-----------------------------------------------------------------------------
 

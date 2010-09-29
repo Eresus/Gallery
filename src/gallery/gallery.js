@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id: fgallery.php 267 2010-06-22 14:54:37Z mk $
  */
@@ -57,11 +57,11 @@ jQuery('#Content a').live('click', function (e)
 	var stub = anchor.clone();
 	stub.lightBox({
 		fixedNavigation: false,
-		imageLoading: '$(httpRoot)ext/fgallery/lightbox/lightbox-ico-loading.gif',
-		imageBtnPrev: '$(httpRoot)ext/fgallery/lightbox/lightbox-btn-prev.gif',
-		imageBtnNext: '$(httpRoot)ext/fgallery/lightbox/lightbox-btn-next.gif',
-		imageBtnClose: '$(httpRoot)ext/fgallery/lightbox/lightbox-btn-close.gif',
-		imageBlank: '$(httpRoot)ext/fgallery/lightbox/lightbox-blank.gif'
+		imageLoading: '$(httpRoot)ext/gallery/lightbox/lightbox-ico-loading.gif',
+		imageBtnPrev: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-prev.gif',
+		imageBtnNext: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-next.gif',
+		imageBtnClose: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-close.gif',
+		imageBlank: '$(httpRoot)ext/gallery/lightbox/lightbox-blank.gif'
 	});
 	stub.click();
 	

@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id$
  */
@@ -35,14 +35,14 @@
 /**
  * Абстрактная реализация паттерна ActiveRecord
  *
- * @package FGallery
+ * @package Gallery
  */
 abstract class GalleryAbstractActiveRecord
 {
 	/**
 	 * Объект плагина
 	 *
-	 * @var FGallery
+	 * @var Gallery
 	 */
 	private static $plugin;
 
@@ -365,9 +365,9 @@ abstract class GalleryAbstractActiveRecord
 	/**
 	 * Возвращает экземпляр основного класса плгина
 	 *
-	 * @param FGallery $plugin[optional]  Использовать этот экземпляр вместо автоопределения.
+	 * @param Gallery $plugin[optional]  Использовать этот экземпляр вместо автоопределения.
 	 *                                    Для модульных тестов.
-	 * @return FGallery
+	 * @return Gallery
 	 *
 	 * @since 1.07
 	 */
@@ -380,7 +380,7 @@ abstract class GalleryAbstractActiveRecord
 
 		if (!self::$plugin)
 		{
-			self::$plugin = $GLOBALS['Eresus']->plugins->load('fgallery');
+			self::$plugin = $GLOBALS['Eresus']->plugins->load('gallery');
 		}
 		return self::$plugin;
 	}

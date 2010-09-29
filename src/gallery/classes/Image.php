@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id$
  */
@@ -55,7 +55,7 @@
  * @property-read  GalleryImage      $prevSibling  Модель предыдущего по порядку Изображения.
  *                                                 Для КИ - предыдущего активного Изображения.
  *
- * @package FGallery
+ * @package Gallery
  */
 class GalleryImage extends GalleryAbstractActiveRecord
 {
@@ -207,7 +207,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 
 	/**
 	 * (non-PHPdoc)
-	 * @see src/fgallery/classes/GalleryAbstractActiveRecord::delete()
+	 * @see src/gallery/classes/GalleryAbstractActiveRecord::delete()
 	 */
 	public function delete()
 	{
@@ -598,7 +598,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 
 	/**
 	 * (non-PHPdoc)
-	 * @see src/fgallery/classes/GalleryAbstractActiveRecord::loadById()
+	 * @see src/gallery/classes/GalleryAbstractActiveRecord::loadById()
 	 */
 	protected function loadById($id)
 	{

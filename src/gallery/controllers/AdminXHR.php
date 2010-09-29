@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id: AbstractActiveRecord.php 356 2010-09-08 08:08:15Z mk $
  */
@@ -35,7 +35,7 @@
 /**
  * Контроллер XHR-запросов
  *
- * @package FGallery
+ * @package Gallery
  */
 class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 {

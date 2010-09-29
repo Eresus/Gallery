@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  *
  * $Id$
  */
@@ -35,7 +35,7 @@
 /**
  * Неподдерживаемый формат файла
  *
- * @package FGallery
+ * @package Gallery
  */
 class GalleryUnsupportedFormatException extends EresusRuntimeException
 {
@@ -55,7 +55,7 @@ class GalleryUnsupportedFormatException extends EresusRuntimeException
 /**
  * Не удалось загрузить файл
  *
- * @package FGallery
+ * @package Gallery
  */
 class GalleryUploadException extends EresusRuntimeException
 {

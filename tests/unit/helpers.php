@@ -26,7 +26,7 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  *
  * $Id$
@@ -35,7 +35,7 @@
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class EresusPropertyNotExistsException extends Exception
@@ -49,7 +49,7 @@ class EresusPropertyNotExistsException extends Exception
 
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class EresusTypeException extends Exception
@@ -63,7 +63,7 @@ class EresusTypeException extends Exception
 
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class PluginsStub
@@ -72,7 +72,7 @@ class PluginsStub
 
 	public function __construct()
 	{
-		$this->plugin = new FGallery();
+		$this->plugin = new Gallery();
 	}
 	//-----------------------------------------------------------------------------
 
@@ -92,12 +92,12 @@ class PluginsStub
 
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
-class FGallery
+class Gallery
 {
-	public $name = 'fgallery';
+	public $name = 'gallery';
 
 	public $settings = array(
 		'showItemMode' => 'default'

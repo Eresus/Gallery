@@ -26,17 +26,17 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  *
  * $Id$
  */
 
 include_once dirname(__FILE__) . '/helpers.php';
-include_once dirname(__FILE__) . '/../../src/fgallery/classes/AbstractActiveRecord.php';
+include_once dirname(__FILE__) . '/../../src/gallery/classes/AbstractActiveRecord.php';
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
@@ -63,7 +63,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
 		$GLOBALS['Eresus'] = new stdClass();
 		$GLOBALS['Eresus']->plugins = new PluginsStub();
 
-		$this->assertEquals('fgallery_mytable', $this->fixture->getDbTable());
+		$this->assertEquals('gallery_mytable', $this->fixture->getDbTable());
 	}
 	//-----------------------------------------------------------------------------
 
@@ -76,7 +76,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
 		$GLOBALS['Eresus'] = new stdClass();
 		$GLOBALS['Eresus']->plugins = new PluginsStub();
 
-		$this->assertEquals('fgallery_mytable', GalleryAbstractActiveRecordTest_Stub::getDbTableStatic('GalleryAbstractActiveRecordTest_Stub'));
+		$this->assertEquals('gallery_mytable', GalleryAbstractActiveRecordTest_Stub::getDbTableStatic('GalleryAbstractActiveRecordTest_Stub'));
 	}
 	//-----------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDbTableStatic_fail()
 	{
-		$this->assertEquals('fgallery_mytable', GalleryAbstractActiveRecordTest_Stub::getDbTableStatic('stdClass'));
+		$this->assertEquals('gallery_mytable', GalleryAbstractActiveRecordTest_Stub::getDbTableStatic('stdClass'));
 	}
 	//-----------------------------------------------------------------------------
 
@@ -228,7 +228,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
  *******************************************************************************/
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class GalleryAbstractActiveRecordTest_Stub extends GalleryAbstractActiveRecord

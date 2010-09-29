@@ -55,7 +55,7 @@ jQuery('#input-section').live('change', function (e)
 		blockGroup.show();
 		inputGroup.attr('disabled', 'disabled');
 		jQuery('*', inputGroup).remove();
-		window.Eresus.galleryRequest('fgallery', 'getGroups', galleryImageEditLoadGroups, inputSection.val());
+		window.Eresus.galleryRequest('gallery', 'getGroups', galleryImageEditLoadGroups, inputSection.val());
 	}
 	else
 	{

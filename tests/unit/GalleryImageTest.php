@@ -26,18 +26,18 @@
  * GNU с этой программой. Если Вы ее не получили, смотрите документ на
  * <http://www.gnu.org/licenses/>
  *
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  *
  * $Id$
  */
 
 include_once dirname(__FILE__) . '/helpers.php';
-include_once dirname(__FILE__) . '/../../src/fgallery/classes/AbstractActiveRecord.php';
-include_once dirname(__FILE__) . '/../../src/fgallery/classes/Image.php';
+include_once dirname(__FILE__) . '/../../src/gallery/classes/AbstractActiveRecord.php';
+include_once dirname(__FILE__) . '/../../src/gallery/classes/Image.php';
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class GalleryImageTest extends PHPUnit_Framework_TestCase
@@ -145,7 +145,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 }
 
 /**
- * @package FGallery
+ * @package Gallery
  * @subpackage Tests
  */
 class GalleryImageTest_Stub extends GalleryImage
@@ -154,7 +154,7 @@ class GalleryImageTest_Stub extends GalleryImage
 	{
 		parent::__construct();
 		// Предовтращаем использование одного и того же экземпляра во все всех тестах.
-		self::plugin($GLOBALS['Eresus']->plugins->load('fgallery'));
+		self::plugin($GLOBALS['Eresus']->plugins->load('gallery'));
 		$this->setProperty('id', '123');
 		$this->setProperty('image', '1.jpg');
 		$this->setProperty('thumb', '1-thmb.jpg');

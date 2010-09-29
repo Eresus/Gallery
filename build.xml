@@ -5,7 +5,7 @@
  $Id$
  -->
 
-<project name="fgallery" default="build" basedir="./">
+<project name="gallery" default="build" basedir="./">
 
 	<property file="build.properties" />
 	
