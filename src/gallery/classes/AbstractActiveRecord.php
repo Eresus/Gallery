@@ -87,7 +87,7 @@ abstract class GalleryAbstractActiveRecord
 	 * Метод должен возвращать имя таблицы БД
 	 *
 	 * @return string
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	abstract public function getTableName();
 	//-----------------------------------------------------------------------------
@@ -103,7 +103,7 @@ abstract class GalleryAbstractActiveRecord
 	 * - maxlength - Для строковых полей, максимальное количество символов
 	 *
 	 * @return array
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	abstract public function getAttrs();
 	//-----------------------------------------------------------------------------
@@ -112,7 +112,7 @@ abstract class GalleryAbstractActiveRecord
 	 * Возвращает полное имя таблицы (плагин_таблица)
 	 *
 	 * @return string
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getDbTable()
 	{
@@ -126,7 +126,7 @@ abstract class GalleryAbstractActiveRecord
 	 * @param string $className  Имя класса, потомка GalleryAbstractActiveRecord, для которого
 	 *                           надо получить имя таблицы
 	 * @return string
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function getDbTableStatic($className)
 	{
@@ -149,7 +149,7 @@ abstract class GalleryAbstractActiveRecord
 	 * @return mixed  Значение поля
 	 *
 	 * @throws EresusPropertyNotExistsException
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function __get($key)
 	{
@@ -171,7 +171,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function __set($key, $value)
 	{
@@ -192,7 +192,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return bool
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function isNew()
 	{
@@ -205,7 +205,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function save()
 	{
@@ -248,7 +248,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function delete()
 	{
@@ -275,7 +275,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function moveUp()
 	{
@@ -318,7 +318,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function moveDown()
 	{
@@ -369,7 +369,7 @@ abstract class GalleryAbstractActiveRecord
 	 *                                    Для модульных тестов.
 	 * @return Gallery
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	protected static function plugin($plugin = null)
 	{
@@ -396,7 +396,7 @@ abstract class GalleryAbstractActiveRecord
 	 * @return void
 	 *
 	 * @throws EresusPropertyNotExistsException
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	protected function setProperty($key, $value)
 	{
@@ -438,7 +438,7 @@ abstract class GalleryAbstractActiveRecord
 	 * @return mixed
 	 *
 	 * @throws EresusPropertyNotExistsException
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	protected function getProperty($key)
 	{
@@ -463,7 +463,7 @@ abstract class GalleryAbstractActiveRecord
 	 * @param array $raw
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	protected function loadFromArray($raw)
 	{
@@ -479,7 +479,7 @@ abstract class GalleryAbstractActiveRecord
 	 * @return void
 	 *
 	 * @throws DBQueryException
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	protected function loadById($id)
 	{
@@ -503,7 +503,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return bool
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private function filterBool($value)
 	{
@@ -518,7 +518,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return int
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private function filterInt($value)
 	{
@@ -534,7 +534,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @return string
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private function filterString($value, $attrs)
 	{

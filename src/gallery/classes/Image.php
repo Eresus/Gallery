@@ -118,7 +118,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return string  Имя таблицы БД
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getTableName()
 	{
@@ -131,7 +131,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return array
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getAttrs()
 	{
@@ -156,7 +156,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 * @return void
 	 *
 	 * @uses serveUpload
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function save()
 	{
@@ -254,7 +254,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return int
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function count($section, $activeOnly = false)
 	{
@@ -288,7 +288,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return GalleryImage|false  Возвращает изображение или FALSE, если обложка отсутствует
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function findCover($section)
 	{
@@ -325,7 +325,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return array(GalleryImage)
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function find($owner, $limit = null, $offset = null, $activeOnly = false)
 	{
@@ -370,7 +370,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return array(GalleryImage)
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function findOrphans($section)
 	{
@@ -645,7 +645,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return array(GalleryImage)
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private static function load($query, $limit = null, $offset = null)
 	{
@@ -690,7 +690,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 * @param int $section
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private static function clearCovers($section)
 	{
@@ -709,7 +709,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private static function autoSetCover($section)
 	{
@@ -755,7 +755,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private function serveCoverChanges()
 	{
@@ -816,7 +816,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @throws GalleryUnsupportedFormatException
 	 * @throws GalleryUploadException
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	private function serveUpload()
 	{

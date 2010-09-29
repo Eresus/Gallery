@@ -51,7 +51,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 	 *
 	 * @return string  Имя таблицы БД
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getTableName()
 	{
@@ -64,7 +64,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 	 *
 	 * @return array
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getAttrs()
 	{
@@ -100,7 +100,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 	 *
 	 * @return int
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function count($section)
 	{
@@ -126,7 +126,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 	 *
 	 * @return array(GalleryGroup)
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public static function find($section, $limit = null, $offset = null)
 	{

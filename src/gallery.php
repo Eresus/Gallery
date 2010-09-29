@@ -124,7 +124,7 @@ class Gallery extends ContentPlugin
 	 *
 	 * @return string
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getDataURL()
 	{
@@ -137,7 +137,7 @@ class Gallery extends ContentPlugin
 	 *
 	 * @return string
 	 *
-	 * @since 1.07
+	 * @since 2.00
 	 */
 	public function getDataDir()
 	{
