@@ -8,8 +8,9 @@
  *
  * @copyright 2008, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author БерсЪ <bersz@procreat.ru>
  * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Ghost
+ * @author Olex
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
