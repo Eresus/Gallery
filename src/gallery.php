@@ -45,7 +45,7 @@ class Gallery extends ContentPlugin
 	 *
 	 * @var string
 	 */
-	public $title = 'Фотогалерея';
+	public $title = 'Галерея изображений';
 
 	/**
 	 * Версия плагина
