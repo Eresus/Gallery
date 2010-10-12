@@ -318,16 +318,16 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	/**
 	 * Выбирает изображения из БД
 	 *
-	 * @param int|GalleryGroup $owner                 Идентификатор раздела или группа
-	 * @param int              $limit[optional]       Вернуть не более $limit изображений
-	 * @param int              $offset[optional]      Пропустить $offset первых изображений
-	 * @param bool             $activeOnly[optional]  Искать только активные изображения
+	 * @param int|GalleryGroup $owner [optional]       идентификатор раздела или группа
+	 * @param int              $limit [optional]       вернуть не более $limit изображений
+	 * @param int              $offset [optional]      пропустить $offset первых изображений
+	 * @param bool             $activeOnly [optional]  искать только активные изображения
 	 *
 	 * @return array(GalleryImage)
 	 *
 	 * @since 2.00
 	 */
-	public static function find($owner, $limit = null, $offset = null, $activeOnly = false)
+	public static function find($owner = null, $limit = null, $offset = null, $activeOnly = false)
 	{
 		eresus_log(__METHOD__, LOG_DEBUG, '(%s, %s, %s, %s)', $owner, $limit, $offset, $activeOnly);
 
@@ -335,13 +335,17 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		$e = $q->expr;
 
 		/* Строим условие выборки */
-		if ($owner instanceof GalleryGroup)
+		$cond = '1';
+		if ($owner)
 		{
-			$cond = $e->eq('groupId', $q->bindValue($owner->id, null, PDO::PARAM_INT));
-		}
-		else
-		{
-			$cond = $e->eq('section', $q->bindValue($owner, null, PDO::PARAM_INT));
+			if ($owner instanceof GalleryGroup)
+			{
+				$cond = $e->eq('groupId', $q->bindValue($owner->id, null, PDO::PARAM_INT));
+			}
+			else
+			{
+				$cond = $e->eq('section', $q->bindValue($owner, null, PDO::PARAM_INT));
+			}
 		}
 
 		if ($activeOnly)
@@ -386,6 +390,25 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		$result = self::load($q);
 
 		return $result;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Созадёт (пересоздаёт) миниатюру
+	 *
+	 * @return void
+	 *
+	 * @since 2.01
+	 */
+	public function buildThumb()
+	{
+		useLib('glib');
+		thumbnail(
+			self::plugin()->getDataDir() . $this->image,
+			self::plugin()->getDataDir() . $this->thumb,
+			self::plugin()->settings['thumbWidth'],
+			self::plugin()->settings['thumbHeight']
+		);
 	}
 	//-----------------------------------------------------------------------------
 
@@ -871,12 +894,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			$this->overlayLogo(self::plugin()->getDataDir() . $this->image);
 		}
 
-		thumbnail(
-			self::plugin()->getDataDir() . $this->image,
-			self::plugin()->getDataDir() . $this->thumb,
-			self::plugin()->settings['thumbWidth'],
-			self::plugin()->settings['thumbHeight']
-		);
+		$this->buildThumb();
 
 		$this->upload = null;
 

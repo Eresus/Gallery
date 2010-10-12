@@ -155,7 +155,7 @@ class Gallery extends ContentPlugin
 		global $Eresus, $page;
 
 		$page->linkStyles($this->urlCode . 'admin.css');
-		$this->linkJQuery();
+		$page->linkScripts($this->urlCode . 'admin.js');
 
 		// Данные для подстановки в шаблон
 		$data = array();

@@ -44,12 +44,66 @@ class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 	 *
 	 * @param int $sectionId
 	 * @return array
+	 *
+	 * @since 2.00
 	 */
 	protected function actionGetGroups($sectionId)
 	{
 		$sectionId = intval($sectionId);
 		$groups = GalleryGroup::find($sectionId);
 		return $groups;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Запускает процесс перестройки миниатюр
+	 *
+	 * @return array
+	 *
+	 * @since 2.01
+	 */
+	protected function actionThumbsRebuildStart()
+	{
+		$query = DB::getHandler()->createSelectQuery();
+		$query->select('id')->from(GalleryImage::getDbTableStatic('GalleryImage'));
+		$raw = DB::fetchAll($query);
+
+		$ids = array();
+		foreach ($raw as $image)
+		{
+			$ids []= $image['id'];
+		}
+		return array('action' => 'start', 'ids' => $ids);
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Пересоздаёт миниатюру
+	 *
+	 * @param int $imageId
+	 * @return array
+	 *
+	 * @since 2.01
+	 */
+	protected function actionThumbsRebuildNext($imageId)
+	{
+		$imageId += 100;
+
+		$response = array('action' => 'build', 'id' => $imageId, 'status' => 'success');
+		try
+		{
+			$image = new GalleryImage($imageId);
+			var_dump($image); die;
+			$image->buildThumb();
+		}
+		catch (Exception $e)
+		{
+			$response['status'] = $e->getMessage();
+		}
+
+		sleep(2);
+
+		return $response;
 	}
 	//-----------------------------------------------------------------------------
 }

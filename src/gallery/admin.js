@@ -30,6 +30,11 @@
  * $Id$
  */
 
+/**
+ * Глобальные переменные модуля
+ */
+window.Eresus.gallery = {};
+
 
 jQuery('#content div.image a.delete').live('click', function (e)
 {
@@ -97,7 +102,7 @@ function galleryImageEditLoadGroups(data, textStatus, extra)
  * @param {String}   module    Имя модуля (всегда должно быть "gallery")
  * @param {String}   action    Запрашиваемое действие
  * @param {Function} callback  Обработчик ответа
- * @param дополнительные аргусенты
+ * @param дополнительные аргументы
  * 
  * @type void
  */
@@ -110,3 +115,102 @@ window.Eresus.galleryRequest = function (module, action, callback)
 	}
 	jQuery.ajax({url: url, success: callback, error: callback, dataType: 'json'});
 };
+
+
+/**
+ * Запускает процесс пересоздания миниатюр
+ * 
+ * @type Boolean
+ * @return false
+ */
+function rebuildThumbnails()
+{
+	var dialog = jQuery('#thumbsRebuildDialog');
+	/* Сохраняем переменные в глобальной области */
+	window.Eresus.gallery.thumbsRebuild = {
+		'dialog': dialog,
+	};
+	
+	dialog.
+		dialog({
+			autoOpen: false,
+			buttons: { "Закрыть": function() { jQuery(this).dialog('close'); }},
+			draggable: false,
+			modal: true,
+			rsizable: false,
+			title: 'Идёт пересоздание миниатюр...',
+			open: function ()
+			{
+				jQuery('#thumbsRebuildErrors *').remove();
+				jQuery('#thumbsRebuildMessage').text('Не закрывайте эту страницу до окончания процесса.');
+				jQuery('.progressbar', this).progressbar().progressbar('value', 0);
+				window.Eresus.galleryRequest('gallery', 'thumbsRebuildStart', galleryThumbsRebuildHandler);
+			},
+		}).
+		dialog('open');
+	
+	return false;
+}
+
+
+/**
+ * Загружает в форму список групп
+ * 
+ * @param {Object|XMLHttpRequest}    data
+ * @param {String}                   textStatus
+ * @param {XMLHttpRequest|Exception} extra
+ * @type void
+ */
+function galleryThumbsRebuildHandler(data, textStatus, extra)
+{
+	switch (textStatus)
+	{
+		case 'success':
+			switch (data.action)
+			{
+				case 'start':
+					window.Eresus.gallery.thumbsRebuild.ids = data.ids;
+					window.Eresus.gallery.thumbsRebuild.total = data.ids.length;
+					jQuery('#thumbsRebuildLeft').text(data.ids.length);
+					window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext', galleryThumbsRebuildHandler,
+						window.Eresus.gallery.thumbsRebuild.ids[0]);
+				break;
+				
+				case 'build':
+					if (data.status != 'success')
+					{
+						console.log(data.status);
+						jQuery('<div>').text(data.status).appendTo('#thumbsRebuildErrors');
+					}
+					window.Eresus.gallery.thumbsRebuild.ids.shift();
+					var left = window.Eresus.gallery.thumbsRebuild.ids.length;
+					jQuery('#thumbsRebuildLeft').text(left);
+					var done = window.Eresus.gallery.thumbsRebuild.total - left;
+					var progress = Math.round(100 / window.Eresus.gallery.thumbsRebuild.total * done);
+					jQuery('.progressbar', window.Eresus.gallery.thumbsRebuild.dialog).
+						progressbar('value', progress);
+					
+					if (window.Eresus.gallery.thumbsRebuild.ids.length)
+					{
+						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext',
+							galleryThumbsRebuildHandler, window.Eresus.gallery.thumbsRebuild.ids[0]);
+					}
+					else
+					{
+						if (jQuery('#thumbsRebuildErrors div').length == 0)
+						{
+							window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+							return;
+						}
+						
+						jQuery('#thumbsRebuildMessage').
+							text('В процессе работы произошли ошибки. Возможно одна или несколько миниатюр не пересоздано.');
+					}
+				break;
+			}
+		break;
+		
+		default:
+			alert('Не удалось получить ответ от сервера. Обновите страницу и попробуйте ещё раз.');
+	}
+}

@@ -47,6 +47,17 @@
 						точек
 					</td>
 				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+					<a href="#" onclick="return rebuildThumbnails()" class="pseudo icon-reload">Пересоздать миниатюры</a>
+					<span class="hint-control">[?]</span>
+					<div class="hint-block">
+						<p>Запускает пересоздание миниатюр из полноразмерных изображений.</p>
+						<p>Можно использовать при изменении размера миниатюр или для исправления повреждённых миниатюр.</p>
+						<p>В зависимости от количества изображений на сайте, может занять продолжительное время.</p>
+					</div>
+					</td>
+				</tr>
 
 				<tr><th colspan="2">Список изображений</th></tr>
 				<tr>
@@ -289,6 +300,13 @@
 
 		</form>
 	</div>
+</div>
+
+<div id="thumbsRebuildDialog">
+	<div class="progressbar"></div>
+	<div>Осталось переделать: <strong id="thumbsRebuildLeft">неизвестно</strong></div>
+	<div class="error" id="thumbsRebuildErrors"></div>
+	<div class="ajax-loading" id="thumbsRebuildMessage"></div>
 </div>
 
 <script type="text/javascript"><!--//--><![CDATA[//><!--
