@@ -1,4 +1,4 @@
-<div class="box ui-widget-content" style="float: left; min-width: 600px; max-width: 900px">
+<div class="box ui-widget-content" style="float: left; width: 600px;">
 
 	<div class="header">Настройки модуля "Галерея изображений"</div>
 	<div class="content">
@@ -34,21 +34,25 @@
 
 				<tr><th colspan="2">Свойства миниатюр</th></tr>
 				<tr>
-					<td class="formLabel">Ширина</td>
+					<td class="formLabel"><label for="settings-thumbWidth-input">Ширина</label></td>
 					<td>
-						<input type="text" name="thumbWidth" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
+						<input type="text" name="thumbWidth" id="settings-thumbWidth-input" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
 						точек
 					</td>
 				</tr>
 				<tr>
-					<td class="formLabel">Высота</td>
+					<td class="formLabel"><label for="settings-thumbHeight-input">Высота</label></td>
 					<td>
-						<input type="text" name="thumbHeight" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
+						<input type="text" name="thumbHeight" id="settings-thumbHeight-input" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
 						точек
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align: center;">
+					<div id="rebuild-thumbs-notice" class="box error">
+						Изменение размеров повлияет только на миниатюры новых изображений. Чтобы привести имеющиеся
+						миниатюры к новым размерам, их надо пересоздать.
+					</div>
 					<a href="#" onclick="return rebuildThumbnails()" class="pseudo icon-reload">Пересоздать миниатюры</a>
 					<span class="hint-control">[?]</span><div class="hint-block">
 						<p>Запускает пересоздание миниатюр из полноразмерных изображений.</p>
@@ -309,6 +313,26 @@
 </div>
 
 <script type="text/javascript"><!--//--><![CDATA[//><!--
+
+	/**
+	 * Устанавливает видимость сообщения о необходимости пересборки миниатюр
+	 */
+	function setThumbRebuildNoticeVisibility()
+	{
+		var widthChanged = jQuery('#settings-thumbWidth-input').val() != {$this->settings.thumbWidth};
+		var heightChanged = jQuery('#settings-thumbHeight-input').val() != {$this->settings.thumbHeight};
+		var notice = jQuery('#rebuild-thumbs-notice');
+		
+		if (widthChanged || heightChanged)
+		{
+			notice.show();
+		}
+		else
+		{
+			notice.hide();
+		}
+	}
+
 	jQuery(document).ready(function ()
 	{
 		jQuery("#gallery-settings-tabs button").eq(1).click(function()
@@ -327,6 +351,9 @@
 			jQuery("#gallery-settings-main").show();
 		});
 
+		jQuery('#settings-thumbWidth-input').keyup(setThumbRebuildNoticeVisibility);
+		jQuery('#settings-thumbHeight-input').keyup(setThumbRebuildNoticeVisibility);
+		
 		jQuery("#gallery-useGroups-input").click(function ()
 		{
 			var images = jQuery("#gallery-itemsPerPage-input");

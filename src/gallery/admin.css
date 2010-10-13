@@ -254,6 +254,11 @@ dd
 	margin-left: 2em;
 }
 
+#rebuild-thumbs-notice
+{
+	display: none;
+}
+
 .icon-reload
 {
 	background: url(icons/view-refresh.png) no-repeat 0 50%;
