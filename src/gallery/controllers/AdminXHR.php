@@ -87,21 +87,16 @@ class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 	 */
 	protected function actionThumbsRebuildNext($imageId)
 	{
-		$imageId += 100;
-
 		$response = array('action' => 'build', 'id' => $imageId, 'status' => 'success');
 		try
 		{
 			$image = new GalleryImage($imageId);
-			var_dump($image); die;
 			$image->buildThumb();
 		}
 		catch (Exception $e)
 		{
 			$response['status'] = $e->getMessage();
 		}
-
-		sleep(2);
 
 		return $response;
 	}

@@ -279,6 +279,7 @@ div.hint-block
 	text-align: left;
 	padding: .3em 1em;
 	position: absolute;
+	z-index: 100;
 }
 
 	div.hint-block p
@@ -286,14 +287,16 @@ div.hint-block
 		margin: 0 0 .5em;
 	}
 
-span.hint-control:hover + div.hint-block
-{
-	display: inline;
-}
-
 #thumbsRebuildDialog
 {
 	display: none;
+}
+
+#thumbsRebuildErrors div
+{
+	color: red;
+	padding: 0;
+	margin: 0 0 .3em;
 }
 
 #thumbsRebuildMessage

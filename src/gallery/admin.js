@@ -33,7 +33,10 @@
 /**
  * Глобальные переменные модуля
  */
-window.Eresus.gallery = {};
+window.Eresus.gallery = 
+{
+	thumbsRebuild: {dialog: null}
+};
 
 
 jQuery('#content div.image a.delete').live('click', function (e)
@@ -68,6 +71,17 @@ jQuery('#input-section').live('change', function (e)
 	}
 });
 
+
+jQuery('#settings span.hint-control').
+live('mouseenter', function (e)
+{
+	var control = jQuery(e.target); 
+	control.next('.hint-block').css('left', control.position().left + 'px').fadeIn();
+}).
+live('mouseleave', function (e)
+{
+	jQuery(e.target).next('.hint-block').fadeOut();
+});
 
 /**
  * Загружает в форму список групп
@@ -126,10 +140,8 @@ window.Eresus.galleryRequest = function (module, action, callback)
 function rebuildThumbnails()
 {
 	var dialog = jQuery('#thumbsRebuildDialog');
-	/* Сохраняем переменные в глобальной области */
-	window.Eresus.gallery.thumbsRebuild = {
-		'dialog': dialog,
-	};
+	// Сохраняем переменные в глобальной области
+	window.Eresus.gallery.thumbsRebuild.dialog = dialog;
 	
 	dialog.
 		dialog({
@@ -146,6 +158,10 @@ function rebuildThumbnails()
 				jQuery('.progressbar', this).progressbar().progressbar('value', 0);
 				window.Eresus.galleryRequest('gallery', 'thumbsRebuildStart', galleryThumbsRebuildHandler);
 			},
+			close: function ()
+			{
+				window.Eresus.gallery.thumbsRebuild.dialog = null;
+			}
 		}).
 		dialog('open');
 	
@@ -163,23 +179,35 @@ function rebuildThumbnails()
  */
 function galleryThumbsRebuildHandler(data, textStatus, extra)
 {
+	if (!window.Eresus.gallery.thumbsRebuild.dialog)
+	{
+		return;
+	}
+	
 	switch (textStatus)
 	{
 		case 'success':
 			switch (data.action)
 			{
 				case 'start':
-					window.Eresus.gallery.thumbsRebuild.ids = data.ids;
-					window.Eresus.gallery.thumbsRebuild.total = data.ids.length;
-					jQuery('#thumbsRebuildLeft').text(data.ids.length);
-					window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext', galleryThumbsRebuildHandler,
-						window.Eresus.gallery.thumbsRebuild.ids[0]);
+					if (data.ids.length)
+					{
+						window.Eresus.gallery.thumbsRebuild.ids = data.ids;
+						window.Eresus.gallery.thumbsRebuild.total = data.ids.length;
+						jQuery('#thumbsRebuildLeft').text(data.ids.length);
+						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext', galleryThumbsRebuildHandler,
+							window.Eresus.gallery.thumbsRebuild.ids[0]);
+					}
+					else
+					{
+						window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+						return;
+					}
 				break;
 				
 				case 'build':
 					if (data.status != 'success')
 					{
-						console.log(data.status);
 						jQuery('<div>').text(data.status).appendTo('#thumbsRebuildErrors');
 					}
 					window.Eresus.gallery.thumbsRebuild.ids.shift();
@@ -202,7 +230,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 							window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
 							return;
 						}
-						
+
 						jQuery('#thumbsRebuildMessage').
 							text('В процессе работы произошли ошибки. Возможно одна или несколько миниатюр не пересоздано.');
 					}
