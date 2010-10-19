@@ -433,7 +433,14 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 */
 	protected function getGroup()
 	{
-		return new GalleryGroup($this->getProperty('groupId'));
+		try
+		{
+			return new GalleryGroup($this->getProperty('groupId'));
+		}
+		catch (DomainException $e)
+		{
+			return new GalleryNullObject();
+		}
 	}
 	//-----------------------------------------------------------------------------
 

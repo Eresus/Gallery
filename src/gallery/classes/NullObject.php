@@ -2,7 +2,7 @@
 /**
  * Галерея изображений
  *
- * Таблица авторзагрузки классов
+ * NULL (Специальный случай)
  *
  * @version ${product.version}
  *
@@ -31,17 +31,56 @@
  * $Id$
  */
 
-$dir = dirname(__FILE__);
 
-return array(
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
-	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
-	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
-	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryNullObject' => $dir . '/classes/GalleryNullObject.php',
-	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
-	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
-);
+/**
+ * NULL
+ *
+ * Объект этого класса можно возвращать если запрошен несузествующий объект.
+ *
+ * Объект NullObject возвращает NULL при обращении к любому свойству или методу, что
+ * предотвращает возникновение ошибок "Property|Method not exists".
+ *
+ * @package Gallery
+ */
+class GalleryNullObject
+{
+	/**
+	 * @param mixed $name
+	 *
+	 * @return null
+	 *
+	 * @since 2.01
+	 */
+	public function __get($name)
+	{
+		return null;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * @param mixed $name
+	 * @param mixed $value
+	 *
+	 * @return void
+	 *
+	 * @since 2.01
+	 */
+	public function __set($name, $value)
+	{
+		;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * @param string $method
+	 *
+	 * @return null
+	 *
+	 * @since 2.01
+	 */
+	public function __call($method)
+	{
+		return null;
+	}
+	//-----------------------------------------------------------------------------
+}
