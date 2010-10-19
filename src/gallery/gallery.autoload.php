@@ -41,7 +41,7 @@ return array(
 	'GalleryGroup' => $dir . '/classes/Group.php',
 	'GalleryGroup' => $dir . '/classes/Group.php',
 	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryNullObject' => $dir . '/classes/GalleryNullObject.php',
+	'GalleryNullObject' => $dir . '/classes/NullObject.php',
 	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
 	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
 );

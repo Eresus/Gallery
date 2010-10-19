@@ -73,12 +73,13 @@ class GalleryNullObject
 
 	/**
 	 * @param string $method
+	 * @param array  $args
 	 *
 	 * @return null
 	 *
 	 * @since 2.01
 	 */
-	public function __call($method)
+	public function __call($method, $args)
 	{
 		return null;
 	}
