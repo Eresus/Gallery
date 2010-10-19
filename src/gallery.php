@@ -705,7 +705,14 @@ class Gallery extends ContentPlugin
 		$item->posted = gettime();
 		$item->image = 'image'; // $_FILES['image'];
 
-		$item->save();
+		try
+		{
+			$item->save();
+		}
+		catch (GalleryFileTooBigException $e)
+		{
+			throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
+		}
 
 		$url = 'admin.php?mod=content&section=' . $item->section;
 		if (arg('pg'))

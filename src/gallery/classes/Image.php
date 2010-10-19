@@ -851,6 +851,11 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			return false;
 		}
 
+		if ($fileInfo['error'] == UPLOAD_ERR_INI_SIZE)
+		{
+			throw new GalleryFileTooBigException();
+		}
+
 		$ext = '.' . strtolower(substr(strrchr($fileInfo['name'], '.'), 1));
 
 		if (!in_array($fileInfo['type'], $this->supportedFormats))

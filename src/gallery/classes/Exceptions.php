@@ -52,11 +52,24 @@ class GalleryUnsupportedFormatException extends EresusRuntimeException
 	//-----------------------------------------------------------------------------
 }
 
+
+
 /**
  * Не удалось загрузить файл
  *
  * @package Gallery
  */
 class GalleryUploadException extends EresusRuntimeException
+{
+}
+
+
+
+/**
+ * Размер файла слишком велик
+ *
+ * @package Gallery
+ */
+class GalleryFileTooBigException extends GalleryUploadException
 {
 }

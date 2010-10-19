@@ -34,12 +34,13 @@
 $dir = dirname(__FILE__);
 
 return array(
+	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
 	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
+	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
+	'GalleryGroup' => $dir . '/classes/Group.php',
+	'GalleryGroup' => $dir . '/classes/Group.php',
+	'GalleryImage' => $dir . '/classes/Image.php',
 	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
 	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryImage' => $dir . '/classes/Image.php'
 );
