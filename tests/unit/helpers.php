@@ -32,7 +32,14 @@
  * $Id$
  */
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+if (class_exists('PHP_CodeCoverage_Filter', false))
+{
+	PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__FILE__);
+}
+else
+{
+	PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+}
 
 /**
  * @package Gallery

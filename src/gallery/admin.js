@@ -122,11 +122,13 @@ function galleryImageEditLoadGroups(data, textStatus, extra)
  */
 window.Eresus.galleryRequest = function (module, action, callback)
 {
-	var url = this.siteRoot + '/admin.php?mod=ext-' + module + '&args=/' + action + '/';
+	var url = this.siteRoot + '/admin.php?mod=ext-' + module + '&args=';
+	var args = '/' + action + '/';
 	for (var i = 3; i < arguments.length; i++)
 	{
-		url += arguments[i] + '/';
+		args += arguments[i] + '/';
 	}
+	url += encodeURIComponent(args);
 	jQuery.ajax({url: url, success: callback, error: callback, dataType: 'json'});
 };
 
@@ -134,10 +136,12 @@ window.Eresus.galleryRequest = function (module, action, callback)
 /**
  * Запускает процесс пересоздания миниатюр
  * 
+ * @param {Integer} newWidth
+ * @param {Integer} newHeight
  * @type Boolean
  * @return false
  */
-function rebuildThumbnails()
+function rebuildThumbnails(newWidth, newHeight)
 {
 	var dialog = jQuery('#thumbsRebuildDialog');
 	// Сохраняем переменные в глобальной области
@@ -156,11 +160,12 @@ function rebuildThumbnails()
 				jQuery('#thumbsRebuildErrors *').remove();
 				jQuery('#thumbsRebuildMessage').text('Не закрывайте эту страницу до окончания процесса.');
 				jQuery('.progressbar', this).progressbar().progressbar('value', 0);
-				window.Eresus.galleryRequest('gallery', 'thumbsRebuildStart', galleryThumbsRebuildHandler);
+				window.Eresus.galleryRequest('gallery', 'thumbsRebuildStart', galleryThumbsRebuildHandler,
+					newWidth, newHeight);
 			},
 			close: function ()
 			{
-				window.Eresus.gallery.thumbsRebuild.dialog = null;
+				jQuery('#settings').submit();
 			}
 		}).
 		dialog('open');
@@ -196,7 +201,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 						window.Eresus.gallery.thumbsRebuild.total = data.ids.length;
 						jQuery('#thumbsRebuildLeft').text(data.ids.length);
 						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext', galleryThumbsRebuildHandler,
-							window.Eresus.gallery.thumbsRebuild.ids[0]);
+							window.Eresus.gallery.thumbsRebuild.ids[0], data.width, data.height);
 					}
 					else
 					{
@@ -221,7 +226,8 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 					if (window.Eresus.gallery.thumbsRebuild.ids.length)
 					{
 						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext',
-							galleryThumbsRebuildHandler, window.Eresus.gallery.thumbsRebuild.ids[0]);
+							galleryThumbsRebuildHandler, window.Eresus.gallery.thumbsRebuild.ids[0], 
+							data.width, data.height);
 					}
 					else
 					{

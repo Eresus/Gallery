@@ -396,18 +396,20 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	/**
 	 * Созадёт (пересоздаёт) миниатюру
 	 *
+	 * @param int $width  [optional]
+	 * @param int $height [optional]
 	 * @return void
 	 *
 	 * @since 2.01
 	 */
-	public function buildThumb()
+	public function buildThumb($width = null, $height = null)
 	{
 		useLib('glib');
 		thumbnail(
 			self::plugin()->getDataDir() . $this->image,
 			self::plugin()->getDataDir() . $this->thumb,
-			self::plugin()->settings['thumbWidth'],
-			self::plugin()->settings['thumbHeight']
+			$width ? $width : self::plugin()->settings['thumbWidth'],
+			$height ? $height : self::plugin()->settings['thumbHeight']
 		);
 	}
 	//-----------------------------------------------------------------------------

@@ -47,20 +47,6 @@
 						точек
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" style="text-align: center;">
-					<div id="rebuild-thumbs-notice" class="box error">
-						Изменение размеров повлияет только на миниатюры новых изображений. Чтобы привести имеющиеся
-						миниатюры к новым размерам, их надо пересоздать.
-					</div>
-					<a href="#" onclick="return rebuildThumbnails()" class="pseudo icon-reload">Пересоздать миниатюры</a>
-					<span class="hint-control">[?]</span><div class="hint-block">
-						<p>Запускает пересоздание миниатюр из полноразмерных изображений.</p>
-						<p>Можно использовать при изменении размера миниатюр или для исправления повреждённых миниатюр.</p>
-						<p>В зависимости от количества изображений на сайте, может занять продолжительное время.</p>
-					</div>
-					</td>
-				</tr>
 
 				<tr><th colspan="2">Список изображений</th></tr>
 				<tr>
@@ -314,25 +300,6 @@
 
 <script type="text/javascript"><!--//--><![CDATA[//><!--
 
-	/**
-	 * Устанавливает видимость сообщения о необходимости пересборки миниатюр
-	 */
-	function setThumbRebuildNoticeVisibility()
-	{
-		var widthChanged = jQuery('#settings-thumbWidth-input').val() != {$this->settings.thumbWidth};
-		var heightChanged = jQuery('#settings-thumbHeight-input').val() != {$this->settings.thumbHeight};
-		var notice = jQuery('#rebuild-thumbs-notice');
-		
-		if (widthChanged || heightChanged)
-		{
-			notice.show();
-		}
-		else
-		{
-			notice.hide();
-		}
-	}
-
 	jQuery(document).ready(function ()
 	{
 		jQuery("#gallery-settings-tabs button").eq(1).click(function()
@@ -351,9 +318,6 @@
 			jQuery("#gallery-settings-main").show();
 		});
 
-		jQuery('#settings-thumbWidth-input').keyup(setThumbRebuildNoticeVisibility);
-		jQuery('#settings-thumbHeight-input').keyup(setThumbRebuildNoticeVisibility);
-		
 		jQuery("#gallery-useGroups-input").click(function ()
 		{
 			var images = jQuery("#gallery-itemsPerPage-input");
@@ -390,5 +354,25 @@
 			return false;
 		});
 
+		/**
+		 * Устанавливает видимость сообщения о необходимости пересборки миниатюр
+		 */
+		jQuery('#settings').submit(function ()
+		{
+			if (window.Eresus.gallery.thumbsRebuild.dialog === null)
+			{
+				var newWidth = jQuery('#settings-thumbWidth-input').val();
+				var newHeight = jQuery('#settings-thumbHeight-input').val();
+				var widthChanged = newWidth != '{$this->settings.thumbWidth}';
+				var heightChanged = newHeight != '{$this->settings.thumbHeight}';
+				
+				if (widthChanged || heightChanged)
+				{
+					rebuildThumbnails(newWidth, newHeight);
+					return false;
+				}
+			}
+		});
+		
 	});
 //--><!]]></script>
