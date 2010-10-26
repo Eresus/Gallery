@@ -165,7 +165,7 @@ function rebuildThumbnails(newWidth, newHeight)
 			},
 			close: function ()
 			{
-				jQuery('#settings').submit();
+				window.Eresus.gallery.thumbsRebuild.dialog = null;
 			}
 		}).
 		dialog('open');
@@ -206,6 +206,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 					else
 					{
 						window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+						jQuery('#settings').submit();
 						return;
 					}
 				break;
@@ -234,6 +235,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 						if (jQuery('#thumbsRebuildErrors div').length == 0)
 						{
 							window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+							jQuery('#settings').submit();
 							return;
 						}
 
