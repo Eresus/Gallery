@@ -206,6 +206,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 					else
 					{
 						window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+						window.Eresus.gallery.thumbsRebuild.dialog = true;
 						jQuery('#settings').submit();
 						return;
 					}
@@ -235,6 +236,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 						if (jQuery('#thumbsRebuildErrors div').length == 0)
 						{
 							window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+							window.Eresus.gallery.thumbsRebuild.dialog = true;
 							jQuery('#settings').submit();
 							return;
 						}
