@@ -954,10 +954,16 @@ class Gallery extends ContentPlugin
 	{
 		global $Eresus;
 
-		$item = $Eresus->db->selectItem('pages', '`id` = "'.arg('section').'"');
-		$item = GetArgs($item);
+		$id = arg('section', 'int');
+		$item = $Eresus->db->selectItem('pages', '`id` = "'.$id.'"');
+		$item = array();
 
-		$Eresus->db->updateItem('pages', $item, "`id` = '".$item['id']."'");
+		$item['title'] = arg('title', 'dbsafe');
+		$item['created'] = arg('created', 'dbsafe');
+		$item['active'] = arg('active', 'int');
+		$item['content'] = arg('content', 'dbsafe');
+
+		$Eresus->db->updateItem('pages', $item, "`id` = '".$id."'");
 		HTTP::redirect(arg('submitURL'));
 	}
 	//-----------------------------------------------------------------------------
