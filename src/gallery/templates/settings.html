@@ -1,4 +1,4 @@
-<div class="box ui-widget-content" style="float: left; min-width: 600px; max-width: 900px">
+<div class="box ui-widget-content" style="float: left; width: 600px;">
 
 	<div class="header">Настройки модуля "Галерея изображений"</div>
 	<div class="content">
@@ -20,30 +20,30 @@
 				<tr>
 					<td class="formLabel">Ширина</td>
 					<td>
-						<input type="text" name="imageWidth" value="{$this->settings.imageWidth}" maxlength="3" size="3" />
+						<input type="text" name="imageWidth" value="{$this->settings.imageWidth}" maxlength="4" size="4" />
 						точек
 					</td>
 				</tr>
 				<tr>
 					<td class="formLabel">Высота</td>
 					<td>
-						<input type="text" name="imageHeight" value="{$this->settings.imageHeight}" maxlength="3" size="3" />
+						<input type="text" name="imageHeight" value="{$this->settings.imageHeight}" maxlength="4" size="4" />
 						точек
 					</td>
 				</tr>
 
 				<tr><th colspan="2">Свойства миниатюр</th></tr>
 				<tr>
-					<td class="formLabel">Ширина</td>
+					<td class="formLabel"><label for="settings-thumbWidth-input">Ширина</label></td>
 					<td>
-						<input type="text" name="thumbWidth" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
+						<input type="text" name="thumbWidth" id="settings-thumbWidth-input" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
 						точек
 					</td>
 				</tr>
 				<tr>
-					<td class="formLabel">Высота</td>
+					<td class="formLabel"><label for="settings-thumbHeight-input">Высота</label></td>
 					<td>
-						<input type="text" name="thumbHeight" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
+						<input type="text" name="thumbHeight" id="settings-thumbHeight-input" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
 						точек
 					</td>
 				</tr>
@@ -291,7 +291,15 @@
 	</div>
 </div>
 
+<div id="thumbsRebuildDialog">
+	<div class="progressbar"></div>
+	<div>Осталось переделать: <strong id="thumbsRebuildLeft">неизвестно</strong></div>
+	<div class="error" id="thumbsRebuildErrors"></div>
+	<div class="ajax-loading" id="thumbsRebuildMessage"></div>
+</div>
+
 <script type="text/javascript"><!--//--><![CDATA[//><!--
+
 	jQuery(document).ready(function ()
 	{
 		jQuery("#gallery-settings-tabs button").eq(1).click(function()
@@ -346,5 +354,25 @@
 			return false;
 		});
 
+		/**
+		 * Устанавливает видимость сообщения о необходимости пересборки миниатюр
+		 */
+		jQuery('#settings').submit(function ()
+		{
+			if (window.Eresus.gallery.thumbsRebuild.dialog === null)
+			{
+				var newWidth = jQuery('#settings-thumbWidth-input').val();
+				var newHeight = jQuery('#settings-thumbHeight-input').val();
+				var widthChanged = newWidth != '{$this->settings.thumbWidth}';
+				var heightChanged = newHeight != '{$this->settings.thumbHeight}';
+				
+				if (widthChanged || heightChanged)
+				{
+					rebuildThumbnails(newWidth, newHeight);
+					return false;
+				}
+			}
+		});
+		
 	});
 //--><!]]></script>

@@ -30,6 +30,14 @@
  * $Id$
  */
 
+/**
+ * Глобальные переменные модуля
+ */
+window.Eresus.gallery = 
+{
+	thumbsRebuild: {dialog: null}
+};
+
 
 jQuery('#content div.image a.delete').live('click', function (e)
 {
@@ -64,6 +72,17 @@ jQuery('#input-section').live('change', function (e)
 });
 
 
+jQuery('#settings span.hint-control').
+live('mouseenter', function (e)
+{
+	var control = jQuery(e.target); 
+	control.next('.hint-block').css('left', control.position().left + 'px').fadeIn();
+}).
+live('mouseleave', function (e)
+{
+	jQuery(e.target).next('.hint-block').fadeOut();
+});
+
 /**
  * Загружает в форму список групп
  * 
@@ -97,16 +116,139 @@ function galleryImageEditLoadGroups(data, textStatus, extra)
  * @param {String}   module    Имя модуля (всегда должно быть "gallery")
  * @param {String}   action    Запрашиваемое действие
  * @param {Function} callback  Обработчик ответа
- * @param дополнительные аргусенты
+ * @param дополнительные аргументы
  * 
  * @type void
  */
 window.Eresus.galleryRequest = function (module, action, callback)
 {
-	var url = this.siteRoot + '/admin.php?mod=ext-' + module + '&args=/' + action + '/';
+	var url = this.siteRoot + '/admin.php?mod=ext-' + module + '&args=';
+	var args = '/' + action + '/';
 	for (var i = 3; i < arguments.length; i++)
 	{
-		url += arguments[i] + '/';
+		args += arguments[i] + '/';
 	}
+	url += encodeURIComponent(args);
 	jQuery.ajax({url: url, success: callback, error: callback, dataType: 'json'});
 };
+
+
+/**
+ * Запускает процесс пересоздания миниатюр
+ * 
+ * @param {Integer} newWidth
+ * @param {Integer} newHeight
+ * @type Boolean
+ * @return false
+ */
+function rebuildThumbnails(newWidth, newHeight)
+{
+	var dialog = jQuery('#thumbsRebuildDialog');
+	// Сохраняем переменные в глобальной области
+	window.Eresus.gallery.thumbsRebuild.dialog = dialog;
+	
+	dialog.
+		dialog({
+			autoOpen: false,
+			buttons: { "Закрыть": function() { jQuery(this).dialog('close'); }},
+			draggable: false,
+			modal: true,
+			rsizable: false,
+			title: 'Идёт пересоздание миниатюр...',
+			open: function ()
+			{
+				jQuery('#thumbsRebuildErrors *').remove();
+				jQuery('#thumbsRebuildMessage').text('Не закрывайте эту страницу до окончания процесса.');
+				jQuery('.progressbar', this).progressbar().progressbar('value', 0);
+				window.Eresus.galleryRequest('gallery', 'thumbsRebuildStart', galleryThumbsRebuildHandler,
+					newWidth, newHeight);
+			},
+			close: function ()
+			{
+				window.Eresus.gallery.thumbsRebuild.dialog = null;
+			}
+		}).
+		dialog('open');
+	
+	return false;
+}
+
+
+/**
+ * Загружает в форму список групп
+ * 
+ * @param {Object|XMLHttpRequest}    data
+ * @param {String}                   textStatus
+ * @param {XMLHttpRequest|Exception} extra
+ * @type void
+ */
+function galleryThumbsRebuildHandler(data, textStatus, extra)
+{
+	if (!window.Eresus.gallery.thumbsRebuild.dialog)
+	{
+		return;
+	}
+	
+	switch (textStatus)
+	{
+		case 'success':
+			switch (data.action)
+			{
+				case 'start':
+					if (data.ids.length)
+					{
+						window.Eresus.gallery.thumbsRebuild.ids = data.ids;
+						window.Eresus.gallery.thumbsRebuild.total = data.ids.length;
+						jQuery('#thumbsRebuildLeft').text(data.ids.length);
+						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext', galleryThumbsRebuildHandler,
+							window.Eresus.gallery.thumbsRebuild.ids[0], data.width, data.height);
+					}
+					else
+					{
+						window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+						window.Eresus.gallery.thumbsRebuild.dialog = true;
+						jQuery('#settings').submit();
+						return;
+					}
+				break;
+				
+				case 'build':
+					if (data.status != 'success')
+					{
+						jQuery('<div>').text(data.status).appendTo('#thumbsRebuildErrors');
+					}
+					window.Eresus.gallery.thumbsRebuild.ids.shift();
+					var left = window.Eresus.gallery.thumbsRebuild.ids.length;
+					jQuery('#thumbsRebuildLeft').text(left);
+					var done = window.Eresus.gallery.thumbsRebuild.total - left;
+					var progress = Math.round(100 / window.Eresus.gallery.thumbsRebuild.total * done);
+					jQuery('.progressbar', window.Eresus.gallery.thumbsRebuild.dialog).
+						progressbar('value', progress);
+					
+					if (window.Eresus.gallery.thumbsRebuild.ids.length)
+					{
+						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext',
+							galleryThumbsRebuildHandler, window.Eresus.gallery.thumbsRebuild.ids[0], 
+							data.width, data.height);
+					}
+					else
+					{
+						if (jQuery('#thumbsRebuildErrors div').length == 0)
+						{
+							window.Eresus.gallery.thumbsRebuild.dialog.dialog('close');
+							window.Eresus.gallery.thumbsRebuild.dialog = true;
+							jQuery('#settings').submit();
+							return;
+						}
+
+						jQuery('#thumbsRebuildMessage').
+							text('В процессе работы произошли ошибки. Возможно одна или несколько миниатюр не пересоздано.');
+					}
+				break;
+			}
+		break;
+		
+		default:
+			alert('Не удалось получить ответ от сервера. Обновите страницу и попробуйте ещё раз.');
+	}
+}

@@ -44,12 +44,66 @@ class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 	 *
 	 * @param int $sectionId
 	 * @return array
+	 *
+	 * @since 2.00
 	 */
 	protected function actionGetGroups($sectionId)
 	{
 		$sectionId = intval($sectionId);
 		$groups = GalleryGroup::find($sectionId);
 		return $groups;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Запускает процесс перестройки миниатюр
+	 *
+	 * @param int $newWidth   новая ширина миниатюр
+	 * @param int $newHeihgt  новая высота миниатюр
+	 * @return array
+	 *
+	 * @since 2.01
+	 */
+	protected function actionThumbsRebuildStart($newWidth, $newHeight)
+	{
+		$query = DB::getHandler()->createSelectQuery();
+		$query->select('id')->from(GalleryImage::getDbTableStatic('GalleryImage'));
+		$raw = DB::fetchAll($query);
+
+		$ids = array();
+		foreach ($raw as $image)
+		{
+			$ids []= $image['id'];
+		}
+		return array('action' => 'start', 'ids' => $ids, 'width' => $newWidth, 'height' => $newHeight);
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Пересоздаёт миниатюру
+	 *
+	 * @param int $imageId
+	 * @param int $width
+	 * @param int $height
+	 * @return array
+	 *
+	 * @since 2.01
+	 */
+	protected function actionThumbsRebuildNext($imageId, $width, $height)
+	{
+		$response = array('action' => 'build', 'id' => $imageId, 'status' => 'success',
+			'width' => $width, 'height' => $height);
+		try
+		{
+			$image = new GalleryImage($imageId);
+			$image->buildThumb($width, $height);
+		}
+		catch (Exception $e)
+		{
+			$response['status'] = $e->getMessage();
+		}
+
+		return $response;
 	}
 	//-----------------------------------------------------------------------------
 }

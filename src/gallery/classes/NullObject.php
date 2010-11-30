@@ -2,7 +2,7 @@
 /**
  * Галерея изображений
  *
- * Исключения
+ * NULL (Специальный случай)
  *
  * @version ${product.version}
  *
@@ -33,43 +33,55 @@
 
 
 /**
- * Неподдерживаемый формат файла
+ * NULL
+ *
+ * Объект этого класса можно возвращать если запрошен несузествующий объект.
+ *
+ * Объект NullObject возвращает NULL при обращении к любому свойству или методу, что
+ * предотвращает возникновение ошибок "Property|Method not exists".
  *
  * @package Gallery
  */
-class GalleryUnsupportedFormatException extends EresusRuntimeException
+class GalleryNullObject
 {
 	/**
-	 * Конструктор
+	 * @param mixed $name
 	 *
-	 * @param string $type  Неподдерживаемый тип файла
-	 * @return GalleryUnsupportedFormatException
+	 * @return null
+	 *
+	 * @since 2.01
 	 */
-	public function __construct($type)
+	public function __get($name)
 	{
-		parent::__construct("Unsupported format: $type");
+		return null;
 	}
 	//-----------------------------------------------------------------------------
-}
 
+	/**
+	 * @param mixed $name
+	 * @param mixed $value
+	 *
+	 * @return void
+	 *
+	 * @since 2.01
+	 */
+	public function __set($name, $value)
+	{
+		;
+	}
+	//-----------------------------------------------------------------------------
 
-
-/**
- * Не удалось загрузить файл
- *
- * @package Gallery
- */
-class GalleryUploadException extends EresusRuntimeException
-{
-}
-
-
-
-/**
- * Размер файла слишком велик
- *
- * @package Gallery
- */
-class GalleryFileTooBigException extends GalleryUploadException
-{
+	/**
+	 * @param string $method
+	 * @param array  $args
+	 *
+	 * @return null
+	 *
+	 * @since 2.01
+	 */
+	public function __call($method, $args)
+	{
+		return null;
+	}
+	//-----------------------------------------------------------------------------
 }

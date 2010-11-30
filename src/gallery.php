@@ -155,7 +155,7 @@ class Gallery extends ContentPlugin
 		global $Eresus, $page;
 
 		$page->linkStyles($this->urlCode . 'admin.css');
-		$this->linkJQuery();
+		$page->linkScripts($this->urlCode . 'admin.js');
 
 		// Данные для подстановки в шаблон
 		$data = array();
@@ -705,7 +705,14 @@ class Gallery extends ContentPlugin
 		$item->posted = gettime();
 		$item->image = 'image'; // $_FILES['image'];
 
-		$item->save();
+		try
+		{
+			$item->save();
+		}
+		catch (GalleryFileTooBigException $e)
+		{
+			throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
+		}
 
 		$url = 'admin.php?mod=content&section=' . $item->section;
 		if (arg('pg'))
@@ -947,10 +954,16 @@ class Gallery extends ContentPlugin
 	{
 		global $Eresus;
 
-		$item = $Eresus->db->selectItem('pages', '`id` = "'.arg('section').'"');
-		$item = GetArgs($item);
+		$id = arg('section', 'int');
+		$item = $Eresus->db->selectItem('pages', '`id` = "'.$id.'"');
+		$item = array();
 
-		$Eresus->db->updateItem('pages', $item, "`id` = '".$item['id']."'");
+		$item['title'] = arg('title', 'dbsafe');
+		$item['created'] = arg('created', 'dbsafe');
+		$item['active'] = arg('active', 'int');
+		$item['content'] = arg('content', 'dbsafe');
+
+		$Eresus->db->updateItem('pages', $item, "`id` = '".$id."'");
 		HTTP::redirect(arg('submitURL'));
 	}
 	//-----------------------------------------------------------------------------

@@ -48,7 +48,7 @@ class GalleryEresusAdminXHRController
 	 */
 	public function execute($args)
 	{
-		$args = explode('/', $args);
+		$args = explode('/', urldecode($args));
 
 		/* Отрбрасываем пустые элементы с концов */
 		array_shift($args);

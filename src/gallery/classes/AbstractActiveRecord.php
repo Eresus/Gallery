@@ -487,10 +487,14 @@ abstract class GalleryAbstractActiveRecord
 		$q = $db->createSelectQuery();
 		$q->select('*')
 			->from($this->getDbTable())
-			->where($q->expr->eq('id', $q->bindValue($id,null, PDO::PARAM_INT)))
+			->where($q->expr->eq('id', $q->bindValue($id, null, PDO::PARAM_INT)))
 			->limit(1);
 
 		$this->rawData = DB::fetch($q);
+		if (!$this->rawData)
+		{
+			throw new DomainException('No object with such id: ' . $id);
+		}
 
 		$this->isNew = false;
 	}
