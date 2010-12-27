@@ -32,38 +32,45 @@
  */
 
 
-jQuery('#Content a').live('click', function (e)
-{
-	/* Если нажата не левая кнопка мыши */
-	if (e.which != 1)
+jQuery('#Content a').live('click',
+	/**
+	 * @param {Event} e
+	 * @type Boolean
+	 * @return FALSE для подавления перехода если удалось открыть блок и TRUE в случае ошибки, чтобы
+	 *          браузер прошёл по ссылке
+	 */
+	function (e)
 	{
-		return;
+		/*
+		 * FireFox, Chrome и Opera пропускают сюда только нажатия левой кнопки. IE пропускает ещё и
+		 * нажатие колёсика.
+		 */
+		
+		/* Если кликнули не по <a> */
+		if (e.currentTarget.nodeName.toLowerCase() != 'a')
+		{
+			return true;
+		}
+		
+		var anchor = jQuery(e.currentTarget);
+		
+		/* Если в href нет маркера */
+		if (!anchor.attr('href').match(/#gallery-popup$/))
+		{
+			return true;
+		}
+		
+		var stub = anchor.clone();
+		stub.lightBox({
+			fixedNavigation: false,
+			imageLoading: '$(httpRoot)ext/gallery/lightbox/lightbox-ico-loading.gif',
+			imageBtnPrev: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-prev.gif',
+			imageBtnNext: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-next.gif',
+			imageBtnClose: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-close.gif',
+			imageBlank: '$(httpRoot)ext/gallery/lightbox/lightbox-blank.gif'
+		});
+		stub.click();
+		
+		return false;
 	}
-	
-	/* Если кликнули не по <a> */
-	if (e.currentTarget.nodeName.toLowerCase() != 'a')
-	{
-		return;
-	}
-	
-	var anchor = jQuery(e.currentTarget);
-	
-	/* Если в href нет маркера */
-	if (anchor.attr('href').substr(-14) != '#gallery-popup')
-	{
-		return;
-	}
-	
-	var stub = anchor.clone();
-	stub.lightBox({
-		fixedNavigation: false,
-		imageLoading: '$(httpRoot)ext/gallery/lightbox/lightbox-ico-loading.gif',
-		imageBtnPrev: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-prev.gif',
-		imageBtnNext: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-next.gif',
-		imageBtnClose: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-close.gif',
-		imageBlank: '$(httpRoot)ext/gallery/lightbox/lightbox-blank.gif'
-	});
-	stub.click();
-	
-	return false;
-});
+);
