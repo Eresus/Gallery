@@ -1,11 +1,13 @@
 <h1>{$page->title}</h1>
-<p class="date">{date_format($page->created, '%d.%m.%Y %H:%M')}</p>
+<p class="date">Дата создания альбома: {date_format($page->created, '%d.%m.%Y')}</p>
 <div>
 	{if $cover}
 	<img src="{$cover->thumbURL}" alt="{$cover->title|escape}" style="float: left; margin: 1em;" />
 	{/if}
 	{$page->content}
 </div>
+
+<hr style="clear: both;" />
 
 {if count($items) > 0}
 
