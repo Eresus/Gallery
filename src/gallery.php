@@ -1204,7 +1204,11 @@ class Gallery extends ContentPlugin
 				array('type' => 'edit', 'name' => 'created', 'label' => 'Дата создания',
 					'width' => '150px', 'comment' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС'),
 				array('type' => 'checkbox', 'name' => 'active', 'label' => 'Активна'),
-				array('type' => 'html', 'name' => 'content', 'height' => '400px', 'label' => 'Описание'),
+				array('type' => 'html', 'name' => 'content', 'height' => '400px',
+					'label' => 'Описание<div class="ui-state-warning"><em>Внимание!</em> Для того, чтобы ' .
+					'это описание показывалось посетителям, надо добавить в ' .
+					'<a href="admin.php?mod=plgmgr&id=gallery">шаблон</a> вывод текста страницы (альбома).' .
+					'</div>'),
 			),
 			'buttons'=> array('ok', 'apply', 'cancel'),
 		);
