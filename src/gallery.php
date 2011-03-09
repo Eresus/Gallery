@@ -146,6 +146,19 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
+	 * Возвращает свойство $urlCode
+	 *
+	 * @return string
+	 *
+	 * @since 2.00
+	 */
+	public function getCodeURL()
+	{
+		return $this->urlCode;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
 	 * Возвращает диалог настроек
 	 *
 	 * @return string  HTML
@@ -522,6 +535,19 @@ class Gallery extends ContentPlugin
 		}
 
 		return $url;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Подключает библиотеку jQuery
+	 *
+	 * @return void
+	 */
+	public function linkJQuery()
+	{
+		global $Eresus, $page;
+
+		$page->linkScripts($Eresus->root . 'core/jquery/jquery.min.js');
 	}
 	//-----------------------------------------------------------------------------
 
@@ -1083,12 +1109,8 @@ class Gallery extends ContentPlugin
 
 		if ($this->settings['showItemMode'] == 'popup')
 		{
-			$this->linkJQuery();
-			$page->linkScripts($this->urlCode . 'gallery.js');
-			$page->linkStyles($this->urlCode . 'gallery.css');
-			$tmpl = new Template('templates/' . $this->name . '/popup.html');
-			$popup = $tmpl->compile();
-			$html .= '<div id="gallery-popup">' . $popup . '</div>';
+			$view = new GalleryClientPopupView();
+			$html .= $view->render();
 		}
 
 		return $html;
@@ -1281,19 +1303,6 @@ class Gallery extends ContentPlugin
 		$image->save();
 
 		HTTP::goback();
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Подключает библиотеку jQuery
-	 *
-	 * @return void
-	 */
-	private function linkJQuery()
-	{
-		global $Eresus, $page;
-
-		$page->linkScripts($Eresus->root . 'core/jquery/jquery.min.js');
 	}
 	//-----------------------------------------------------------------------------
 

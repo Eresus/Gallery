@@ -2,11 +2,11 @@
 /**
  * Галерея изображений
  *
- * Таблица авторзагрузки классов
+ * Класс представления "Просмотр во всплывающем блоке"
  *
  * @version ${product.version}
  *
- * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
+ * @copyright 2011, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
  * @author Михаил Красильников <mk@3wstyle.ru>
  *
@@ -28,21 +28,35 @@
  *
  * @package Gallery
  *
- * $Id$
+ * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
-$dir = dirname(__FILE__);
 
-return array(
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
-	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
-	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
-	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
-	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryNullObject' => $dir . '/classes/NullObject.php',
-	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
-	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
-);
+/**
+ * Класс представления "Просмотр во всплывающем блоке"
+ *
+ * @package Gallery
+ * @since 2.03
+ */
+class GalleryClientPopupView
+{
+	/**
+	 * Возвращает разметку представления
+	 *
+	 * @return void
+	 *
+	 * @since 2.03
+	 */
+	public function render()
+	{
+		$plugin = $GLOBALS['Eresus']->plugins->load('gallery');
+		$plugin->linkJQuery();
+		$GLOBALS['page']->linkScripts($plugin->getCodeURL() . 'gallery.js');
+		$GLOBALS['page']->linkStyles($plugin->getCodeURL() . 'gallery.css');
+		$tmpl = new Template('templates/' . $plugin->name . '/popup.html');
+		$popup = $tmpl->compile();
+		$html = '<div id="gallery-popup">' . $popup . '</div>';
+		return $html;
+	}
+	//-----------------------------------------------------------------------------
+}
