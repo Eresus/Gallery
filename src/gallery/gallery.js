@@ -181,10 +181,41 @@ Eresus.Gallery =
 		overlay: null,
 		
 		/**
-		 * Признак активного (видимого) блока
+		 * Список адресов доступных изображений раздела
+		 * 
+		 * Заполняется сервером.
 		 */
-		popupActive: false
+		images: [],
+		
+		/**
+		 * Индекс текущего изображения
+		 * 
+		 * Если false, значит всплывающий блок скрыт
+		 */
+		imageIndex: false
 };
+
+/**
+ * Определяет индекс указанного изображения в массиве images и сохраняет его в imageIndex
+ *
+ * @param {String} url
+ *
+ * @type void
+ */
+Eresus.Gallery.findImageIndex = function (url)
+{
+	url = url.replace(/#.*$/, '');
+	for (var i = 0; i < Eresus.Gallery.images.length; i++)
+	{
+		if (Eresus.Gallery.images[i] == url)
+		{
+			Eresus.Gallery.imageIndex = i;
+			return;
+		}
+	}
+	Eresus.Gallery.imageIndex = false;
+};
+//-----------------------------------------------------------------------------
 
 /**
  * Вызывает всплывающий блок
@@ -268,6 +299,38 @@ Eresus.Gallery.resizePopup = function ()
 //-----------------------------------------------------------------------------
 
 /**
+ * Обновляет состояние ЭУ (Назад, Вперёд)
+ * 
+ * @type void
+ */
+Eresus.Gallery.resetControls = function ()
+{
+	var uiPrev = jQuery('.js-gallery-prev', Eresus.Gallery.popup);
+	var uiNext = jQuery('.js-gallery-next', Eresus.Gallery.popup);
+	
+	if (Eresus.Gallery.imageIndex === false)
+	{
+		uiPrev.hide();
+		uiNext.hide();
+	}
+	else
+	{
+		uiPrev.show();
+		uiNext.show();
+	}
+	
+	if (Eresus.Gallery.imageIndex === 0)
+	{
+		uiPrev.hide();
+	}
+	if (Eresus.Gallery.imageIndex === Eresus.Gallery.images.length - 1)
+	{
+		uiNext.hide();
+	}
+};
+//-----------------------------------------------------------------------------
+
+/**
  * Открывает изображение во всплывающем блоке
  *
  * @param {String} image
@@ -278,6 +341,11 @@ Eresus.Gallery.showPopup = function (image)
 {
 	Eresus.Gallery.overlay.show();
 	Eresus.Gallery.resizeOverlay();
+	
+	Eresus.Gallery.findImageIndex(image);
+	
+	Eresus.Gallery.resetControls();
+	
 	Eresus.Gallery.popup.show();
 	Eresus.Gallery.resizePopup();
 
@@ -286,7 +354,50 @@ Eresus.Gallery.showPopup = function (image)
 		removeAttr('width').
 		removeAttr('height').
 		attr('src', image);
-	Eresus.Gallery.popupActive = true;
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Открывает предыдущее изображение
+ *
+ * @type void
+ */
+Eresus.Gallery.showPrev = function ()
+{
+	if (Eresus.Gallery.imageIndex === false)
+	{
+		alert('Error!');
+		return;
+	}
+
+	Eresus.Gallery.imageIndex--;
+	Eresus.Gallery.resetControls();
+	
+	jQuery('#gallery-popup-image').
+		load(Eresus.Gallery.resizePopup).
+		attr('src', Eresus.Gallery.images[Eresus.Gallery.imageIndex]);
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Открывает следующее изображение
+ *
+ * @type void
+ */
+Eresus.Gallery.showNext = function ()
+{
+	if (Eresus.Gallery.imageIndex === false)
+	{
+		alert('Error!');
+		return;
+	}
+
+	Eresus.Gallery.imageIndex++;
+	Eresus.Gallery.resetControls();
+	
+	jQuery('#gallery-popup-image').
+		load(Eresus.Gallery.resizePopup).
+		attr('src', Eresus.Gallery.images[Eresus.Gallery.imageIndex]);
 };
 //-----------------------------------------------------------------------------
 
@@ -339,6 +450,8 @@ Eresus.Gallery.init = function ()
 	 */
 	Eresus.Gallery.popup = jQuery('#gallery-popup');
 	jQuery('.js-gallery-close', Eresus.Gallery.popup).click(Eresus.Gallery.closePopup);
+	jQuery('.js-gallery-prev', Eresus.Gallery.popup).click(Eresus.Gallery.showPrev);
+	jQuery('.js-gallery-next', Eresus.Gallery.popup).click(Eresus.Gallery.showNext);
 	
 	//Сохраняем на оверлей
 	Eresus.Gallery.overlay = jQuery('<div class="ui-gallery-overlay"></div>');

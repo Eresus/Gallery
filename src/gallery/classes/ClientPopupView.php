@@ -53,9 +53,34 @@ class GalleryClientPopupView
 		$plugin->linkJQuery();
 		$GLOBALS['page']->linkScripts($plugin->getCodeURL() . 'gallery.js');
 		$GLOBALS['page']->linkStyles($plugin->getCodeURL() . 'gallery.css');
+
 		$tmpl = new Template('templates/' . $plugin->name . '/popup.html');
 		$popup = $tmpl->compile();
 		$html = '<div id="gallery-popup">' . $popup . '</div>';
+
+		$html .= $this->renderImageList();
+
+		return $html;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Отрисовывает список изображений альбма для перехода к ним во всплывающем блоке.
+	 *
+	 * @return string
+	 *
+	 * @since 2.03
+	 */
+	protected function renderImageList()
+	{
+		$items = GalleryImage::find($GLOBALS['page']->id, null, null, true);
+		$jsArray = array();
+		foreach ($items as $item)
+		{
+			$jsArray []= '"' . $item->imageURL . '"';
+		}
+		$html = '<script type="text/javascript">Eresus.Gallery.images = ['.
+			implode(',', $jsArray) . '];</script>';
 		return $html;
 	}
 	//-----------------------------------------------------------------------------
