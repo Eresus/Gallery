@@ -164,7 +164,27 @@ if (!Eresus)
 /**
  * Пространство имён плагина
  */
-Eresus.Gallery = {};
+Eresus.Gallery = 
+{
+		/**
+		 * Всплывающий блок
+		 * 
+		 * @type jQuery
+		 */
+		popup: null,
+
+		/**
+		 * Оверлей
+		 * 
+		 * @type jQuery
+		 */
+		overlay: null,
+		
+		/**
+		 * Признак активного (видимого) блока
+		 */
+		popupActive: false
+};
 
 /**
  * Вызывает всплывающий блок
@@ -203,7 +223,23 @@ Eresus.Gallery.imageClickHandler = function (e)
 //-----------------------------------------------------------------------------
 
 /**
- * Вычисляет и выставляет размер блока и оверлея
+ * Вычисляет и выставляет оверлея
+ *
+ * @type void
+ */
+Eresus.Gallery.resizeOverlay = function ()
+{
+	var pageSize = Eresus.getPageSize();
+	
+	Eresus.Gallery.overlay.css({
+		width: pageSize.pageWidth + 'px',
+		height: pageSize.pageHeight + 'px'
+	});
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Вычисляет и выставляет размер блока
  *
  * @type void
  */
@@ -212,15 +248,18 @@ Eresus.Gallery.resizePopup = function ()
 	var pageSize = Eresus.getPageSize();
 	var pageScroll = Eresus.getPageScroll();
 	
-	Eresus.Gallery.overlay.css({
-		width: pageSize.pageWidth + 'px',
-		height: pageSize.pageHeight + 'px'
-	});
-
 	var offsetTop = Math.round((pageSize.windowHeight - Eresus.Gallery.popup.height()) / 2, 10); 
 	var popupTop = pageScroll.y + offsetTop;
+	if (popupTop < 0)
+	{
+		popupTop = 0;
+	}
 	var offsetLeft = Math.round((pageSize.windowWidth - Eresus.Gallery.popup.width()) / 2, 10);
 	var popupLeft = pageScroll.x + offsetLeft;
+	if (popupLeft < 0)
+	{
+		popupLeft = 0;
+	}
 	Eresus.Gallery.popup.css({
 		top:	popupTop + 'px',
 		left:	popupLeft + 'px'
@@ -238,14 +277,49 @@ Eresus.Gallery.resizePopup = function ()
 Eresus.Gallery.showPopup = function (image)
 {
 	Eresus.Gallery.overlay.show();
-	Eresus.Gallery.resizePopup();
+	Eresus.Gallery.resizeOverlay();
 	Eresus.Gallery.popup.show();
-	
+	Eresus.Gallery.resizePopup();
+
 	jQuery('#gallery-popup-image').
 		load(Eresus.Gallery.resizePopup).
 		removeAttr('width').
 		removeAttr('height').
 		attr('src', image);
+	Eresus.Gallery.popupActive = true;
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Закрывает всплывающий блок
+ *
+ * @type void
+ */
+Eresus.Gallery.closePopup = function ()
+{
+	Eresus.Gallery.popup.hide();
+	jQuery('#gallery-popup-image').attr('src', '');
+	Eresus.Gallery.overlay.hide();
+	Eresus.Gallery.popupActive = false;
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Обработчик нажатий клавиш
+ * 
+ * @param {Event} e
+ * 
+ * @type void
+ */
+Eresus.Gallery.onKeyDown = function (e)
+{
+	if (Eresus.Gallery.popupActive)
+	{
+		if (e.keyCode == 27)
+		{
+			Eresus.Gallery.closePopup();
+		}
+	}
 };
 //-----------------------------------------------------------------------------
 
@@ -256,8 +330,13 @@ Eresus.Gallery.showPopup = function (image)
  */
 Eresus.Gallery.init = function ()
 {
-	//Сохраняем ссылку на всплывающий блок
+	/*
+	 * Сохраняем ссылку на всплывающий блок
+	 * Вешаем на блок нужные обработчики
+	 */
 	Eresus.Gallery.popup = jQuery('#gallery-popup');
+	jQuery('.js-gallery-close', Eresus.Gallery.popup).click(Eresus.Gallery.closePopup);
+	
 	//Сохраняем на оверлей
 	Eresus.Gallery.overlay = jQuery('<div class="ui-gallery-overlay"></div>');
 	// Переносим оверлей и блок в body
@@ -265,8 +344,9 @@ Eresus.Gallery.init = function ()
 		append(Eresus.Gallery.overlay).
 		append(Eresus.Gallery.popup);
 
-	// Вешаем обработчик на все ссылки в области контента
+	// Вешаем обработчики
 	jQuery('#Content a').live('click', Eresus.Gallery.imageClickHandler);
+	jQuery(document).keydown(Eresus.Gallery.onKeyDown);
 };
 //-----------------------------------------------------------------------------
 
