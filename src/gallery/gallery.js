@@ -293,14 +293,17 @@ Eresus.Gallery.showPopup = function (image)
 /**
  * Закрывает всплывающий блок
  *
+ * @param {Event} e
+ * 
  * @type void
  */
-Eresus.Gallery.closePopup = function ()
+Eresus.Gallery.closePopup = function (e)
 {
 	Eresus.Gallery.popup.hide();
 	jQuery('#gallery-popup-image').attr('src', '');
 	Eresus.Gallery.overlay.hide();
 	Eresus.Gallery.popupActive = false;
+	e.preventDefault();
 };
 //-----------------------------------------------------------------------------
 

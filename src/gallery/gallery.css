@@ -37,3 +37,10 @@
 	position: absolute;
 	z-index: 1001;
 }
+
+.ui-gallery-popup
+{
+	background-color: #eee;
+	border: solid 1px #888;
+	padding: 1em;
+}

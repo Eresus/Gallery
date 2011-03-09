@@ -168,6 +168,7 @@ class Gallery extends ContentPlugin
 		$this->settings['tmplImageGroupedList'] =
 			file_get_contents($tmplDir . '/image-grouped-list.html');
 		$this->settings['tmplImage'] = file_get_contents($tmplDir . '/image.html');
+		$this->settings['tmplPopup'] = file_get_contents($tmplDir . '/popup.html');
 
 		// Создаём экземпляр шаблона
 		$tmpl = new Template('ext/' . $this->name . '/templates/settings.html');
@@ -210,6 +211,7 @@ class Gallery extends ContentPlugin
 		@file_put_contents($tmplDir . '/image-list.html', arg('tmplImageList'));
 		@file_put_contents($tmplDir . '/image-grouped-list.html', arg('tmplImageGroupedList'));
 		@file_put_contents($tmplDir . '/image.html', arg('tmplImage'));
+		@file_put_contents($tmplDir . '/popup.html', arg('tmplPopup'));
 
 		parent::updateSettings();
 	}
