@@ -1,7 +1,8 @@
 /**
  * Галерея изображений
  *
- * Клиентские скрипты
+ * Этот скрипт добавляет в пространство имён Eresus, вложенное пространство имён Galley, содержащее
+ * все символы скрипта.
  *
  * @version ${product.version}
  *
@@ -32,45 +33,242 @@
  */
 
 
-jQuery('#Content a').live('click',
+/* Если пространство имён Eresus не объявлено, объявляем его. */
+var Eresus;
+if (!Eresus)
+{
+	Eresus = {};
+	
 	/**
-	 * @param {Event} e
-	 * @type Boolean
-	 * @return FALSE для подавления перехода если удалось открыть блок и TRUE в случае ошибки, чтобы
-	 *          браузер прошёл по ссылке
+	 * Возвращает размеры страницы
+	 * 
+	 * Массив состоит из элементов:
+	 * 
+	 * - pageWidth
+	 * - pageHeight
+	 * - windowWidth
+	 * - windowHeight
+	 * 
+	 * @type Array
+	 * 
+	 * @author quirksmode.com
 	 */
-	function (e)
+	Eresus.getPageSize = function()
 	{
-		/*
-		 * FireFox, Chrome и Opera пропускают сюда только нажатия левой кнопки. IE пропускает ещё и
-		 * нажатие колёсика.
-		 */
-		
-		/* Если кликнули не по <a> */
-		if (e.currentTarget.nodeName.toLowerCase() != 'a')
-		{
-			return true;
+		var xScroll, yScroll;
+		if (window.innerHeight && window.scrollMaxY) 
+		{	
+			xScroll = window.innerWidth + window.scrollMaxX;
+			yScroll = window.innerHeight + window.scrollMaxY;
+		} 
+		else if (document.body.scrollHeight > document.body.offsetHeight)
+		{ 
+			// all but Explorer Mac
+			xScroll = document.body.scrollWidth;
+			yScroll = document.body.scrollHeight;
+		} 
+		else 
+		{ 
+			// Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
+			xScroll = document.body.offsetWidth;
+			yScroll = document.body.offsetHeight;
 		}
+		var windowWidth, windowHeight;
+		if (self.innerHeight) 
+		{	
+			// all except Explorer
+			if(document.documentElement.clientWidth)
+			{
+				windowWidth = document.documentElement.clientWidth; 
+			} 
+			else 
+			{
+				windowWidth = self.innerWidth;
+			}
+			windowHeight = self.innerHeight;
+		} 
+		else if (document.documentElement && document.documentElement.clientHeight) 
+		{ 
+			// Explorer 6 Strict Mode
+			windowWidth = document.documentElement.clientWidth;
+			windowHeight = document.documentElement.clientHeight;
+		} 
+		else if (document.body) 
+		{ 
+			// other Explorers
+			windowWidth = document.body.clientWidth;
+			windowHeight = document.body.clientHeight;
+		}	
 		
-		var anchor = jQuery(e.currentTarget);
-		
-		/* Если в href нет маркера */
-		if (!anchor.attr('href').match(/#gallery-popup$/))
+		// for small pages with total height less then height of the viewport
+		if (yScroll < windowHeight)
 		{
-			return true;
+			pageHeight = windowHeight;
+		} 
+		else 
+		{ 
+			pageHeight = yScroll;
 		}
-		
-		var stub = anchor.clone();
-		stub.lightBox({
-			fixedNavigation: false,
-			imageLoading: '$(httpRoot)ext/gallery/lightbox/lightbox-ico-loading.gif',
-			imageBtnPrev: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-prev.gif',
-			imageBtnNext: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-next.gif',
-			imageBtnClose: '$(httpRoot)ext/gallery/lightbox/lightbox-btn-close.gif',
-			imageBlank: '$(httpRoot)ext/gallery/lightbox/lightbox-blank.gif'
-		});
-		stub.click();
-		
-		return false;
+		// for small pages with total width less then width of the viewport
+		if(xScroll < windowWidth)
+		{	
+			pageWidth = xScroll;		
+		} 
+		else 
+		{
+			pageWidth = windowWidth;
+		}
+		arrayPageSize = {
+			'pageWidth': pageWidth,
+			'pageHeight': pageHeight,
+			'windowWidth': windowWidth,
+			'windowHeight': windowHeight
+		};
+		return arrayPageSize;
+	};
+	//-----------------------------------------------------------------------------
+	
+	/**
+	 * Возвращает значения scroll страницы 
+	 *
+	 * @type Array
+	 * 
+	 * @author quirksmode.com
+	 */
+	Eresus.getPageScroll = function () 
+	{
+		var xScroll, yScroll;
+		if (self.pageYOffset) 
+		{
+			yScroll = self.pageYOffset;
+			xScroll = self.pageXOffset;
+		} 
+		else if (document.documentElement && document.documentElement.scrollTop)
+		{	
+			// Explorer 6 Strict
+			yScroll = document.documentElement.scrollTop;
+			xScroll = document.documentElement.scrollLeft;
+		} 
+		else if (document.body) 
+		{
+			// all other Explorers
+			yScroll = document.body.scrollTop;
+			xScroll = document.body.scrollLeft;	
+		}
+		arrayPageScroll = {'x': xScroll, 'y': yScroll};
+		return arrayPageScroll;
+	};
+	//-----------------------------------------------------------------------------
+}
+
+/**
+ * Пространство имён плагина
+ */
+Eresus.Gallery = {};
+
+/**
+ * Вызывает всплывающий блок
+ *
+ * @param {Event} e
+ *
+ * @type Boolean
+ * @return FALSE для подавления перехода если удалось открыть блок и TRUE в случае ошибки, чтобы
+ * браузер прошёл по ссылке
+ */
+Eresus.Gallery.imageClickHandler = function (e)
+{
+	/*
+	 * Внимание! FireFox, Chrome и Opera пропускают сюда только нажатия левой кнопки. IE пропускает
+	 * ещё и нажатие колеса.
+	 */
+
+	/* Если кликнули не по <a> */
+	if (e.currentTarget.nodeName.toLowerCase() != 'a')
+	{
+		return true;
 	}
-);
+
+	var anchor = jQuery(e.currentTarget);
+
+	/* Если в href нет маркера */
+	if (!anchor.attr('href').match(/#gallery-popup$/))
+	{
+		return true;
+	}
+
+	Eresus.Gallery.showPopup(anchor.attr('href'));
+
+	return false;
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Вычисляет и выставляет размер блока и оверлея
+ *
+ * @type void
+ */
+Eresus.Gallery.resizePopup = function ()
+{
+	var pageSize = Eresus.getPageSize();
+	var pageScroll = Eresus.getPageScroll();
+	
+	Eresus.Gallery.overlay.css({
+		width: pageSize.pageWidth + 'px',
+		height: pageSize.pageHeight + 'px'
+	});
+
+	var offsetTop = Math.round((pageSize.windowHeight - Eresus.Gallery.popup.height()) / 2, 10); 
+	var popupTop = pageScroll.y + offsetTop;
+	var offsetLeft = Math.round((pageSize.windowWidth - Eresus.Gallery.popup.width()) / 2, 10);
+	var popupLeft = pageScroll.x + offsetLeft;
+	Eresus.Gallery.popup.css({
+		top:	popupTop + 'px',
+		left:	popupLeft + 'px'
+	});
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Открывает изображение во всплывающем блоке
+ *
+ * @param {String} image
+ *
+ * @type void
+ */
+Eresus.Gallery.showPopup = function (image)
+{
+	Eresus.Gallery.overlay.show();
+	Eresus.Gallery.resizePopup();
+	Eresus.Gallery.popup.show();
+	
+	jQuery('#gallery-popup-image').
+		load(Eresus.Gallery.resizePopup).
+		removeAttr('width').
+		removeAttr('height').
+		attr('src', image);
+};
+//-----------------------------------------------------------------------------
+
+/**
+ * Инициализация
+ *
+ * @type void
+ */
+Eresus.Gallery.init = function ()
+{
+	//Сохраняем ссылку на всплывающий блок
+	Eresus.Gallery.popup = jQuery('#gallery-popup');
+	//Сохраняем на оверлей
+	Eresus.Gallery.overlay = jQuery('<div class="ui-gallery-overlay"></div>');
+	// Переносим оверлей и блок в body
+	jQuery('body').
+		append(Eresus.Gallery.overlay).
+		append(Eresus.Gallery.popup);
+
+	// Вешаем обработчик на все ссылки в области контента
+	jQuery('#Content a').live('click', Eresus.Gallery.imageClickHandler);
+};
+//-----------------------------------------------------------------------------
+
+
+jQuery(document).ready(Eresus.Gallery.init);

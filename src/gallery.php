@@ -1082,9 +1082,11 @@ class Gallery extends ContentPlugin
 		if ($this->settings['showItemMode'] == 'popup')
 		{
 			$this->linkJQuery();
-			$page->linkScripts($this->urlCode . 'lightbox/jquery.lightbox-0.5.pack.js');
-			$page->linkStyles($this->urlCode . 'lightbox/jquery.lightbox-0.5.css');
 			$page->linkScripts($this->urlCode . 'gallery.js');
+			$page->linkStyles($this->urlCode . 'gallery.css');
+			$tmpl = new Template('templates/' . $this->name . '/popup.html');
+			$popup = $tmpl->compile();
+			$html .= '<div id="gallery-popup">' . $popup . '</div>';
 		}
 
 		return $html;
