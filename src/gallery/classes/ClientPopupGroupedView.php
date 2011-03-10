@@ -49,7 +49,7 @@ class GalleryClientPopupGroupedView extends GalleryClientPopupView
 	 */
 	protected function renderImageList()
 	{
-		$groups = GalleryGroup::find($GLOBALS['page']->id, null, null);
+		$groups = GalleryGroup::find($GLOBALS['page']->id, null, null, true);
 		$jsArray = array();
 		foreach ($groups as $group)
 		{

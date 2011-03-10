@@ -53,7 +53,7 @@ class GalleryClientGroupedListView extends GalleryClientListView
 	 */
 	protected function getItems($sectionId, $limit, $offset)
 	{
-		$items = GalleryGroup::find($sectionId, $limit, $offset);
+		$items = GalleryGroup::find($sectionId, $limit, $offset, true);
 		return $items;
 	}
 	//-----------------------------------------------------------------------------
