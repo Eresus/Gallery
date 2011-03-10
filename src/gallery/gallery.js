@@ -359,11 +359,14 @@ Eresus.Gallery.showPopup = function (image)
 
 /**
  * Открывает предыдущее изображение
+ * 
+ * @param {Event} e
  *
  * @type void
  */
-Eresus.Gallery.showPrev = function ()
+Eresus.Gallery.showPrev = function (e)
 {
+	e.preventDefault();
 	if (Eresus.Gallery.imageIndex === false)
 	{
 		alert('Error!');
@@ -381,11 +384,14 @@ Eresus.Gallery.showPrev = function ()
 
 /**
  * Открывает следующее изображение
+ * 
+ * @param {Event} e
  *
  * @type void
  */
-Eresus.Gallery.showNext = function ()
+Eresus.Gallery.showNext = function (e)
 {
+	e.preventDefault();
 	if (Eresus.Gallery.imageIndex === false)
 	{
 		alert('Error!');
