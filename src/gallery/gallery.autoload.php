@@ -38,6 +38,7 @@ return array(
 	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
 	'GalleryClientGroupedListView' => $dir . '/classes/ClientGroupedListView.php',
 	'GalleryClientListView' => $dir . '/classes/ClientListView.php',
+	'GalleryClientPopupGroupedView' => $dir . '/classes/ClientPopupGroupedView.php',
 	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
 	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',

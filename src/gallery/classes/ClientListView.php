@@ -91,7 +91,7 @@ class GalleryClientListView
 
 		if ($plugin->settings['showItemMode'] == 'popup')
 		{
-			$view = new GalleryClientPopupView();
+			$view = $this->getPopupView();
 			$html .= $view->render();
 		}
 
@@ -145,6 +145,19 @@ class GalleryClientListView
 	protected function getTemplate(Plugin $plugin)
 	{
 		return new Template('templates/' . $plugin->name . '/image-list.html');
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Возвращает объект для отрисовки всплывающего блока
+	 *
+	 * @return GalleryClientPopupView
+	 *
+	 * @since 2.03
+	 */
+	protected function getPopupView()
+	{
+		return new GalleryClientPopupView();
 	}
 	//-----------------------------------------------------------------------------
 }

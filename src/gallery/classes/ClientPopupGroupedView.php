@@ -2,7 +2,7 @@
 /**
  * Галерея изображений
  *
- * Класс представления "Просмотр списка изображений (с группами)"
+ * Класс представления "Просмотр во всплывающем блоке (с группами)"
  *
  * @version ${product.version}
  *
@@ -33,72 +33,34 @@
 
 
 /**
- * Класс представления "Просмотр списка изображений (с группами)"
+ * Класс представления "Просмотр во всплывающем блоке (группами)"
  *
  * @package Gallery
  * @since 2.03
  */
-class GalleryClientGroupedListView extends GalleryClientListView
+class GalleryClientPopupGroupedView extends GalleryClientPopupView
 {
 	/**
-	 * Возвращает список групп
+	 * Отрисовывает список изображений альбма для перехода к ним во всплывающем блоке.
 	 *
-	 * @param int $sectionId  идентификатор раздела
-	 * @param int $limit      максимальное количество групп
-	 * @param int $offset     номер первой группы
-	 *
-	 * @return array
+	 * @return string
 	 *
 	 * @since 2.03
 	 */
-	protected function getItems($sectionId, $limit, $offset)
+	protected function renderImageList()
 	{
-		$items = GalleryGroup::find($sectionId, $limit, $offset);
-		return $items;
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Возвращает количество страниц в списке
-	 *
-	 * @param int $sectionId     идентификатор раздела
-	 * @param int $itemsPerPage  количество изображений на странице
-	 *
-	 * @return int
-	 *
-	 * @since 2.03
-	 */
-	protected function countPageCount($sectionId, $itemsPerPage)
-	{
-		return ceil(GalleryGroup::count($sectionId) / $itemsPerPage);
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Возвращает шаблон
-	 *
-	 * @param Plugin $plugin  объект плагина
-	 *
-	 * @return Template
-	 *
-	 * @since 2.03
-	 */
-	protected function getTemplate(Plugin $plugin)
-	{
-		return new Template('templates/' . $plugin->name . '/image-grouped-list.html');
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Возвращает объект для отрисовки всплывающего блока
-	 *
-	 * @return GalleryClientPopupGroupedView
-	 *
-	 * @since 2.03
-	 */
-	protected function getPopupView()
-	{
-		return new GalleryClientPopupGroupedView();
+		$groups = GalleryGroup::find($GLOBALS['page']->id, null, null);
+		$jsArray = array();
+		foreach ($groups as $group)
+		{
+			foreach ($group->images as $image)
+			{
+				$jsArray []= '"' . $image->imageURL . '"';
+			}
+		}
+		$html = '<script type="text/javascript">Eresus.Gallery.images = ['.
+			implode(',', $jsArray) . '];</script>';
+		return $html;
 	}
 	//-----------------------------------------------------------------------------
 }
