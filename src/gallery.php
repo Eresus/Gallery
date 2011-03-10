@@ -1047,72 +1047,16 @@ class Gallery extends ContentPlugin
 	 */
 	private function clientRenderList()
 	{
-		global $page;
-
-		if ($page->subpage == 0)
-		{
-			$page->subpage = 1;
-		}
-
-		$maxCount = $this->settings['itemsPerPage'];
-		$startFrom = ($page->subpage - 1) * $maxCount;
 		if ($this->settings['useGroups'])
 		{
-			$items = GalleryGroup::find($page->id, $maxCount, $startFrom);
+			$view = new GalleryClientGroupedListView();
 		}
 		else
 		{
-			$items = GalleryImage::find($page->id, $maxCount, $startFrom, true);
+			$view = new GalleryClientListView();
 		}
 
-		// Данные для подстановки в шаблон
-		$data = array();
-		$data['this'] = $this;
-		$data['page'] = $page;
-		$data['Eresus'] = $GLOBALS['Eresus'];
-		$data['items'] = $items;
-
-		/* Ищем обложку альбома */
-		$data['cover'] = GalleryImage::findCover($page->id);
-
-		if ($this->settings['useGroups'])
-		{
-			$totalPages = ceil(GalleryGroup::count($page->id) / $maxCount);
-		}
-		else
-		{
-			$totalPages = ceil(GalleryImage::count($page->id, true) / $maxCount);
-		}
-
-		if ($totalPages > 1)
-		{
-			$pager = new PaginationHelper($totalPages, $page->subpage);
-			$data['pager'] = $pager->render();
-		}
-		else
-		{
-			$data['pager'] = '';
-		}
-
-		/* Создаём экземпляр шаблона */
-		if ($this->settings['useGroups'])
-		{
-			$tmpl = new Template('templates/' . $this->name . '/image-grouped-list.html');
-		}
-		else
-		{
-			$tmpl = new Template('templates/' . $this->name . '/image-list.html');
-		}
-
-		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
-
-		if ($this->settings['showItemMode'] == 'popup')
-		{
-			$view = new GalleryClientPopupView();
-			$html .= $view->render();
-		}
-
+		$html = $view->render();
 		return $html;
 	}
 	//-----------------------------------------------------------------------------

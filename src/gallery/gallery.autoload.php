@@ -36,6 +36,8 @@ $dir = dirname(__FILE__);
 return array(
 	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
 	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
+	'GalleryClientGroupedListView' => $dir . '/classes/ClientGroupedListView.php',
+	'GalleryClientListView' => $dir . '/classes/ClientListView.php',
 	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
 	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
