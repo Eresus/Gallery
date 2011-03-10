@@ -184,10 +184,14 @@ class Gallery extends ContentPlugin
 		$this->settings['tmplPopup'] = file_get_contents($tmplDir . '/popup.html');
 
 		// Создаём экземпляр шаблона
-		$tmpl = new Template('ext/' . $this->name . '/templates/settings.html');
+		$form = new EresusForm('ext/' . $this->name . '/templates/settings.html', LOCALE_CHARSET);
+		foreach ($data as $key => $value)
+		{
+			$form->setValue($key, $value);
+		}
 
 		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
+		$html = $form->compile();
 
 		return $html;
 	}
