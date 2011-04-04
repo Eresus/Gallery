@@ -989,7 +989,11 @@ class GalleryImage extends GalleryAbstractActiveRecord
 					imageJPEG($src, $file);
 				break;
 				case IMAGETYPE_GIF:
-					imageGIF($src, $file);
+					filedelete($file);
+					$file = preg_replace('/gif$/', 'png', $file);
+					imagePNG($src, $file);
+					$this->setProperty('image', basename($file));
+					$this->setProperty('thumb', preg_replace('/gif$/', 'png', $this->getProperty('thumb')));
 				break;
 			}
 			imageDestroy($logo);
