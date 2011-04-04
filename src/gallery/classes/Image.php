@@ -927,10 +927,24 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		$logoFile = self::plugin()->getDataDir() . 'logo.png';
 		if (!is_file($logoFile))
 		{
+			eresus_log(__METHOD__, LOG_WARNING, 'No file %s', $logoFile);
 			return;
 		}
 
-		$src = imageCreateFromFile($file);
+		$type = getimagesize($file);
+		$type = $type[2];
+		switch ($type)
+		{
+			case IMAGETYPE_PNG:
+				$src = imageCreateFromPNG($file);
+			break;
+			case IMAGETYPE_JPEG:
+				$src = imageCreateFromJPEG($file);
+			break;
+			case IMAGETYPE_GIF:
+				$src = imageCreateFromGIF($file);
+			break;
+		}
 		imagealphablending($src, true);
 		$logo = imageCreateFromPNG($logoFile);
 		imagealphablending($logo, true);
@@ -964,9 +978,20 @@ class GalleryImage extends GalleryAbstractActiveRecord
 				break;
 			}
 			imagesavealpha($src, true);
-			imagecopy ($src, $logo, $x, $y, 0, 0, $lw, $lh);
+			imagecopy($src, $logo, $x, $y, 0, 0, $lw, $lh);
 			imagesavealpha($src, true);
-			imageSaveToFile($src, $file, IMG_JPG);
+			switch ($type)
+			{
+				case IMAGETYPE_PNG:
+					imagePNG($src, $file);
+				break;
+				case IMAGETYPE_JPEG:
+					imageJPEG($src, $file);
+				break;
+				case IMAGETYPE_GIF:
+					imageGIF($src, $file);
+				break;
+			}
 			imageDestroy($logo);
 			imageDestroy($src);
 		}
