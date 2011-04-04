@@ -32,6 +32,10 @@
  */
 
 
+include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
+
+
+
 /**
  * Изображение
  *
@@ -404,13 +408,12 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 */
 	public function buildThumb($width = null, $height = null)
 	{
-		useLib('glib');
-		thumbnail(
-			self::plugin()->getDataDir() . $this->image,
-			self::plugin()->getDataDir() . $this->thumb,
+		$ext = substr(strrchr($this->image, '.'), 1);
+		$thumb = PhpThumbFactory::create(self::plugin()->getDataDir() . $this->image);
+		$thumb->resize(
 			$width ? $width : self::plugin()->settings['thumbWidth'],
-			$height ? $height : self::plugin()->settings['thumbHeight']
-		);
+			$height ? $height : self::plugin()->settings['thumbHeight']);
+		$thumb->save(self::plugin()->getDataDir() . $this->thumb, $ext);
 	}
 	//-----------------------------------------------------------------------------
 
@@ -863,22 +866,25 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			throw new GalleryFileTooBigException();
 		}
 
-		$ext = '.' . strtolower(substr(strrchr($fileInfo['name'], '.'), 1));
+		$ext = strtolower(substr(strrchr($fileInfo['name'], '.'), 1));
+		if ($ext == 'jpeg')
+		{
+			$ext = 'jpg';
+		}
 
 		if (!in_array($fileInfo['type'], $this->supportedFormats))
 		{
 			throw new GalleryUnsupportedFormatException($fileInfo['type']);
 		}
 
-		$imageFileName = self::plugin()->getDataDir() . $this->id . $ext;
+		$imageFileName = self::plugin()->getDataDir() . $this->id . '.' . $ext;
 		if (!upload($this->upload, $imageFileName))
 		{
 			throw new GalleryUploadException();
 		}
 
-		useLib('glib');
-		$this->setProperty('image', $this->id . $ext);
-		$this->setProperty('thumb', $this->id . '-thmb.jpg');
+		$this->setProperty('image', $this->id . '.' . $ext);
+		$this->setProperty('thumb', $this->id . '-thmb.' . $ext);
 
 		/*
 		 * Если изображение слишком больше - уменьшаем
@@ -889,18 +895,11 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			$info[1] > self::plugin()->settings['imageHeight']
 		)
 		{
-			$oldName = $this->image;
-			$this->setProperty('image', $this->id . '.jpg');
-			thumbnail(
-				self::plugin()->getDataDir() . $oldName,
-				self::plugin()->getDataDir() . $this->image,
-				self::plugin()->settings['imageWidth'],
-				self::plugin()->settings['imageHeight']
-			);
-			if ($oldName != $this->image)
-			{
-				filedelete(self::plugin()->getDataDir() . $oldName);
-			}
+			$thumb = PhpThumbFactory::create($imageFileName);
+			$thumb->resize(self::plugin()->settings['imageWidth'],
+				self::plugin()->settings['imageHeight']);
+			filedelete($imageFileName);
+			$thumb->save($imageFileName, $ext);
 		}
 
 		if (self::plugin()->settings['logoEnable'])
