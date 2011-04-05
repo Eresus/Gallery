@@ -59,6 +59,21 @@ class GalleryClientGroupedListView extends GalleryClientListView
 	//-----------------------------------------------------------------------------
 
 	/**
+	 * Возвращает максимальное количество групп на странице
+	 *
+	 * @param Plugin $plugin
+	 *
+	 * @return int
+	 *
+	 * @since 2.03
+	 */
+	protected function getMaxCount(Plugin $plugin)
+	{
+		return $plugin->settings['groupsPerPage'];
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
 	 * Возвращает количество страниц в списке
 	 *
 	 * @param int $sectionId     идентификатор раздела

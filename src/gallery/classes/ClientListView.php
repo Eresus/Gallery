@@ -58,7 +58,7 @@ class GalleryClientListView
 			$page->subpage = 1;
 		}
 
-		$maxCount = $plugin->settings['itemsPerPage'];
+		$maxCount = $this->getMaxCount($plugin);
 		$startFrom = ($page->subpage - 1) * $maxCount;
 		$items = $this->getItems($page->id, $maxCount, $startFrom);
 
@@ -114,6 +114,21 @@ class GalleryClientListView
 	{
 		$items = GalleryImage::find($sectionId, $limit, $offset, true);
 		return $items;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Возвращает максимальное количество изображений на странице
+	 *
+	 * @param Plugin $plugin
+	 *
+	 * @return int
+	 *
+	 * @since 2.03
+	 */
+	protected function getMaxCount(Plugin $plugin)
+	{
+		return $plugin->settings['itemsPerPage'];
 	}
 	//-----------------------------------------------------------------------------
 
