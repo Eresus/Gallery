@@ -54,10 +54,6 @@ include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
  * @property-read  string            $thumbURL     URL файла миниатюры
  * @property-read  string            $imageURL     URL файла изображения
  * @property-read  string            $showURL      URL или JavaScript для показа картинки
- * @property-read  GalleryImage      $nextSibling  Модель следующего по порядку Изображения.
- *                                                 Для КИ - следующего активного Изображения.
- * @property-read  GalleryImage      $prevSibling  Модель предыдущего по порядку Изображения.
- *                                                 Для КИ - предыдущего активного Изображения.
  *
  * @package Gallery
  */
@@ -513,125 +509,6 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Геттер свойства $nextSibling
-	 *
-	 * @return GalleryImage
-	 */
-	protected function getNextSibling()
-	{
-		if (!isset($this->gettersCache['nextSibling']))
-		{
-			$q = DB::getHandler()->createSelectQuery();
-			$e = $q->expr;
-
-			$q->select('*')
-				->from($this->getDbTable())
-				->limit(1);
-
-			$where = $e->eq('section', $q->bindValue($this->section, null, PDO::PARAM_INT));
-
-			if ($GLOBALS['page'] instanceof TClientUI)
-			{
-				$where = $e->lAnd($where, $e->eq('active', $q->bindValue(true, null, PDO::PARAM_INT)));
-			}
-
-			switch (self::plugin()->settings['sort'])
-			{
-				case 'date_asc':
-					$where = $e->lAnd($where, $e->gt('posted', $q->bindValue($this->posted)));
-				break;
-
-				case 'date_desc':
-					$where = $e->lAnd($where, $e->lt('posted', $q->bindValue($this->posted)));
-				break;
-
-				case 'manual':
-					$where = $e->lAnd($where,
-						$e->gt('position', $q->bindValue($this->position, null, PDO::PARAM_INT)));
-				break;
-			}
-
-			$q->where($where);
-			self::setOrderBy($q);
-
-			$raw = DB::fetch($q);
-
-			if ($raw)
-			{
-				$image = new GalleryImage();
-				$image->loadFromArray($raw);
-				$this->gettersCache['nextSibling'] = $image;
-			}
-			else
-			{
-				$this->gettersCache['nextSibling'] = null;
-			}
-		}
-		return $this->gettersCache['nextSibling'];
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Геттер свойства $prevSibling
-	 *
-	 * @return GalleryImage
-	 */
-	protected function getPrevSibling()
-	{
-		if (!isset($this->gettersCache['prevSibling']))
-		{
-			$q = DB::getHandler()->createSelectQuery();
-			$e = $q->expr;
-
-			$q->select('*')
-				->from($this->getDbTable())
-				->limit(1);
-
-			$where = $e->eq('section', $q->bindValue($this->section, null, PDO::PARAM_INT));
-
-			if ($GLOBALS['page'] instanceof TClientUI)
-			{
-				$where = $e->lAnd($where, $e->eq('active', $q->bindValue(true, null, PDO::PARAM_INT)));
-			}
-
-			switch (self::plugin()->settings['sort'])
-			{
-				case 'date_asc':
-					$where = $e->lAnd($where, $e->lt('posted', $q->bindValue($this->posted)));
-					$q->orderBy('posted', ezcQuerySelect::DESC);
-				break;
-
-				case 'date_desc':
-					$where = $e->lAnd($where, $e->gt('posted', $q->bindValue($this->posted)));
-					$q->orderBy('posted');
-				break;
-
-				case 'manual':
-					$where = $e->lAnd($where,
-						$e->lt('position', $q->bindValue($this->position, null, PDO::PARAM_INT)));
-					$q->orderBy('position', ezcQuerySelect::DESC);
-				break;
-			}
-
-			$q->where($where);
-			$raw = DB::fetch($q);
-
-			if ($raw)
-			{
-				$image = new GalleryImage();
-				$image->loadFromArray($raw);
-				$this->gettersCache['prevSibling'] = $image;
-			}
-			else
-			{
-				$this->gettersCache['prevSibling'] = null;
-			}
-		}
-		return $this->gettersCache['prevSibling'];
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
 	 * (non-PHPdoc)
 	 * @see src/gallery/classes/GalleryAbstractActiveRecord::loadById()
 	 */
@@ -682,7 +559,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @since 2.00
 	 */
-	private static function load($query, $limit = null, $offset = null)
+	public static function load($query, $limit = null, $offset = null)
 	{
 		eresus_log(__METHOD__, LOG_DEBUG, '("%s", %s, %s)', $query, $limit, $offset);
 

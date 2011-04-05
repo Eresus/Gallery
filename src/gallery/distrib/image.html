@@ -5,16 +5,16 @@
 	<img src="{$image->imageURL}" alt="Не удаётся загрузить картинку" title="{$image->title|escape}" />
 </div>
 <p>
-	{if $image->prevSibling}<a href="{$image->prevSibling->showURL}">[ &laquo; Предыдущее изображение ]</a>{/if}
-	{if $image->nextSibling}<a href="{$image->nextSibling->showURL}">[ Следующее изображение &raquo; ]</a>{/if}
+	{if $album->prev}<a href="{$album->prev->showURL}">[ &laquo; Предыдущее изображение ]</a>{/if}
+	{if $album->next}<a href="{$album->next->showURL}">[ Следующее изображение &raquo; ]</a>{/if}
 </p>
 <p><a href="{$this->clientListURL()}">[ Вернуться к списку ]</a></p>
 
 <h2>Другие изображения в этом альбоме</h2>
-{if count($images) > 1}
+{if count($album) > 1}
 <table>
 	<tr>
-		{foreach $images item}
+		{foreach $album item}
 		<td>
 			{if $item->id != $image->id}<a href="{$item->showURL}">{/if}
 			{$.foreach.default.iteration}<br />

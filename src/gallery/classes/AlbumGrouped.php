@@ -2,7 +2,7 @@
 /**
  * Галерея изображений
  *
- * Таблица авторзагрузки классов
+ * Альбом с группами
  *
  * @version ${product.version}
  *
@@ -31,23 +31,47 @@
  * $Id$
  */
 
-$dir = dirname(__FILE__);
 
-return array(
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
-	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
-	'GalleryAlbum' => $dir . '/classes/Album.php',
-	'GalleryAlbumGrouped' => $dir . '/classes/AlbumGrouped.php',
-	'GalleryClientGroupedListView' => $dir . '/classes/ClientGroupedListView.php',
-	'GalleryClientListView' => $dir . '/classes/ClientListView.php',
-	'GalleryClientPopupGroupedView' => $dir . '/classes/ClientPopupGroupedView.php',
-	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
-	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
-	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryNullObject' => $dir . '/classes/NullObject.php',
-	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
-	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
-);
+/**
+ * Альбом с группами
+ *
+ * Только для КИ!
+ *
+ * Альбом — это список изображений в определённом разделе сайта
+ *
+ * @package Gallery
+ * @since 2.03
+ */
+class GalleryAlbumGrouped extends GalleryAlbum
+{
+	/**
+	 * Загружет объекты из БД, если они не были загружены ранее
+	 *
+	 * @return void
+	 *
+	 * @since 2.03
+	 */
+	protected function load()
+	{
+		if ($this->loaded)
+		{
+			return;
+		}
+
+		$q = DB::getHandler()->createSelectQuery();
+		$e = $q->expr;
+
+		$q->where(
+			$e->lAnd(
+				$e->eq('section', $q->bindValue($this->sectionId, null, PDO::PARAM_INT)),
+				$e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+				$e->neq('groupId', 0)
+			))->
+			orderBy('groupId');
+
+		$this->items = GalleryImage::load($q);
+
+		$this->loaded = true;
+	}
+	//-----------------------------------------------------------------------------
+}

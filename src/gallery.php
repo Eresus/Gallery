@@ -1107,7 +1107,15 @@ class Gallery extends ContentPlugin
 		$data['page'] = $page;
 		$data['Eresus'] = $GLOBALS['Eresus'];
 		$data['image'] = $image;
-		$data['images'] = GalleryImage::find($page->id, null, null, true);
+		if ($this->settings['useGroups'])
+		{
+			$data['album'] = new GalleryAlbumGrouped($page->id);
+		}
+		else
+		{
+			$data['album'] = new GalleryAlbum($page->id);
+		}
+		$data['album']->setCurrent($data['image']);
 
 		// Создаём экземпляр шаблона
 		$tmpl = new Template('templates/' . $this->name . '/image.html');
