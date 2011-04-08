@@ -672,7 +672,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	private function serveCoverChanges()
 	{
 		/* При смене раздела флаг "Обложка" должен быть сброшен */
-		if ($this->section != $this->origSection && $this->cover)
+		if (!$this->isNew() && $this->section != $this->origSection && $this->cover)
 		{
 			$this->cover = false;
 			self::autoSetCover($this->origSection);
