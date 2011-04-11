@@ -32,6 +32,10 @@
  */
 
 
+include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
+
+
+
 /**
  * Изображение
  *
@@ -50,10 +54,6 @@
  * @property-read  string            $thumbURL     URL файла миниатюры
  * @property-read  string            $imageURL     URL файла изображения
  * @property-read  string            $showURL      URL или JavaScript для показа картинки
- * @property-read  GalleryImage      $nextSibling  Модель следующего по порядку Изображения.
- *                                                 Для КИ - следующего активного Изображения.
- * @property-read  GalleryImage      $prevSibling  Модель предыдущего по порядку Изображения.
- *                                                 Для КИ - предыдущего активного Изображения.
  *
  * @package Gallery
  */
@@ -404,13 +404,12 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 */
 	public function buildThumb($width = null, $height = null)
 	{
-		useLib('glib');
-		thumbnail(
-			self::plugin()->getDataDir() . $this->image,
-			self::plugin()->getDataDir() . $this->thumb,
+		$ext = substr(strrchr($this->image, '.'), 1);
+		$thumb = PhpThumbFactory::create(self::plugin()->getDataDir() . $this->image);
+		$thumb->resize(
 			$width ? $width : self::plugin()->settings['thumbWidth'],
-			$height ? $height : self::plugin()->settings['thumbHeight']
-		);
+			$height ? $height : self::plugin()->settings['thumbHeight']);
+		$thumb->save(self::plugin()->getDataDir() . $this->thumb, $ext);
 	}
 	//-----------------------------------------------------------------------------
 
@@ -510,125 +509,6 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Геттер свойства $nextSibling
-	 *
-	 * @return GalleryImage
-	 */
-	protected function getNextSibling()
-	{
-		if (!isset($this->gettersCache['nextSibling']))
-		{
-			$q = DB::getHandler()->createSelectQuery();
-			$e = $q->expr;
-
-			$q->select('*')
-				->from($this->getDbTable())
-				->limit(1);
-
-			$where = $e->eq('section', $q->bindValue($this->section, null, PDO::PARAM_INT));
-
-			if ($GLOBALS['page'] instanceof TClientUI)
-			{
-				$where = $e->lAnd($where, $e->eq('active', $q->bindValue(true, null, PDO::PARAM_INT)));
-			}
-
-			switch (self::plugin()->settings['sort'])
-			{
-				case 'date_asc':
-					$where = $e->lAnd($where, $e->gt('posted', $q->bindValue($this->posted)));
-				break;
-
-				case 'date_desc':
-					$where = $e->lAnd($where, $e->lt('posted', $q->bindValue($this->posted)));
-				break;
-
-				case 'manual':
-					$where = $e->lAnd($where,
-						$e->gt('position', $q->bindValue($this->position, null, PDO::PARAM_INT)));
-				break;
-			}
-
-			$q->where($where);
-			self::setOrderBy($q);
-
-			$raw = DB::fetch($q);
-
-			if ($raw)
-			{
-				$image = new GalleryImage();
-				$image->loadFromArray($raw);
-				$this->gettersCache['nextSibling'] = $image;
-			}
-			else
-			{
-				$this->gettersCache['nextSibling'] = null;
-			}
-		}
-		return $this->gettersCache['nextSibling'];
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Геттер свойства $prevSibling
-	 *
-	 * @return GalleryImage
-	 */
-	protected function getPrevSibling()
-	{
-		if (!isset($this->gettersCache['prevSibling']))
-		{
-			$q = DB::getHandler()->createSelectQuery();
-			$e = $q->expr;
-
-			$q->select('*')
-				->from($this->getDbTable())
-				->limit(1);
-
-			$where = $e->eq('section', $q->bindValue($this->section, null, PDO::PARAM_INT));
-
-			if ($GLOBALS['page'] instanceof TClientUI)
-			{
-				$where = $e->lAnd($where, $e->eq('active', $q->bindValue(true, null, PDO::PARAM_INT)));
-			}
-
-			switch (self::plugin()->settings['sort'])
-			{
-				case 'date_asc':
-					$where = $e->lAnd($where, $e->lt('posted', $q->bindValue($this->posted)));
-					$q->orderBy('posted', ezcQuerySelect::DESC);
-				break;
-
-				case 'date_desc':
-					$where = $e->lAnd($where, $e->gt('posted', $q->bindValue($this->posted)));
-					$q->orderBy('posted');
-				break;
-
-				case 'manual':
-					$where = $e->lAnd($where,
-						$e->lt('position', $q->bindValue($this->position, null, PDO::PARAM_INT)));
-					$q->orderBy('position', ezcQuerySelect::DESC);
-				break;
-			}
-
-			$q->where($where);
-			$raw = DB::fetch($q);
-
-			if ($raw)
-			{
-				$image = new GalleryImage();
-				$image->loadFromArray($raw);
-				$this->gettersCache['prevSibling'] = $image;
-			}
-			else
-			{
-				$this->gettersCache['prevSibling'] = null;
-			}
-		}
-		return $this->gettersCache['prevSibling'];
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
 	 * (non-PHPdoc)
 	 * @see src/gallery/classes/GalleryAbstractActiveRecord::loadById()
 	 */
@@ -679,7 +559,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @since 2.00
 	 */
-	private static function load($query, $limit = null, $offset = null)
+	public static function load($query, $limit = null, $offset = null)
 	{
 		eresus_log(__METHOD__, LOG_DEBUG, '("%s", %s, %s)', $query, $limit, $offset);
 
@@ -792,7 +672,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	private function serveCoverChanges()
 	{
 		/* При смене раздела флаг "Обложка" должен быть сброшен */
-		if ($this->section != $this->origSection && $this->cover)
+		if (!$this->isNew() && $this->section != $this->origSection && $this->cover)
 		{
 			$this->cover = false;
 			self::autoSetCover($this->origSection);
@@ -863,22 +743,25 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			throw new GalleryFileTooBigException();
 		}
 
-		$ext = '.' . strtolower(substr(strrchr($fileInfo['name'], '.'), 1));
+		$ext = strtolower(substr(strrchr($fileInfo['name'], '.'), 1));
+		if ($ext == 'jpeg')
+		{
+			$ext = 'jpg';
+		}
 
 		if (!in_array($fileInfo['type'], $this->supportedFormats))
 		{
 			throw new GalleryUnsupportedFormatException($fileInfo['type']);
 		}
 
-		$imageFileName = self::plugin()->getDataDir() . $this->id . $ext;
+		$imageFileName = self::plugin()->getDataDir() . $this->id . '.' . $ext;
 		if (!upload($this->upload, $imageFileName))
 		{
 			throw new GalleryUploadException();
 		}
 
-		useLib('glib');
-		$this->setProperty('image', $this->id . $ext);
-		$this->setProperty('thumb', $this->id . '-thmb.jpg');
+		$this->setProperty('image', $this->id . '.' . $ext);
+		$this->setProperty('thumb', $this->id . '-thmb.' . $ext);
 
 		/*
 		 * Если изображение слишком больше - уменьшаем
@@ -889,18 +772,11 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			$info[1] > self::plugin()->settings['imageHeight']
 		)
 		{
-			$oldName = $this->image;
-			$this->setProperty('image', $this->id . '.jpg');
-			thumbnail(
-				self::plugin()->getDataDir() . $oldName,
-				self::plugin()->getDataDir() . $this->image,
-				self::plugin()->settings['imageWidth'],
-				self::plugin()->settings['imageHeight']
-			);
-			if ($oldName != $this->image)
-			{
-				filedelete(self::plugin()->getDataDir() . $oldName);
-			}
+			$thumb = PhpThumbFactory::create($imageFileName);
+			$thumb->resize(self::plugin()->settings['imageWidth'],
+				self::plugin()->settings['imageHeight']);
+			filedelete($imageFileName);
+			$thumb->save($imageFileName, $ext);
 		}
 
 		if (self::plugin()->settings['logoEnable'])
@@ -928,10 +804,24 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		$logoFile = self::plugin()->getDataDir() . 'logo.png';
 		if (!is_file($logoFile))
 		{
+			eresus_log(__METHOD__, LOG_WARNING, 'No file %s', $logoFile);
 			return;
 		}
 
-		$src = imageCreateFromFile($file);
+		$type = getimagesize($file);
+		$type = $type[2];
+		switch ($type)
+		{
+			case IMAGETYPE_PNG:
+				$src = imageCreateFromPNG($file);
+			break;
+			case IMAGETYPE_JPEG:
+				$src = imageCreateFromJPEG($file);
+			break;
+			case IMAGETYPE_GIF:
+				$src = imageCreateFromGIF($file);
+			break;
+		}
 		imagealphablending($src, true);
 		$logo = imageCreateFromPNG($logoFile);
 		imagealphablending($logo, true);
@@ -965,9 +855,24 @@ class GalleryImage extends GalleryAbstractActiveRecord
 				break;
 			}
 			imagesavealpha($src, true);
-			imagecopy ($src, $logo, $x, $y, 0, 0, $lw, $lh);
+			imagecopy($src, $logo, $x, $y, 0, 0, $lw, $lh);
 			imagesavealpha($src, true);
-			imageSaveToFile($src, $file, IMG_JPG);
+			switch ($type)
+			{
+				case IMAGETYPE_PNG:
+					imagePNG($src, $file);
+				break;
+				case IMAGETYPE_JPEG:
+					imageJPEG($src, $file);
+				break;
+				case IMAGETYPE_GIF:
+					filedelete($file);
+					$file = preg_replace('/gif$/', 'png', $file);
+					imagePNG($src, $file);
+					$this->setProperty('image', basename($file));
+					$this->setProperty('thumb', preg_replace('/gif$/', 'png', $this->getProperty('thumb')));
+				break;
+			}
 			imageDestroy($logo);
 			imageDestroy($src);
 		}

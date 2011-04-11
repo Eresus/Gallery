@@ -1,10 +1,11 @@
-#Tue Sep 07 18:13:11 MSD 2010
+#Thu Feb 17 19:04:50 MSK 2011
 eclipse.preferences.version=1
 encoding//src/gallery.php=windows-1251
 encoding//src/gallery/admin.js=windows-1251
 encoding//src/gallery/distrib/image-grouped-list.html=windows-1251
 encoding//src/gallery/distrib/image-list.html=windows-1251
 encoding//src/gallery/distrib/image.html=windows-1251
+encoding//src/gallery/distrib/popup.html=windows-1251
 encoding//src/gallery/gallery.js=windows-1251
 encoding//src/gallery/templates/add-image.html=windows-1251
 encoding//src/gallery/templates/edit-image.html=windows-1251

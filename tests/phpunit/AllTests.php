@@ -2,7 +2,7 @@
 /**
  * Галерея изображений
  *
- * Таблица авторзагрузки классов
+ * Модульные тесты
  *
  * @version ${product.version}
  *
@@ -27,27 +27,34 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
+ * @subpackage Tests
  *
  * $Id$
  */
 
-$dir = dirname(__FILE__);
+include_once dirname(__FILE__) . '/helpers.php';
 
-return array(
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
-	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
-	'GalleryAlbum' => $dir . '/classes/Album.php',
-	'GalleryAlbumGrouped' => $dir . '/classes/AlbumGrouped.php',
-	'GalleryClientGroupedListView' => $dir . '/classes/ClientGroupedListView.php',
-	'GalleryClientListView' => $dir . '/classes/ClientListView.php',
-	'GalleryClientPopupGroupedView' => $dir . '/classes/ClientPopupGroupedView.php',
-	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
-	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
-	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryNullObject' => $dir . '/classes/NullObject.php',
-	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
-	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
-);
+PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__FILE__);
+
+$root = realpath(dirname(__FILE__) . '/../..');
+
+//PHP_CodeCoverage_Filter::getInstance()->addDirectoryToWhitelist($root . '/src');
+//PHP_CodeCoverage_Filter::getInstance()->addDirectoryToWhitelist($root . '/src');
+
+require_once dirname(__FILE__) . '/GalleryAbstractActiveRecordTest.php';
+require_once dirname(__FILE__) . '/GalleryGroupTest.php';
+require_once dirname(__FILE__) . '/GalleryImageTest.php';
+
+class AllTests
+{
+	public static function suite()
+	{
+		$suite = new PHPUnit_Framework_TestSuite('All Tests');
+
+		$suite->addTestSuite('GalleryAbstractActiveRecordTest');
+		$suite->addTestSuite('GalleryGroupTest');
+		$suite->addTestSuite('GalleryImageTest');
+
+		return $suite;
+	}
+}

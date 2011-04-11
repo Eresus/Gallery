@@ -226,11 +226,6 @@ form table th
 	text-align: right;
 }
 
-#gallery-settings-templates
-{
-	display: none;
-}
-
 .gallery-tmpl-hint .content
 {
 	background-color: #e8f1ff;

@@ -146,6 +146,32 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
+	 * Возвращает свойство $urlCode
+	 *
+	 * @return string
+	 *
+	 * @since 2.00
+	 */
+	public function getCodeURL()
+	{
+		return $this->urlCode;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Возвращает свойство $dirCode
+	 *
+	 * @return string
+	 *
+	 * @since 2.03
+	 */
+	public function getCodeDir()
+	{
+		return $this->dirCode;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
 	 * Возвращает диалог настроек
 	 *
 	 * @return string  HTML
@@ -168,12 +194,17 @@ class Gallery extends ContentPlugin
 		$this->settings['tmplImageGroupedList'] =
 			file_get_contents($tmplDir . '/image-grouped-list.html');
 		$this->settings['tmplImage'] = file_get_contents($tmplDir . '/image.html');
+		$this->settings['tmplPopup'] = file_get_contents($tmplDir . '/popup.html');
 
 		// Создаём экземпляр шаблона
-		$tmpl = new Template('ext/' . $this->name . '/templates/settings.html');
+		$form = new EresusForm('ext/' . $this->name . '/templates/settings.html', LOCALE_CHARSET);
+		foreach ($data as $key => $value)
+		{
+			$form->setValue($key, $value);
+		}
 
 		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
+		$html = $form->compile();
 
 		return $html;
 	}
@@ -210,6 +241,7 @@ class Gallery extends ContentPlugin
 		@file_put_contents($tmplDir . '/image-list.html', arg('tmplImageList'));
 		@file_put_contents($tmplDir . '/image-grouped-list.html', arg('tmplImageGroupedList'));
 		@file_put_contents($tmplDir . '/image.html', arg('tmplImage'));
+		@file_put_contents($tmplDir . '/popup.html', arg('tmplPopup'));
 
 		parent::updateSettings();
 	}
@@ -520,6 +552,19 @@ class Gallery extends ContentPlugin
 		}
 
 		return $url;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Подключает библиотеку jQuery
+	 *
+	 * @return void
+	 */
+	public function linkJQuery()
+	{
+		global $Eresus, $page;
+
+		$page->linkScripts($Eresus->root . 'core/jquery/jquery.min.js');
 	}
 	//-----------------------------------------------------------------------------
 
@@ -1019,74 +1064,16 @@ class Gallery extends ContentPlugin
 	 */
 	private function clientRenderList()
 	{
-		global $page;
-
-		if ($page->subpage == 0)
-		{
-			$page->subpage = 1;
-		}
-
-		$maxCount = $this->settings['itemsPerPage'];
-		$startFrom = ($page->subpage - 1) * $maxCount;
 		if ($this->settings['useGroups'])
 		{
-			$items = GalleryGroup::find($page->id, $maxCount, $startFrom);
+			$view = new GalleryClientGroupedListView();
 		}
 		else
 		{
-			$items = GalleryImage::find($page->id, $maxCount, $startFrom, true);
+			$view = new GalleryClientListView();
 		}
 
-		// Данные для подстановки в шаблон
-		$data = array();
-		$data['this'] = $this;
-		$data['page'] = $page;
-		$data['Eresus'] = $GLOBALS['Eresus'];
-		$data['items'] = $items;
-
-		/* Ищем обложку альбома */
-		$data['cover'] = GalleryImage::findCover($page->id);
-
-		if ($this->settings['useGroups'])
-		{
-			$totalPages = ceil(GalleryGroup::count($page->id) / $maxCount);
-		}
-		else
-		{
-			$totalPages = ceil(GalleryImage::count($page->id, true) / $maxCount);
-		}
-
-		if ($totalPages > 1)
-		{
-			$pager = new PaginationHelper($totalPages, $page->subpage);
-			$data['pager'] = $pager->render();
-		}
-		else
-		{
-			$data['pager'] = '';
-		}
-
-		/* Создаём экземпляр шаблона */
-		if ($this->settings['useGroups'])
-		{
-			$tmpl = new Template('templates/' . $this->name . '/image-grouped-list.html');
-		}
-		else
-		{
-			$tmpl = new Template('templates/' . $this->name . '/image-list.html');
-		}
-
-		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
-
-		if ($this->settings['showItemMode'] == 'popup')
-		{
-			$this->linkJQuery();
-			$page->linkScripts($this->urlCode . 'lightbox/jquery.lightbox-0.5.pack.js');
-			$page->linkStyles($this->urlCode . 'lightbox/jquery.lightbox-0.5.css');
-			$page->linkScripts($this->urlCode . 'gallery.js');
-		}
-
+		$html = $view->render();
 		return $html;
 	}
 	//-----------------------------------------------------------------------------
@@ -1120,7 +1107,15 @@ class Gallery extends ContentPlugin
 		$data['page'] = $page;
 		$data['Eresus'] = $GLOBALS['Eresus'];
 		$data['image'] = $image;
-		$data['images'] = GalleryImage::find($page->id, null, null, true);
+		if ($this->settings['useGroups'])
+		{
+			$data['album'] = new GalleryAlbumGrouped($page->id);
+		}
+		else
+		{
+			$data['album'] = new GalleryAlbum($page->id);
+		}
+		$data['album']->setCurrent($data['image']);
 
 		// Создаём экземпляр шаблона
 		$tmpl = new Template('templates/' . $this->name . '/image.html');
@@ -1204,7 +1199,11 @@ class Gallery extends ContentPlugin
 				array('type' => 'edit', 'name' => 'created', 'label' => 'Дата создания',
 					'width' => '150px', 'comment' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС'),
 				array('type' => 'checkbox', 'name' => 'active', 'label' => 'Активна'),
-				array('type' => 'html', 'name' => 'content', 'height' => '400px', 'label' => 'Описание'),
+				array('type' => 'html', 'name' => 'content', 'height' => '400px',
+					'label' => 'Описание<div class="ui-state-warning"><em>Внимание!</em> Для того, чтобы ' .
+					'это описание показывалось посетителям, надо добавить в ' .
+					'<a href="admin.php?mod=plgmgr&id=gallery">шаблон</a> вывод текста страницы (альбома).' .
+					'</div>'),
 			),
 			'buttons'=> array('ok', 'apply', 'cancel'),
 		);
@@ -1273,19 +1272,6 @@ class Gallery extends ContentPlugin
 		$image->save();
 
 		HTTP::goback();
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Подключает библиотеку jQuery
-	 *
-	 * @return void
-	 */
-	private function linkJQuery()
-	{
-		global $Eresus, $page;
-
-		$page->linkScripts($Eresus->root . 'core/jquery/jquery.min.js');
 	}
 	//-----------------------------------------------------------------------------
 

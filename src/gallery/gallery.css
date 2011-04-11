@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+/**
+ * Галерея изображений
+ *
+ * Файл стилей
+ *
+ * @version ${product.version}
+ *
+ * @copyright 2008, ООО "Два слона", http://dvaslona.ru/
+ * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
+ * @author Михаил Красильников <mk@3wstyle.ru>
+ *
+ * @package Gallery
+ *
+ * $Id: admin.css 1000 2010-10-13 09:32:07Z mk $
+ */
+
+/**
+ * Оверлей, затеняющий страницу 
+ */
+.ui-gallery-overlay
+{
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 0;
+	z-index: 1000;
+}
+
+/**
+ * Всплывающий блок
+ */
+#gallery-popup
+{
+	display: none;
+	position: absolute;
+	z-index: 1001;
+}
+
+.ui-gallery-popup
+{
+	background-color: #eee;
+	border: solid 1px #888;
+	padding: 1em;
+}

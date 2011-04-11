@@ -47,6 +47,14 @@
 class GalleryGroup extends GalleryAbstractActiveRecord
 {
 	/**
+	 * Включить в группу только активные изображения
+	 *
+	 * @var bool
+	 * @since 2.03
+	 */
+	private $activeOnly = false;
+
+	/**
 	 * Возвращает имя таблицы БД
 	 *
 	 * @return string  Имя таблицы БД
@@ -120,15 +128,16 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 	/**
 	 * Выбирает группы из БД
 	 *
-	 * @param int  $section               Идентификатор раздела
-	 * @param int  $limit[optional]       Вернуть не более $limit изображений
-	 * @param int  $offset[optional]      Пропустить $offset первых изображений
+	 * @param int  $section                Идентификатор раздела
+	 * @param int  $limit[optional]        Вернуть не более $limit изображений
+	 * @param int  $offset[optional]       Пропустить $offset первых изображений
+	 * @param bool $activeOnly [optional]  искать только активные изображения
 	 *
 	 * @return array(GalleryGroup)
 	 *
 	 * @since 2.00
 	 */
-	public static function find($section, $limit = null, $offset = null)
+	public static function find($section, $limit = null, $offset = null, $activeOnly = false)
 	{
 		eresus_log(__METHOD__, LOG_DEBUG, '()');
 
@@ -158,6 +167,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 			foreach ($raw as $item)
 			{
 				$group = new GalleryGroup();
+				$group->activeOnly = $activeOnly;
 				$group->loadFromArray($item);
 				$result []= $group;
 			}
@@ -174,10 +184,9 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 	 */
 	protected function getImages()
 	{
-		return GalleryImage::find($this);
+		return GalleryImage::find($this, null, null, $this->activeOnly);
 	}
 	//-----------------------------------------------------------------------------
-
 }
 /*
 		/* Строим индекс для поиска группы по её ID * /
