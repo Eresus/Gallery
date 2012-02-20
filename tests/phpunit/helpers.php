@@ -32,8 +32,6 @@
  * $Id$
  */
 
-PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__FILE__);
-
 /**
  * @package Gallery
  * @subpackage Tests
