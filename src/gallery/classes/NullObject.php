@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * NULL (Специальный случай)
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslonas.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -35,14 +33,14 @@
 /**
  * NULL
  *
- * Объект этого класса можно возвращать если запрошен несузествующий объект.
+ * Объект этого класса можно возвращать если запрошен несуществующий объект.
  *
  * Объект NullObject возвращает NULL при обращении к любому свойству или методу, что
  * предотвращает возникновение ошибок "Property|Method not exists".
  *
  * @package Gallery
  */
-class GalleryNullObject
+class Gallery_NullObject
 {
 	/**
 	 * @param mixed $name

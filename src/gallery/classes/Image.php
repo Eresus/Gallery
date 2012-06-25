@@ -438,7 +438,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		}
 		catch (DomainException $e)
 		{
-			return new GalleryNullObject();
+			return new Gallery_NullObject();
 		}
 	}
 	//-----------------------------------------------------------------------------

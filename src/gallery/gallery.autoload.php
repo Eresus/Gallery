@@ -45,9 +45,7 @@ return array(
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
 	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
 	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
 	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryNullObject' => $dir . '/classes/NullObject.php',
 	'GalleryUnsupportedFormatException' => $dir . '/classes/Exceptions.php',
 	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
 );
