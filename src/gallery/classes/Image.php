@@ -727,7 +727,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 * @return void
 	 *
 	 * @throws Gallery_Exception_UnsupportedFormatException
-	 * @throws GalleryUploadException
+	 * @throws Gallery_Exception_UploadException
 	 * @since 2.00
 	 */
 	private function serveUpload()
@@ -757,7 +757,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		$imageFileName = self::plugin()->getDataDir() . $this->id . '.' . $ext;
 		if (!upload($this->upload, $imageFileName))
 		{
-			throw new GalleryUploadException();
+			throw new Gallery_Exception_UploadException();
 		}
 
 		$this->setProperty('image', $this->id . '.' . $ext);

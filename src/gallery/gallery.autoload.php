@@ -46,5 +46,4 @@ return array(
 	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
 	'GalleryGroup' => $dir . '/classes/Group.php',
 	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
 );
