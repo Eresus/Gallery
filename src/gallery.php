@@ -1041,7 +1041,7 @@ class Gallery extends ContentPlugin
 	{
 		if ($this->settings['useGroups'])
 		{
-			$view = new GalleryClientGroupedListView();
+			$view = new Gallery_ClientGroupedListView();
 		}
 		else
 		{

@@ -38,7 +38,6 @@ return array(
 	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
 	'GalleryAlbum' => $dir . '/classes/Album.php',
 	'GalleryAlbumGrouped' => $dir . '/classes/AlbumGrouped.php',
-	'GalleryClientGroupedListView' => $dir . '/classes/ClientGroupedListView.php',
 	'GalleryClientListView' => $dir . '/classes/ClientListView.php',
 	'GalleryClientPopupGroupedView' => $dir . '/classes/ClientPopupGroupedView.php',
 	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
