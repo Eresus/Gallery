@@ -92,7 +92,7 @@ class GalleryGroupTest extends PHPUnit_Framework_TestCase
  * @package Gallery
  * @subpackage Tests
  */
-class GalleryGroupTest_Stub extends GalleryGroup
+class GalleryGroupTest_Stub extends Gallery_Group
 {
 	function __construct()
 	{

@@ -51,7 +51,7 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
 	 */
 	protected function getItems($sectionId, $limit, $offset)
 	{
-		$items = GalleryGroup::find($sectionId, $limit, $offset, true);
+		$items = Gallery_Group::find($sectionId, $limit, $offset, true);
 		return $items;
 	}
 	//-----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
 	 */
 	protected function countPageCount($sectionId, $itemsPerPage)
 	{
-		return ceil(GalleryGroup::count($sectionId) / $itemsPerPage);
+		return ceil(Gallery_Group::count($sectionId) / $itemsPerPage);
 	}
 	//-----------------------------------------------------------------------------
 

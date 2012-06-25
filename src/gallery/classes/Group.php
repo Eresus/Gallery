@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Группа изображений
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -44,7 +42,7 @@
  *
  * @package Gallery
  */
-class GalleryGroup extends GalleryAbstractActiveRecord
+class Gallery_Group extends GalleryAbstractActiveRecord
 {
 	/**
 	 * Включить в группу только активные изображения
@@ -166,7 +164,7 @@ class GalleryGroup extends GalleryAbstractActiveRecord
 		{
 			foreach ($raw as $item)
 			{
-				$group = new GalleryGroup();
+				$group = new Gallery_Group();
 				$group->activeOnly = $activeOnly;
 				$group->loadFromArray($item);
 				$result []= $group;

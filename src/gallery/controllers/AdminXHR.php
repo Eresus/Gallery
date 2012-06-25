@@ -50,7 +50,7 @@ class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 	protected function actionGetGroups($sectionId)
 	{
 		$sectionId = intval($sectionId);
-		$groups = GalleryGroup::find($sectionId);
+		$groups = Gallery_Group::find($sectionId);
 		return $groups;
 	}
 	//-----------------------------------------------------------------------------

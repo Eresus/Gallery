@@ -46,7 +46,7 @@ include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
  * @property-write array             $image        Элемент $_FILES соответсвующий загружаемому файлу
  * @property       string            $thumb        Имя файла миниатюры
  * @property       string            $posted       Дата и время добавления изображения
- * @property-read  GalleryGroup      $group        Группа изображения
+ * @property-read  Gallery_Group      $group        Группа изображения
  * @property-write int               $group        Идентификатор группы
  * @property       bool              $cover        Является ли обложкой альбома
  * @property       bool              $active       Является ли активным
@@ -318,7 +318,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	/**
 	 * Выбирает изображения из БД
 	 *
-	 * @param int|GalleryGroup $owner [optional]       идентификатор раздела или группа
+	 * @param int|Gallery_Group $owner [optional]       идентификатор раздела или группа
 	 * @param int              $limit [optional]       вернуть не более $limit изображений
 	 * @param int              $offset [optional]      пропустить $offset первых изображений
 	 * @param bool             $activeOnly [optional]  искать только активные изображения
@@ -338,7 +338,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		$cond = '1';
 		if ($owner)
 		{
-			if ($owner instanceof GalleryGroup)
+			if ($owner instanceof Gallery_Group)
 			{
 				$cond = $e->eq('groupId', $q->bindValue($owner->id, null, PDO::PARAM_INT));
 			}
@@ -428,13 +428,13 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	/**
 	 * Геттер свойства $group
 	 *
-	 * @return GalleryGroup
+	 * @return Gallery_Group
 	 */
 	protected function getGroup()
 	{
 		try
 		{
-			return new GalleryGroup($this->getProperty('groupId'));
+			return new Gallery_Group($this->getProperty('groupId'));
 		}
 		catch (DomainException $e)
 		{
