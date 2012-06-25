@@ -34,7 +34,6 @@
 $dir = dirname(__FILE__);
 
 return array(
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
 	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
 );

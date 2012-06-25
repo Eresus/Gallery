@@ -42,7 +42,7 @@
  *
  * @package Gallery
  */
-class Gallery_Group extends GalleryAbstractActiveRecord
+class Gallery_Group extends Gallery_AbstractActiveRecord
 {
 	/**
 	 * Включить в группу только активные изображения
@@ -86,7 +86,7 @@ class Gallery_Group extends GalleryAbstractActiveRecord
 
 	/**
 	 * (non-PHPdoc)
-	 * @see src/gallery/classes/GalleryAbstractActiveRecord::delete()
+	 * @see src/gallery/classes/Gallery_AbstractActiveRecord::delete()
 	 */
 	public function delete()
 	{

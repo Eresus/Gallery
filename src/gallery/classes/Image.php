@@ -55,7 +55,7 @@ include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
  *
  * @package Gallery
  */
-class Gallery_Image extends GalleryAbstractActiveRecord
+class Gallery_Image extends Gallery_AbstractActiveRecord
 {
 	/**
 	 * Список поддерживаемых форматов
@@ -205,7 +205,7 @@ class Gallery_Image extends GalleryAbstractActiveRecord
 
 	/**
 	 * (non-PHPdoc)
-	 * @see src/gallery/classes/GalleryAbstractActiveRecord::delete()
+	 * @see src/gallery/classes/Gallery_AbstractActiveRecord::delete()
 	 */
 	public function delete()
 	{
@@ -508,7 +508,7 @@ class Gallery_Image extends GalleryAbstractActiveRecord
 
 	/**
 	 * (non-PHPdoc)
-	 * @see src/gallery/classes/GalleryAbstractActiveRecord::loadById()
+	 * @see src/gallery/classes/Gallery_AbstractActiveRecord::loadById()
 	 */
 	protected function loadById($id)
 	{

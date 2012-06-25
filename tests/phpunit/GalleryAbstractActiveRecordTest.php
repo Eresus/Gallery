@@ -56,7 +56,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем метод getDbTable
-	 * @covers GalleryAbstractActiveRecord::getDbTable
+	 * @covers Gallery_AbstractActiveRecord::getDbTable
 	 */
 	public function testGetDbTable()
 	{
@@ -69,7 +69,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем метод getDbTableStatic
-	 * @covers GalleryAbstractActiveRecord::getDbTableStatic
+	 * @covers Gallery_AbstractActiveRecord::getDbTableStatic
 	 */
 	public function testGetDbTableStatic()
 	{
@@ -82,7 +82,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем метод getDbTableStatic
-	 * @covers GalleryAbstractActiveRecord::getDbTableStatic
+	 * @covers Gallery_AbstractActiveRecord::getDbTableStatic
 	 * @expectedException EresusTypeException
 	 */
 	public function testGetDbTableStatic_fail()
@@ -231,7 +231,7 @@ class GalleryAbstractActiveRecordTest extends PHPUnit_Framework_TestCase
  * @package Gallery
  * @subpackage Tests
  */
-class GalleryAbstractActiveRecordTest_Stub extends GalleryAbstractActiveRecord
+class GalleryAbstractActiveRecordTest_Stub extends Gallery_AbstractActiveRecord
 {
 	public $_success = false;
 

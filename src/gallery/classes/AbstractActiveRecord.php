@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
- * Абстрактная реализация паттерна ActiveRecord
+ * Абстрактная реализация шаблона ActiveRecord
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -33,11 +31,11 @@
 
 
 /**
- * Абстрактная реализация паттерна ActiveRecord
+ * Абстрактная реализация шаблона ActiveRecord
  *
  * @package Gallery
  */
-abstract class GalleryAbstractActiveRecord
+abstract class Gallery_AbstractActiveRecord
 {
 	/**
 	 * Объект плагина
@@ -71,7 +69,7 @@ abstract class GalleryAbstractActiveRecord
 	 *
 	 * @param int $id  Идентификатор
 	 *
-	 * @return GalleryAbstractActiveRecord
+	 * @return Gallery_AbstractActiveRecord
 	 */
 	public function __construct($id = null)
 	{
@@ -123,7 +121,7 @@ abstract class GalleryAbstractActiveRecord
 	/**
 	 * Возвращает полное имя таблицы (для статических вызовов)
 	 *
-	 * @param string $className  Имя класса, потомка GalleryAbstractActiveRecord, для которого
+	 * @param string $className  Имя класса, потомка Gallery_AbstractActiveRecord, для которого
 	 *                           надо получить имя таблицы
 	 * @return string
 	 * @since 2.00
@@ -132,7 +130,7 @@ abstract class GalleryAbstractActiveRecord
 	{
 		$stub = new $className();
 
-		if (!($stub instanceof GalleryAbstractActiveRecord))
+		if (!($stub instanceof Gallery_AbstractActiveRecord))
 		{
 			throw new EresusTypeException();
 		}
