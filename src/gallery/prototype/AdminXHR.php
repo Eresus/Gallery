@@ -100,10 +100,6 @@ class GalleryEresusAdminXHRController
 					$data[$key] = $this->prepareResponseData($value);
 				}
 			break;
-
-			case is_string($data):
-				$data = iconv('cp1251', 'utf-8', $data);
-			break;
 		}
 		return $data;
 	}
