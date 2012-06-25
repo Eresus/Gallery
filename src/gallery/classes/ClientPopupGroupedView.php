@@ -36,7 +36,7 @@
  * @package Gallery
  * @since 2.03
  */
-class Gallery_ClientPopupGroupedView extends GalleryClientPopupView
+class Gallery_ClientPopupGroupedView extends Gallery_ClientPopupView
 {
 	/**
 	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.

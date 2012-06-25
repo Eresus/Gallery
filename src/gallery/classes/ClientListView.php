@@ -164,13 +164,13 @@ class Gallery_ClientListView
 	/**
 	 * Возвращает объект для отрисовки всплывающего блока
 	 *
-	 * @return GalleryClientPopupView
+	 * @return Gallery_ClientPopupView
 	 *
 	 * @since 2.03
 	 */
 	protected function getPopupView()
 	{
-		return new GalleryClientPopupView();
+		return new Gallery_ClientPopupView();
 	}
 	//-----------------------------------------------------------------------------
 }
