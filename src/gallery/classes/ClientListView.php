@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Класс представления "Просмотр списка изображений"
  *
  * @version ${product.version}
  *
  * @copyright 2011, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -38,7 +36,7 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryClientListView
+class Gallery_ClientListView
 {
 	/**
 	 * Возвращает разметку представления

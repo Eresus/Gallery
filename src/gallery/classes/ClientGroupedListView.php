@@ -36,7 +36,7 @@
  * @package Gallery
  * @since 2.03
  */
-class Gallery_ClientGroupedListView extends GalleryClientListView
+class Gallery_ClientGroupedListView extends Gallery_ClientListView
 {
 	/**
 	 * Возвращает список групп

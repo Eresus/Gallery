@@ -1045,7 +1045,7 @@ class Gallery extends ContentPlugin
 		}
 		else
 		{
-			$view = new GalleryClientListView();
+			$view = new Gallery_ClientListView();
 		}
 
 		$html = $view->render();
