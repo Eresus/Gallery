@@ -1086,7 +1086,7 @@ class Gallery extends ContentPlugin
 		}
 		else
 		{
-			$data['album'] = new GalleryAlbum(Eresus_Kernel::app()->getPage()->id);
+			$data['album'] = new Gallery_Album(Eresus_Kernel::app()->getPage()->id);
 		}
 		$data['album']->setCurrent($data['image']);
 

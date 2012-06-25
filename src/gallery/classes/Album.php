@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Альбом
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -42,7 +40,7 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryAlbum implements Iterator, Countable
+class Gallery_Album implements Iterator, Countable
 {
 	/**
 	 * Идентификатор раздела сайта, которому соответствует альбом
@@ -52,7 +50,7 @@ class GalleryAlbum implements Iterator, Countable
 	protected $sectionId;
 
 	/**
-	 * Массив исзображений
+	 * Массив изображений
 	 *
 	 * @var array
 	 * @see Iterator
@@ -100,7 +98,7 @@ class GalleryAlbum implements Iterator, Countable
 	 *
 	 * @param int $sectionId  идентификатор раздела сайта
 	 *
-	 * @return GalleryAlbum
+	 * @return Gallery_Album
 	 *
 	 * @since 2.03
 	 */

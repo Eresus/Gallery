@@ -42,7 +42,7 @@
  * @package Gallery
  * @since 2.03
  */
-class Gallery_AlbumGrouped extends GalleryAlbum
+class Gallery_AlbumGrouped extends Gallery_Album
 {
 	/**
 	 * Загружет объекты из БД, если они не были загружены ранее
