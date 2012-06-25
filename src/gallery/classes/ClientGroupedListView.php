@@ -105,13 +105,13 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
 	/**
 	 * Возвращает объект для отрисовки всплывающего блока
 	 *
-	 * @return GalleryClientPopupGroupedView
+	 * @return Gallery_ClientPopupGroupedView
 	 *
 	 * @since 2.03
 	 */
 	protected function getPopupView()
 	{
-		return new GalleryClientPopupGroupedView();
+		return new Gallery_ClientPopupGroupedView();
 	}
 	//-----------------------------------------------------------------------------
 }
