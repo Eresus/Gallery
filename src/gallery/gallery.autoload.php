@@ -37,7 +37,6 @@ return array(
 	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
 	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
 	'GalleryAlbum' => $dir . '/classes/Album.php',
-	'GalleryAlbumGrouped' => $dir . '/classes/AlbumGrouped.php',
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
 	'GalleryGroup' => $dir . '/classes/Group.php',
 	'GalleryImage' => $dir . '/classes/Image.php',

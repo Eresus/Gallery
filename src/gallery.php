@@ -1082,7 +1082,7 @@ class Gallery extends ContentPlugin
 		$data['image'] = $image;
 		if ($this->settings['useGroups'])
 		{
-			$data['album'] = new GalleryAlbumGrouped(Eresus_Kernel::app()->getPage()->id);
+			$data['album'] = new Gallery_AlbumGrouped(Eresus_Kernel::app()->getPage()->id);
 		}
 		else
 		{
