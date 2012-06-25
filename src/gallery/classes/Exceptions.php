@@ -33,28 +33,6 @@
 
 
 /**
- * Неподдерживаемый формат файла
- *
- * @package Gallery
- */
-class GalleryUnsupportedFormatException extends EresusRuntimeException
-{
-	/**
-	 * Конструктор
-	 *
-	 * @param string $type  Неподдерживаемый тип файла
-	 * @return GalleryUnsupportedFormatException
-	 */
-	public function __construct($type)
-	{
-		parent::__construct("Unsupported format: $type");
-	}
-	//-----------------------------------------------------------------------------
-}
-
-
-
-/**
  * Не удалось загрузить файл
  *
  * @package Gallery

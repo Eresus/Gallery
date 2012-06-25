@@ -726,7 +726,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @return void
 	 *
-	 * @throws GalleryUnsupportedFormatException
+	 * @throws Gallery_Exception_UnsupportedFormatException
 	 * @throws GalleryUploadException
 	 * @since 2.00
 	 */
@@ -751,7 +751,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 
 		if (!in_array($fileInfo['type'], $this->supportedFormats))
 		{
-			throw new GalleryUnsupportedFormatException($fileInfo['type']);
+			throw new Gallery_Exception_UnsupportedFormatException($fileInfo['type']);
 		}
 
 		$imageFileName = self::plugin()->getDataDir() . $this->id . '.' . $ext;

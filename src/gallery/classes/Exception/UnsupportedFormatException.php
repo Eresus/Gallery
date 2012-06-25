@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
- * Таблица авторзагрузки классов
+ * Неподдерживаемый формат файла
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -28,23 +26,26 @@
  *
  * @package Gallery
  *
- * $Id$
+ * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
-$dir = dirname(__FILE__);
 
-return array(
-	'GalleryAbstractActiveRecord' => $dir . '/classes/AbstractActiveRecord.php',
-	'GalleryAdminXHRController' => $dir . '/controllers/AdminXHR.php',
-	'GalleryAlbum' => $dir . '/classes/Album.php',
-	'GalleryAlbumGrouped' => $dir . '/classes/AlbumGrouped.php',
-	'GalleryClientGroupedListView' => $dir . '/classes/ClientGroupedListView.php',
-	'GalleryClientListView' => $dir . '/classes/ClientListView.php',
-	'GalleryClientPopupGroupedView' => $dir . '/classes/ClientPopupGroupedView.php',
-	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
-	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
-	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
-	'GalleryGroup' => $dir . '/classes/Group.php',
-	'GalleryImage' => $dir . '/classes/Image.php',
-	'GalleryUploadException' => $dir . '/classes/Exceptions.php',
-);
+/**
+ * Неподдерживаемый формат файла
+ *
+ * @package Gallery
+ */
+class Gallery_Exception_UnsupportedFormatException extends EresusRuntimeException
+{
+	/**
+	 * Конструктор
+	 *
+	 * @param string $type  Неподдерживаемый тип файла
+	 * @return Gallery_Exception_UnsupportedFormatException
+	 */
+	public function __construct($type)
+	{
+		parent::__construct("Unsupported format: $type");
+	}
+	//-----------------------------------------------------------------------------
+}
