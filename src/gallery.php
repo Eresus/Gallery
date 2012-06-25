@@ -482,7 +482,7 @@ class Gallery extends ContentPlugin
 	 */
 	public function adminRender()
 	{
-		$ctl = new GalleryAdminXHRController;
+		$ctl = new Gallery_AdminXHRController;
 		$ctl->execute(arg('args'));
 	}
 	//-----------------------------------------------------------------------------
