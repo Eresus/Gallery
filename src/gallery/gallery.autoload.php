@@ -43,7 +43,6 @@ return array(
 	'GalleryClientPopupGroupedView' => $dir . '/classes/ClientPopupGroupedView.php',
 	'GalleryClientPopupView' => $dir . '/classes/ClientPopupView.php',
 	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
-	'GalleryFileTooBigException' => $dir . '/classes/Exceptions.php',
 	'GalleryGroup' => $dir . '/classes/Group.php',
 	'GalleryImage' => $dir . '/classes/Image.php',
 );

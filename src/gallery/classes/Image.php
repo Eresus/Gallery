@@ -740,7 +740,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 
 		if ($fileInfo['error'] == UPLOAD_ERR_INI_SIZE)
 		{
-			throw new GalleryFileTooBigException();
+			throw new Gallery_Exception_FileTooBigException();
 		}
 
 		$ext = strtolower(substr(strrchr($fileInfo['name'], '.'), 1));

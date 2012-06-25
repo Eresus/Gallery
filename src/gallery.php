@@ -742,7 +742,7 @@ class Gallery extends ContentPlugin
 		{
 			$item->save();
 		}
-		catch (GalleryFileTooBigException $e)
+		catch (Gallery_Exception_FileTooBigException $e)
 		{
 			throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
 		}
