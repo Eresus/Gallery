@@ -34,5 +34,4 @@
 $dir = dirname(__FILE__);
 
 return array(
-	'GalleryEresusAdminXHRController' => $dir . '/prototype/AdminXHR.php',
 );

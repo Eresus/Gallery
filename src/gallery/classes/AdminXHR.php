@@ -35,7 +35,7 @@
  *
  * @package Gallery
  */
-class Gallery_AdminXHRController extends GalleryEresusAdminXHRController
+class Gallery_AdminXHRController extends Gallery_Prototype_EresusAdminXHRController
 {
 	/**
 	 * Возвращает список групп в указанном разделе
