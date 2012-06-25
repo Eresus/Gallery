@@ -110,13 +110,6 @@ class Gallery extends ContentPlugin
 		'logoHPadding' => 10,
 	);
 
-	public function __construct()
-	{
-		parent::__construct();
-		EresusClassAutoloader::add($this->dirCode . 'gallery.autoload.php');
-	}
-	//-----------------------------------------------------------------------------
-
 	/**
 	 * Возвращает свойство $urlData
 	 *
