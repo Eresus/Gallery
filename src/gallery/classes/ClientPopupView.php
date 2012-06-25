@@ -71,7 +71,7 @@ class Gallery_ClientPopupView
 	 */
 	protected function renderImageList()
 	{
-		$items = GalleryImage::find($GLOBALS['page']->id, null, null, true);
+		$items = Gallery_Image::find($GLOBALS['page']->id, null, null, true);
 		$jsArray = array();
 		foreach ($items as $item)
 		{

@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Изображение
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -57,7 +55,7 @@ include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
  *
  * @package Gallery
  */
-class GalleryImage extends GalleryAbstractActiveRecord
+class Gallery_Image extends GalleryAbstractActiveRecord
 {
 	/**
 	 * Список поддерживаемых форматов
@@ -286,7 +284,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 	 *
 	 * @param int $section
 	 *
-	 * @return GalleryImage|false  Возвращает изображение или FALSE, если обложка отсутствует
+	 * @return Gallery_Image|false  Возвращает изображение или FALSE, если обложка отсутствует
 	 *
 	 * @since 2.00
 	 */
@@ -309,7 +307,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 			return false;
 		}
 
-		$image = new GalleryImage();
+		$image = new Gallery_Image();
 		$image->loadFromArray($raw);
 		return $image;
 	}
@@ -586,7 +584,7 @@ class GalleryImage extends GalleryAbstractActiveRecord
 		{
 			foreach ($raw as $item)
 			{
-				$image = new GalleryImage();
+				$image = new Gallery_Image();
 				$image->loadFromArray($item);
 				$result []= $image;
 			}

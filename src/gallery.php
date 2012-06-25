@@ -577,7 +577,7 @@ class Gallery extends ContentPlugin
 		}
 		else
 		{
-			$items = GalleryImage::find($section, $maxCount, $startFrom);
+			$items = Gallery_Image::find($section, $maxCount, $startFrom);
 		}
 
 		// Данные для подстановки в шаблон
@@ -608,7 +608,7 @@ class Gallery extends ContentPlugin
 		}
 		else
 		{
-			$totalPages = ceil(GalleryImage::count($section) / $maxCount);
+			$totalPages = ceil(Gallery_Image::count($section) / $maxCount);
 		}
 
 		if ($totalPages > 1)
@@ -630,7 +630,7 @@ class Gallery extends ContentPlugin
 		{
 			$tmpl = new Template('ext/' . $this->name . '/templates/image-grouped-list.html');
 			// Изображения вне групп
-			$data['orphans'] = GalleryImage::findOrphans($section);
+			$data['orphans'] = Gallery_Image::findOrphans($section);
 		}
 		else
 		{
@@ -685,7 +685,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminEditItem()
 	{
-		$image = new GalleryImage(arg('id', 'int'));
+		$image = new Gallery_Image(arg('id', 'int'));
 
 		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
 		Eresus_Kernel::app()->getPage()->linkScripts($this->urlCode . 'admin.js');
@@ -728,7 +728,7 @@ class Gallery extends ContentPlugin
 			HTTP::goback();
 		}
 
-		$item = new GalleryImage();
+		$item = new Gallery_Image();
 		$item->section = arg('section');
 		$item->group = arg('group');
 		$_SESSION['gallery_default_group'] = arg('group');
@@ -764,7 +764,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminUpdateImage()
 	{
-		$image = new GalleryImage(arg('update', 'int'));
+		$image = new Gallery_Image(arg('update', 'int'));
 
 		$new_section = arg('section', 'int');
 		if ($new_section == $image->section)
@@ -997,7 +997,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function delete($id)
 	{
-		$image = new GalleryImage($id);
+		$image = new Gallery_Image($id);
 		$image->delete();
 
 		HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
@@ -1067,7 +1067,7 @@ class Gallery extends ContentPlugin
 			Eresus_Kernel::app()->getPage()->httpError(404);
 		}
 
-		$image = new GalleryImage($id);
+		$image = new Gallery_Image($id);
 
 		if (!$image || !$image->active)
 		{
@@ -1194,7 +1194,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function up($id)
 	{
-		$image = new GalleryImage($id);
+		$image = new Gallery_Image($id);
 		$image->moveUp();
 		HTTP::goback();
 	}
@@ -1209,7 +1209,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function down($id)
 	{
-		$image = new GalleryImage($id);
+		$image = new Gallery_Image($id);
 		$image->moveDown();
 		HTTP::goback();
 	}
@@ -1222,7 +1222,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminImageToggle($id)
 	{
-		$image = new GalleryImage($id);
+		$image = new Gallery_Image($id);
 		$image->active = ! $image->active;
 		$image->save();
 
@@ -1239,7 +1239,7 @@ class Gallery extends ContentPlugin
 	{
 		$id = arg('cover', 'int');
 
-		$image = new GalleryImage($id);
+		$image = new Gallery_Image($id);
 		$image->cover = true;
 		$image->save();
 

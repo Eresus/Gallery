@@ -68,7 +68,7 @@ class Gallery_ClientListView
 		$data['items'] = $items;
 
 		/* Ищем обложку альбома */
-		$data['cover'] = GalleryImage::findCover($page->id);
+		$data['cover'] = Gallery_Image::findCover($page->id);
 		$totalPages = $this->countPageCount($page->id, $maxCount);
 
 		if ($totalPages > 1)
@@ -110,7 +110,7 @@ class Gallery_ClientListView
 	 */
 	protected function getItems($sectionId, $limit, $offset)
 	{
-		$items = GalleryImage::find($sectionId, $limit, $offset, true);
+		$items = Gallery_Image::find($sectionId, $limit, $offset, true);
 		return $items;
 	}
 	//-----------------------------------------------------------------------------
@@ -142,7 +142,7 @@ class Gallery_ClientListView
 	 */
 	protected function countPageCount($sectionId, $itemsPerPage)
 	{
-		return ceil(GalleryImage::count($sectionId, true) / $itemsPerPage);
+		return ceil(Gallery_Image::count($sectionId, true) / $itemsPerPage);
 	}
 	//-----------------------------------------------------------------------------
 

@@ -71,7 +71,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем метод getTableName
-	 * @covers GalleryImage::getTableName
+	 * @covers Gallery_Image::getTableName
 	 */
 	public function testGetTableName()
 	{
@@ -81,7 +81,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем метод getAttrs
-	 * @covers GalleryImage::getAttrs
+	 * @covers Gallery_Image::getAttrs
 	 */
 	public function testGetAttrs()
 	{
@@ -91,7 +91,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем чтение свойства $imageURL
-	 * @covers GalleryImage::getImageURL
+	 * @covers Gallery_Image::getImageURL
 	 */
 	public function testGetImageURL()
 	{
@@ -101,7 +101,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем чтение свойства $thumbURL
-	 * @covers GalleryImage::getThumbURL
+	 * @covers Gallery_Image::getThumbURL
 	 */
 	public function testGetThumbURL()
 	{
@@ -111,7 +111,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем чтение свойства $showURL
-	 * @covers GalleryImage::getShowURL
+	 * @covers Gallery_Image::getShowURL
 	 */
 	public function testGetShowURL()
 	{
@@ -121,7 +121,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем чтение свойства $showURL
-	 * @covers GalleryImage::getShowURL
+	 * @covers Gallery_Image::getShowURL
 	 */
 	public function testGetShowUrlPopup()
 	{
@@ -132,7 +132,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Проверяем установку свойства $group
-	 * @covers GalleryImage::setGroup
+	 * @covers Gallery_Image::setGroup
 	 */
 	public function testSetGroup()
 	{
@@ -148,7 +148,7 @@ class GalleryImageTest extends PHPUnit_Framework_TestCase
  * @package Gallery
  * @subpackage Tests
  */
-class GalleryImageTest_Stub extends GalleryImage
+class GalleryImageTest_Stub extends Gallery_Image
 {
 	function __construct()
 	{

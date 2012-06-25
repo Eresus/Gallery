@@ -67,7 +67,7 @@ class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 	protected function actionThumbsRebuildStart($newWidth, $newHeight)
 	{
 		$query = DB::getHandler()->createSelectQuery();
-		$query->select('id')->from(GalleryImage::getDbTableStatic('GalleryImage'));
+		$query->select('id')->from(Gallery_Image::getDbTableStatic('Gallery_Image'));
 		$raw = DB::fetchAll($query);
 
 		$ids = array();
@@ -95,7 +95,7 @@ class GalleryAdminXHRController extends GalleryEresusAdminXHRController
 			'width' => $width, 'height' => $height);
 		try
 		{
-			$image = new GalleryImage($imageId);
+			$image = new Gallery_Image($imageId);
 			$image->buildThumb($width, $height);
 		}
 		catch (Exception $e)

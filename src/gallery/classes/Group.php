@@ -182,7 +182,7 @@ class Gallery_Group extends GalleryAbstractActiveRecord
 	 */
 	protected function getImages()
 	{
-		return GalleryImage::find($this, null, null, $this->activeOnly);
+		return Gallery_Image::find($this, null, null, $this->activeOnly);
 	}
 	//-----------------------------------------------------------------------------
 }

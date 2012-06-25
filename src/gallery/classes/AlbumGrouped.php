@@ -69,7 +69,7 @@ class Gallery_AlbumGrouped extends Gallery_Album
 			))->
 			orderBy('groupId');
 
-		$this->items = GalleryImage::load($q);
+		$this->items = Gallery_Image::load($q);
 
 		$this->loaded = true;
 	}
