@@ -142,13 +142,14 @@ class Gallery extends ContentPlugin
 	 */
 	public function settings()
 	{
-		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
-		Eresus_Kernel::app()->getPage()->linkScripts($this->urlCode . 'admin.js');
+		$page = Eresus_Kernel::app()->getPage();
+		$page->linkStyles($this->urlCode . 'admin.css');
+		$page->linkScripts($this->urlCode . 'admin.js');
 
 		// Данные для подстановки в шаблон
 		$data = array();
 		$data['this'] = $this;
-		$data['page'] = Eresus_Kernel::app()->getPage();
+		$data['page'] = $page;
 		$data['logo_exists'] = file_exists($this->dirData . 'logo.png');
 
 		$tmplDir = Eresus_CMS::getLegacyKernel()->froot . 'templates/' . $this->name;
@@ -159,7 +160,7 @@ class Gallery extends ContentPlugin
 		$this->settings['tmplPopup'] = file_get_contents($tmplDir . '/popup.html');
 
 		// Создаём экземпляр шаблона
-		$form = new EresusForm('ext/' . $this->name . '/templates/settings.html', LOCALE_CHARSET);
+		$form = new EresusForm('ext/' . $this->name . '/templates/settings.html');
 		foreach ($data as $key => $value)
 		{
 			$form->setValue($key, $value);
