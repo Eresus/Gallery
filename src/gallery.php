@@ -395,7 +395,7 @@ class Gallery extends ContentPlugin
 		$tabs = array('width' => '14em', 'items' => array());
 		$tabs['items'] []= array(
 			'caption' => 'Изображения',
-			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(null, array('action'))),
+			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(null)),
 		);
 
 		if ($this->settings['useGroups'])
