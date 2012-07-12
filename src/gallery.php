@@ -223,19 +223,8 @@ class Gallery extends ContentPlugin
 		$table = ORM::getTable($this, 'Image');
 		$table->create();
 
-		/*
-		 * Создаём таблицу групп
-		 */
-		$sql = "
-			`id` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентификатор',
-			`section` int(10) unsigned default NULL COMMENT 'Привязка к разделу сайта',
-			`title` varchar(255) default '' COMMENT 'Название группы',
-			`description` text default '' COMMENT 'Описание',
-			`position` int(10) unsigned NOT NULL default '0' COMMENT 'Порядковый номер',
-			PRIMARY KEY  (`id`),
-			KEY `list` (`section`, `position`)
-		";
-		$this->dbCreateTable($sql, 'groups');
+		$table = ORM::getTable($this, 'Group');
+		$table->create();
 
 		// Создаём директорию данных
 		$this->mkdir();
