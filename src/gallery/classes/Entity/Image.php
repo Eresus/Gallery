@@ -32,8 +32,44 @@
 /**
  * Изображение
  *
+ * @property      int                  $id           идентификатор картинки
+ * @property      int                  $section      идентификатор раздела
+ * @property      string               $title        название изображения
+ * @property      Gallery_Entity_Group $group        группа изображений
+ * @property      bool                 $cover        является ли обложкой альбома
+ * @property      bool                 $active       является ли активным
+ * @property      int                  $position     порядковый номер
+ * @property-read string               $thumbURL     URL миниатюры
+ *
  * @package Gallery
  */
 class Gallery_Entity_Image extends ORM_Entity
 {
+	/**
+	 * Геттер свойства $group
+	 *
+	 * @return Gallery_Entity_Group|Gallery_NullObject
+	 */
+	protected function getGroup()
+	{
+		$table = ORM::getTable($this->plugin, 'Group');
+		try
+		{
+			return $table->find($this->getProperty('groupId'));
+		}
+		catch (DomainException $e)
+		{
+			return new Gallery_NullObject();
+		}
+	}
+
+	/**
+	 * Геттер свойства $thumbURL
+	 *
+	 * @return string
+	 */
+	protected function getThumbURL()
+	{
+		return $this->plugin->getDataURL() . $this->getProperty('thumb');
+	}
 }

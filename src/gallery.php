@@ -502,6 +502,8 @@ class Gallery extends ContentPlugin
 	 * Отрисовывает интерфейс списка изображений
 	 *
 	 * @return string  HTML
+	 *
+	 * @TODO Переделать через ORM
 	 */
 	private function adminRenderImagesList()
 	{
@@ -593,6 +595,8 @@ class Gallery extends ContentPlugin
 	 * Возвращает диалог добавления изображения
 	 *
 	 * @return string  HTML
+	 *
+	 * @TODO Переделать через ORM
 	 */
 	private function adminAddItem()
 	{
@@ -630,22 +634,28 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminEditItem()
 	{
-		$image = new Gallery_Image(arg('id', 'int'));
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find(arg('id', 'int'));
 
-		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
-		Eresus_Kernel::app()->getPage()->linkScripts($this->urlCode . 'admin.js');
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$page->linkStyles($this->urlCode . 'admin.css');
+		$page->linkScripts($this->urlCode . 'admin.js');
 
 		// Данные для подстановки в шаблон
 		$data = array();
 		$data['this'] = $this;
-		$data['page'] = Eresus_Kernel::app()->getPage();
+		$data['page'] = $page;
 		$data['pg'] = arg('pg', 'int');
 		$data['image'] = $image;
 		$data['sections'] = $this->buildGalleryList(0);
 
 		if ($this->settings['useGroups'])
 		{
-			$data['groups'] = $this->dbSelect('groups', "`section` = {$image->section}", 'position');
+			/* @var Gallery_Entity_Table_Group $table */
+			$table = ORM::getTable($this, 'Group');
+			$data['groups'] = $table->findInSection($image->section);
 		}
 
 		// Создаём экземпляр шаблона

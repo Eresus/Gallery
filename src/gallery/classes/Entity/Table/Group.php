@@ -71,4 +71,19 @@ class Gallery_Entity_Table_Group extends ORM_Table
 		));
 		$this->index('list_idx', array('fields' => array('section', 'position')));
 	}
+
+	/**
+	 * Возвращает группы в указанном разделе
+	 *
+	 * @param int $id
+	 *
+	 * @return Gallery_Entity_Group[]
+	 */
+	public function findInSection($id)
+	{
+		$q = $this->createSelectQuery();
+		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
+		$q->orderBy('position');
+		return $this->loadFromQuery($q);
+	}
 }

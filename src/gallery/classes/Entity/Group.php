@@ -32,6 +32,12 @@
 /**
  * Группа
  *
+ * @property       int    $id           Идентификатор
+ * @property       int    $section      Идентификатор раздела
+ * @property       string $title        Название
+ * @property       string $description  Описание
+ * @property       string $position     Порядковый номер
+ *
  * @package Gallery
  */
 class Gallery_Entity_Group extends ORM_Entity
