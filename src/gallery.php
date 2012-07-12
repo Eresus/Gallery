@@ -176,7 +176,7 @@ class Gallery extends ContentPlugin
 	/**
 	 * Обновление настроек
 	 *
-	 * Загрузка рамок
+	 * @throws EresusRuntimeException
 	 *
 	 * @return void
 	 */
@@ -198,11 +198,21 @@ class Gallery extends ContentPlugin
 			}
 		}
 
-		$tmplDir = Eresus_CMS::getLegacyKernel()->froot . 'templates/' . $this->name;
-		@file_put_contents($tmplDir . '/image-list.html', arg('tmplImageList'));
-		@file_put_contents($tmplDir . '/image-grouped-list.html', arg('tmplImageGroupedList'));
-		@file_put_contents($tmplDir . '/image.html', arg('tmplImage'));
-		@file_put_contents($tmplDir . '/popup.html', arg('tmplPopup'));
+		$ts = TemplateService::getInstance();
+		try
+		{
+			$ts->setContents(arg('tmplImageList'), 'image-list.html', $this->name);
+			$ts->setContents(arg('tmplImageList'), 'image-list.html', $this->name);
+			$ts->setContents(arg('tmplImageGroupedList'), 'image-grouped-list.html', $this->name);
+			$ts->setContents(arg('tmplImage'), 'image.html', $this->name);
+			$ts->setContents(arg('tmplPopup'), 'popup.html', $this->name);
+		}
+		catch (Exception $e)
+		{
+			throw new EresusRuntimeException('Fail to save templates',
+				'Не удалось изменить один или несколько шаблонов. Подробная информация доступна в журнале.',
+				$e);
+		}
 
 		parent::updateSettings();
 	}
