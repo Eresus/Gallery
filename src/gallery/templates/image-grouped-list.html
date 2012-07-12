@@ -1,30 +1,30 @@
 {if count($items) > 0}
 <div class="legacy-tabs ui-helper-clearfix">
-	<a href="admin.php?mod=content&amp;section={$sectionId}{if arg('pg')}&amp;pg={arg('pg')}{/if}&amp;action=create">Добавить изображение</a>
+	<a href="admin.php?mod=content&amp;section={$sectionId}{if arg('pg')}&amp;pg={arg('pg')}{/if}&amp;action=create">Р”РѕР±Р°РІРёС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёРµ</a>
 </div>
 
 {$pager}
 <div class="gallery-image-list">
-{foreach $items group}
-<div class="group">
-	<div class="gallery-group-title">{$group->title}</div>
-	{foreach $group->images image}
-	{include "image-list-item.html"}
+	{foreach $items group}
+	<div class="group">
+		<div class="gallery-group-title">{$group->title}</div>
+		{foreach $group->images image}
+		{include "image-list-item.html"}
+		{/foreach}
+	</div>
 	{/foreach}
-</div>
-{/foreach}
 </div>
 {$pager}
 
 {if $orphans}
 <div class="errorBox">
-	<div class="errorBoxCap">Внимание!</div>
+	<div class="errorBoxCap">Р’РЅРёРјР°РЅРёРµ!</div>
 	<div class="content">
-		<p>У вас есть изображения, не вошедшие ни в одну группу! Эти изображения недоступны посетителям.
-		Нажмите на название изображения ниже для выбора группы.</p>
+		<p>РЈ РІР°СЃ РµСЃС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ, РЅРµ РІРѕС€РµРґС€РёРµ РЅРё РІ РѕРґРЅСѓ РіСЂСѓРїРїСѓ! Р­С‚Рё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅРµРґРѕСЃС‚СѓРїРЅС‹ РїРѕСЃРµС‚РёС‚РµР»СЏРј.
+			РќР°Р¶РјРёС‚Рµ РЅР° РЅР°Р·РІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅРёР¶Рµ РґР»СЏ РІС‹Р±РѕСЂР° РіСЂСѓРїРїС‹.</p>
 		<p>
-		&raquo;
-		{foreach $orphans image, implode=", "}<a href="admin.php?mod=content&section={$image->section}&id={$image->id}">{if $image->title}{$image->title}{else}#{$image->id}{/if}</a>{/foreach}
+			&raquo;
+			{foreach $orphans image, implode=", "}<a href="admin.php?mod=content&section={$image->section}&id={$image->id}">{if $image->title}{$image->title}{else}#{$image->id}{/if}</a>{/foreach}
 		</p>
 	</div>
 </div>
@@ -32,12 +32,12 @@
 
 {else}
 <div class="infoBox">
-	<div class="infoBoxCap">Внимание!</div>
+	<div class="infoBoxCap">Р’РЅРёРјР°РЅРёРµ!</div>
 	<div class="content">
-		<p>В <a href="admin.php?mod=plgmgr&id={$this->name}">настройках модуля</a> включена опция
-		"Использовать группы".</p>
-		<p>Для работы с изображениями вам необходимо добавить хотя бы одну группу.
-		Воспользуйтесь кнопкой "Группы", расположенной выше.</p>
+		<p>Р’ <a href="admin.php?mod=plgmgr&id={$this->name}">РЅР°СЃС‚СЂРѕР№РєР°С… РјРѕРґСѓР»СЏ</a> РІРєР»СЋС‡РµРЅР° РѕРїС†РёСЏ
+			"РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РіСЂСѓРїРїС‹".</p>
+		<p>Р”Р»СЏ СЂР°Р±РѕС‚С‹ СЃ РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё РІР°Рј РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅСѓ РіСЂСѓРїРїСѓ.
+			Р’РѕСЃРїРѕР»СЊР·СѓР№С‚РµСЃСЊ РєРЅРѕРїРєРѕР№ "Р“СЂСѓРїРїС‹", СЂР°СЃРїРѕР»РѕР¶РµРЅРЅРѕР№ РІС‹С€Рµ.</p>
 	</div>
 </div>
 {/if}

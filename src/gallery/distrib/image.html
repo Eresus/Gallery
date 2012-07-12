@@ -1,16 +1,16 @@
 <h1>{$image->title}</h1>
 <div class="date">{date_format($image->posted, "%d.%m.%Y %H:%M")}</div>
-<p><a href="{$this->clientListURL()}">[ Вернуться к списку ]</a></p>
+<p><a href="{$this->clientListURL()}">[ Р’РµСЂРЅСѓС‚СЊСЃСЏ Рє СЃРїРёСЃРєСѓ ]</a></p>
 <div class="image">
-	<img src="{$image->imageURL}" alt="Не удаётся загрузить картинку" title="{$image->title|escape}" />
+	<img src="{$image->imageURL}" alt="РќРµ СѓРґР°С‘С‚СЃСЏ Р·Р°РіСЂСѓР·РёС‚СЊ РєР°СЂС‚РёРЅРєСѓ" title="{$image->title|escape}" />
 </div>
 <p>
-	{if $album->prev}<a href="{$album->prev->showURL}">[ &laquo; Предыдущее изображение ]</a>{/if}
-	{if $album->next}<a href="{$album->next->showURL}">[ Следующее изображение &raquo; ]</a>{/if}
+	{if $album->prev}<a href="{$album->prev->showURL}">[ &laquo; РџСЂРµРґС‹РґСѓС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ ]</a>{/if}
+	{if $album->next}<a href="{$album->next->showURL}">[ РЎР»РµРґСѓСЋС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ &raquo; ]</a>{/if}
 </p>
-<p><a href="{$this->clientListURL()}">[ Вернуться к списку ]</a></p>
+<p><a href="{$this->clientListURL()}">[ Р’РµСЂРЅСѓС‚СЊСЃСЏ Рє СЃРїРёСЃРєСѓ ]</a></p>
 
-<h2>Другие изображения в этом альбоме</h2>
+<h2>Р”СЂСѓРіРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РІ СЌС‚РѕРј Р°Р»СЊР±РѕРјРµ</h2>
 {if count($album) > 1}
 <table>
 	<tr>

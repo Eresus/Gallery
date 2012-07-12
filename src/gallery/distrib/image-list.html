@@ -1,5 +1,5 @@
 <h1>{$page->title}</h1>
-<p class="date">Дата создания альбома: {date_format($page->created, '%d.%m.%Y')}</p>
+<p class="date">Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ Р°Р»СЊР±РѕРјР°: {date_format($page->created, '%d.%m.%Y')}</p>
 <div>
 	{if $cover}
 	<img src="{$cover->thumbURL}" alt="{$cover->title|escape}" style="float: left; margin: 1em;" />
@@ -17,7 +17,7 @@
 <table>
 	<tr>
 		<td style="width: {$this->settings.thumbWidth}px">
-			<a href="{$image->showURL}"><img src="{$image->thumbURL}" alt="Миниатюра отсутствует" title="" /></a>
+			<a href="{$image->showURL}"><img src="{$image->thumbURL}" alt="РњРёРЅРёР°С‚СЋСЂР° РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚" title="" /></a>
 		</td>
 		<td>
 			<div class="title"><strong><a href="{$image->showURL}">{$image->title}</a></strong></div>
@@ -30,5 +30,5 @@
 {$pager}
 
 {else}
-<p>В этой галерее нет изображений.</p>
+<p>Р’ СЌС‚РѕР№ РіР°Р»РµСЂРµРµ РЅРµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёР№.</p>
 {/if}

@@ -1,398 +1,398 @@
 <form xmlns:ef="http://eresus.ru/schema/form/" name="settings" id="settings" action="admin.php?mod=plgmgr&amp;id={$this->name}" enctype="multipart/form-data">
-	<div class="box ui-widget-content" style="width: 600px;">
-		<div class="header">Настройки каталога товаров</div>
-			<div class="content">
+<div class="box ui-widget-content" style="width: 600px;">
+<div class="header">РќР°СЃС‚СЂРѕР№РєРё РєР°С‚Р°Р»РѕРіР° С‚РѕРІР°СЂРѕРІ</div>
+<div class="content">
 
-				<div class="hidden">
-					<input type="hidden" name="update" value="{$this->name}" />
-					<input type="hidden" name="submitURL" value="admin.php?mod=plgmgr" />
+<div class="hidden">
+	<input type="hidden" name="update" value="{$this->name}" />
+	<input type="hidden" name="submitURL" value="admin.php?mod=plgmgr" />
+</div>
+
+<ef:tabwidget id="tabs">
+
+<ef:tabcontrol>
+	<ef:tab name="main">РћСЃРЅРѕРІРЅС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё</ef:tab>
+	<ef:tab name="templates">РЁР°Р±Р»РѕРЅС‹</ef:tab>
+</ef:tabcontrol>
+
+<ef:tabs>
+
+<ef:tab name="main">
+
+	<table width="100%" id="gallery-settings-main">
+		<tr><th colspan="2">РЎРІРѕР№СЃС‚РІР° РёР·РѕР±СЂР°Р¶РµРЅРёР№</th></tr>
+		<tr>
+			<td class="formLabel">РЁРёСЂРёРЅР°</td>
+			<td>
+				<input type="text" name="imageWidth" value="{$this->settings.imageWidth}" maxlength="4" size="4" />
+				С‚РѕС‡РµРє
+			</td>
+		</tr>
+		<tr>
+			<td class="formLabel">Р’С‹СЃРѕС‚Р°</td>
+			<td>
+				<input type="text" name="imageHeight" value="{$this->settings.imageHeight}" maxlength="4" size="4" />
+				С‚РѕС‡РµРє
+			</td>
+		</tr>
+
+		<tr><th colspan="2">РЎРІРѕР№СЃС‚РІР° РјРёРЅРёР°С‚СЋСЂ</th></tr>
+		<tr>
+			<td class="formLabel"><label for="settings-thumbWidth-input">РЁРёСЂРёРЅР°</label></td>
+			<td>
+				<input type="text" name="thumbWidth" id="settings-thumbWidth-input" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
+				С‚РѕС‡РµРє
+			</td>
+		</tr>
+		<tr>
+			<td class="formLabel"><label for="settings-thumbHeight-input">Р’С‹СЃРѕС‚Р°</label></td>
+			<td>
+				<input type="text" name="thumbHeight" id="settings-thumbHeight-input" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
+				С‚РѕС‡РµРє
+			</td>
+		</tr>
+
+		<tr><th colspan="2">РЎРїРёСЃРѕРє РёР·РѕР±СЂР°Р¶РµРЅРёР№</th></tr>
+		<tr>
+			<td class="formLabel">РЎРѕСЂС‚РёСЂРѕРІРєР°</td>
+			<td>
+				<label>
+					<input type="radio" name="sort" value="date_asc"{if $this->settings.sort == "date_asc"} checked="checked"{/if} />
+					РџРѕ РґР°С‚Рµ (РЅРѕРІС‹Рµ РІ РЅР°С‡Р°Р»Рµ)
+				</label><br />
+				<label>
+					<input type="radio" name="sort" value="date_desc"{if $this->settings.sort == "date_desc"} checked="checked"{/if} />
+					РџРѕ РґР°С‚Рµ (СЃС‚Р°СЂС‹Рµ РІ РЅР°С‡Р°Р»Рµ)
+				</label><br />
+				<label>
+					<input type="radio" name="sort" value="manual"{if $this->settings.sort == "manual"} checked="checked"{/if} />
+					Р СѓС‡РЅР°СЏ
+				</label><br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="hidden" name="useGroups" value="" />
+			</td>
+			<td>
+				<label>
+					<input type="checkbox" name="useGroups" id="gallery-useGroups-input" value="1"{if $this->settings.useGroups} checked="checked"{/if} />
+					Р’РєР»СЋС‡РёС‚СЊ РіСЂСѓРїРїС‹ РёР·РѕР±СЂР°Р¶РµРЅРёР№
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td class="formLabel">РР·РѕР±СЂР°Р¶РµРЅРёР№ РЅР° СЃС‚СЂР°РЅРёС†Сѓ</td>
+			<td>
+				<input type="text" name="itemsPerPage" id="gallery-itemsPerPage-input"
+				       value="{$this->settings.itemsPerPage}" maxlength="3" size="3"{if $this->settings.useGroups} disabled="disabled"{/if} />
+				<span class="minor">(С‚РѕР»СЊРєРѕ РµСЃР»Рё РіСЂСѓРїРїС‹ РѕС‚РєР»СЋС‡РµРЅРЅС‹)</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="formLabel">Р“СЂСѓРїРї РЅР° СЃС‚СЂР°РЅРёС†Сѓ</td>
+			<td>
+				<input type="text" name="groupsPerPage" id="gallery-groupsPerPage-input"
+				       value="{$this->settings.groupsPerPage}" maxlength="3" size="3"{if !$this->settings.useGroups} disabled="disabled"{/if} />
+				<span class="minor">(С‚РѕР»СЊРєРѕ РµСЃР»Рё РіСЂСѓРїРїС‹ РІРєР»СЋС‡РµРЅРЅС‹)</span>
+			</td>
+		</tr>
+
+		<tr><th colspan="2">РџРѕРєР°Р· РѕС‚РґРµР»СЊРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</th></tr>
+		<tr>
+			<td class="formLabel">РџРѕРєР°Р·С‹РІР°С‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёРµ</td>
+			<td>
+				<label>
+					<input type="radio" name="showItemMode" value="normal"{if $this->settings.showItemMode == "normal"} checked="checked"{/if} />
+					РЅР° РѕС‚РґРµР»СЊРЅРѕР№ СЃС‚СЂР°РЅРёС†Рµ
+				</label><br />
+				<label>
+					<input type="radio" name="showItemMode" value="popup"{if $this->settings.showItemMode == "popup"} checked="checked"{/if} />
+					РІРѕ РІСЃРїР»С‹РІР°СЋС‰РµРј Р±Р»РѕРєРµ
+				</label><br />
+			</td>
+		</tr>
+
+		<tr><th colspan="2" class="formHeader">Р›РѕРіРѕС‚РёРї</th></tr>
+		<tr>
+			<td><input type="hidden" name="logoEnable" value="" /></td>
+			<td>
+				<label>
+					<input type="checkbox" name="logoEnable" id="gallery-logoEnable-input" value="1"{if $this->settings.logoEnable} checked="checked"{/if} />
+					РќР°РєР»Р°РґС‹РІР°С‚СЊ Р»РѕРіРѕС‚РёРї
+				</label>
+			</td>
+		</tr>
+		<tr class="gallery-logoEnable-related">
+			<td class="formLabel">РџРѕР»РѕР¶РµРЅРёРµ</td>
+			<td>
+				<select name="logoPosition"{if !$this->settings.logoEnable} disabled="disabled"{/if} >
+				<option value="TL"{if $this->settings.logoPosition} selected="selected"{/if}>Р’РµСЂС…РЅРёР№ Р»РµРІС‹Р№ СѓРіРѕР»</option>
+				<option value="TR"{if $this->settings.logoPosition} selected="selected"{/if}>Р’РµСЂС…РЅРёР№ РїСЂР°РІС‹Р№ СѓРіРѕР»</option>
+				<option value="BL"{if $this->settings.logoPosition} selected="selected"{/if}>РќРёР¶РЅРёР№ Р»РµРІС‹Р№ СѓРіРѕР»</option>
+				<option value="BR"{if $this->settings.logoPosition} selected="selected"{/if}>РќРёР¶РЅРёР№ РїСЂР°РІС‹Р№ СѓРіРѕР»</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="gallery-logoEnable-related">
+			<td class="formLabel"></td>
+			<td>
+				<input type="file" name="logoImage"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
+				<div><small class="minor">Р›РѕРіРѕС‚РёРї РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ С„РѕСЂРјР°С‚Рµ PNG 24</small></div>
+				{if $logo_exists}<br/><img src="{$this->getDataURL()}logo.png" alt="Р›РѕРіРѕС‚РёРї" />{/if}
+			</td>
+		</tr>
+		<tr class="gallery-logoEnable-related">
+			<td class="formLabel">РћС‚СЃС‚СѓРї</td>
+			<td>
+				<input type="text" name="logoVPadding" value="{$this->settings.logoVPadding}" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
+				С‚РѕС‡РµРє РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+			</td>
+		</tr>
+		<tr class="gallery-logoEnable-related">
+			<td class="formLabel">РћС‚СЃС‚СѓРї</td>
+			<td>
+				<input type="text" name="logoHPadding" value="{$this->settings.logoHPadding}" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
+				С‚РѕС‡РµРє РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+			</td>
+		</tr>
+	</table>
+</ef:tab>
+
+<ef:tab name="templates">
+	<div id="gallery-settings-templates">
+		<a href="http://wiki.dwoo.org/index.php/Р“Р»Р°РІРЅР°СЏ_СЃС‚СЂР°РЅРёС†Р°">РЎРёРЅС‚Р°РєСЃРёСЃ С€Р°Р±Р»РѕРЅРѕРІ</a>
+		<fieldset>
+			<legend>РЎРїРёСЃРѕРє РёР·РѕР±СЂР°Р¶РµРЅРёР№ (Р±РµР· РіСЂСѓРїРї)</legend>
+			<textarea name="tmplImageList" cols="50" rows="10" style="width: 100%">{$this->settings.tmplImageList|escape}</textarea>
+			<div class="gallery-tmpl-hint">
+				<a href="#" class="pseudo toggle" rel="hint">РџРѕРєР°Р·Р°С‚СЊ РїРµСЂРµРјРµРЅРЅС‹Рµ, РґРѕСЃС‚СѓРїРЅС‹Рµ РІ С€Р°Р±Р»РѕРЅРµ</a><br />
+				<div class="content">
+					<dl>
+						<dt>$page->title</dt>
+						<dd>Р—Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$page->created</dt>
+						<dd>Р”Р°С‚Р° Рё РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$page->content</dt>
+						<dd>РўРµРєСЃС‚ СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$cover</dt>
+						<dd>РћР±Р»РѕР¶РєР° Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$cover->caption</dt>
+						<dd>РќР°Р·РІР°РЅРёРµ РѕР±Р»РѕР¶РєРё Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$cover->thumbURL</dt>
+						<dd>URL РјРёРЅРёР°С‚СЋСЂС‹ РѕР±Р»РѕР¶РєРё Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$pager</dt>
+						<dd>РџРµСЂРµРєР»СЋС‡Р°С‚РµР»СЊ СЃС‚СЂР°РЅРёС†</dd>
+						<dt>$images</dt>
+						<dd>РЎРїРёСЃРѕРє (РјР°СЃСЃРёРІ) РёР·РѕР±СЂР°Р¶РµРЅРёР№ РІ Р°Р»СЊР±РѕРјРµ. РСЃРїРѕР»СЊР·СѓР№С‚Рµ \{foreach $images image}...\{/foreach} РґР»СЏ РІС‹РІРѕРґР° РІСЃРµС… РёР·РѕР±СЂР°Р¶РµРЅРёР№ Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$image->title</dt>
+						<dd>РќР°Р·РІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->posted</dt>
+						<dd>Р”Р°С‚Р° Рё РІСЂРµРјСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->thumbURL</dt>
+						<dd>URL РјРёРЅРёР°С‚СЋСЂС‹</dd>
+						<dt>$image->showURL</dt>
+						<dd>URL РїСЂРѕСЃРјРѕС‚СЂР° РїРѕР»РЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РёР»Рё РѕС‚РєСЂС‹С‚РёСЏ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ Р±Р»РѕРєР°</dd>
+					</dl>
 				</div>
+			</div>
+		</fieldset>
 
-				<ef:tabwidget id="tabs">
-				
-					<ef:tabcontrol>
-						<ef:tab name="main">Основные настройки</ef:tab>
-						<ef:tab name="templates">Шаблоны</ef:tab>
-					</ef:tabcontrol>
-				
-					<ef:tabs>
-				
-						<ef:tab name="main">
-
-							<table width="100%" id="gallery-settings-main">
-								<tr><th colspan="2">Свойства изображений</th></tr>
-								<tr>
-									<td class="formLabel">Ширина</td>
-									<td>
-										<input type="text" name="imageWidth" value="{$this->settings.imageWidth}" maxlength="4" size="4" />
-										точек
-									</td>
-								</tr>
-								<tr>
-									<td class="formLabel">Высота</td>
-									<td>
-										<input type="text" name="imageHeight" value="{$this->settings.imageHeight}" maxlength="4" size="4" />
-										точек
-									</td>
-								</tr>
-				
-								<tr><th colspan="2">Свойства миниатюр</th></tr>
-								<tr>
-									<td class="formLabel"><label for="settings-thumbWidth-input">Ширина</label></td>
-									<td>
-										<input type="text" name="thumbWidth" id="settings-thumbWidth-input" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
-										точек
-									</td>
-								</tr>
-								<tr>
-									<td class="formLabel"><label for="settings-thumbHeight-input">Высота</label></td>
-									<td>
-										<input type="text" name="thumbHeight" id="settings-thumbHeight-input" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
-										точек
-									</td>
-								</tr>
-				
-								<tr><th colspan="2">Список изображений</th></tr>
-								<tr>
-									<td class="formLabel">Сортировка</td>
-									<td>
-										<label>
-											<input type="radio" name="sort" value="date_asc"{if $this->settings.sort == "date_asc"} checked="checked"{/if} />
-											По дате (новые в начале)
-										</label><br />
-										<label>
-											<input type="radio" name="sort" value="date_desc"{if $this->settings.sort == "date_desc"} checked="checked"{/if} />
-											По дате (старые в начале)
-										</label><br />
-										<label>
-											<input type="radio" name="sort" value="manual"{if $this->settings.sort == "manual"} checked="checked"{/if} />
-											Ручная
-										</label><br />
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input type="hidden" name="useGroups" value="" />
-									</td>
-									<td>
-										<label>
-											<input type="checkbox" name="useGroups" id="gallery-useGroups-input" value="1"{if $this->settings.useGroups} checked="checked"{/if} />
-											Включить группы изображений
-										</label>
-									</td>
-								</tr>
-								<tr>
-									<td class="formLabel">Изображений на страницу</td>
-									<td>
-										<input type="text" name="itemsPerPage" id="gallery-itemsPerPage-input"
-											value="{$this->settings.itemsPerPage}" maxlength="3" size="3"{if $this->settings.useGroups} disabled="disabled"{/if} />
-										<span class="minor">(только если группы отключенны)</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="formLabel">Групп на страницу</td>
-									<td>
-										<input type="text" name="groupsPerPage" id="gallery-groupsPerPage-input"
-											value="{$this->settings.groupsPerPage}" maxlength="3" size="3"{if !$this->settings.useGroups} disabled="disabled"{/if} />
-										<span class="minor">(только если группы включенны)</span>
-									</td>
-								</tr>
-				
-								<tr><th colspan="2">Показ отдельного изображения</th></tr>
-								<tr>
-									<td class="formLabel">Показывать изображение</td>
-									<td>
-										<label>
-											<input type="radio" name="showItemMode" value="normal"{if $this->settings.showItemMode == "normal"} checked="checked"{/if} />
-											на отдельной странице
-										</label><br />
-										<label>
-											<input type="radio" name="showItemMode" value="popup"{if $this->settings.showItemMode == "popup"} checked="checked"{/if} />
-											во всплывающем блоке
-										</label><br />
-									</td>
-								</tr>
-				
-								<tr><th colspan="2" class="formHeader">Логотип</th></tr>
-								<tr>
-									<td><input type="hidden" name="logoEnable" value="" /></td>
-									<td>
-										<label>
-											<input type="checkbox" name="logoEnable" id="gallery-logoEnable-input" value="1"{if $this->settings.logoEnable} checked="checked"{/if} />
-											Накладывать логотип
-										</label>
-									</td>
-								</tr>
-								<tr class="gallery-logoEnable-related">
-									<td class="formLabel">Положение</td>
-									<td>
-										<select name="logoPosition"{if !$this->settings.logoEnable} disabled="disabled"{/if} >
-											<option value="TL"{if $this->settings.logoPosition} selected="selected"{/if}>Верхний левый угол</option>
-											<option value="TR"{if $this->settings.logoPosition} selected="selected"{/if}>Верхний правый угол</option>
-											<option value="BL"{if $this->settings.logoPosition} selected="selected"{/if}>Нижний левый угол</option>
-											<option value="BR"{if $this->settings.logoPosition} selected="selected"{/if}>Нижний правый угол</option>
-										</select>
-									</td>
-								</tr>
-								<tr class="gallery-logoEnable-related">
-									<td class="formLabel"></td>
-									<td>
-										<input type="file" name="logoImage"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
-										<div><small class="minor">Логотип должен быть в формате PNG 24</small></div>
-										{if $logo_exists}<br/><img src="{$this->getDataURL()}logo.png" alt="Логотип" />{/if}
-									</td>
-								</tr>
-								<tr class="gallery-logoEnable-related">
-									<td class="formLabel">Отступ</td>
-									<td>
-										<input type="text" name="logoVPadding" value="{$this->settings.logoVPadding}" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
-										точек по вертикали
-									</td>
-								</tr>
-								<tr class="gallery-logoEnable-related">
-									<td class="formLabel">Отступ</td>
-									<td>
-										<input type="text" name="logoHPadding" value="{$this->settings.logoHPadding}" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
-										точек по горизонтали
-									</td>
-								</tr>
-							</table>
-						</ef:tab>
-						
-						<ef:tab name="templates">
-							<div id="gallery-settings-templates">
-								<a href="http://wiki.dwoo.org/index.php/Главная_страница">Синтаксис шаблонов</a>
-								<fieldset>
-									<legend>Список изображений (без групп)</legend>
-									<textarea name="tmplImageList" cols="50" rows="10" style="width: 100%">{$this->settings.tmplImageList|escape}</textarea>
-									<div class="gallery-tmpl-hint">
-										<a href="#" class="pseudo toggle" rel="hint">Показать переменные, доступные в шаблоне</a><br />
-										<div class="content">
-											<dl>
-												<dt>$page->title</dt>
-													<dd>Заголовок страницы (альбома)</dd>
-												<dt>$page->created</dt>
-													<dd>Дата и время создания страницы (альбома)</dd>
-												<dt>$page->content</dt>
-													<dd>Текст страницы (альбома)</dd>
-												<dt>$cover</dt>
-													<dd>Обложка альбома</dd>
-												<dt>$cover->caption</dt>
-													<dd>Название обложки альбома</dd>
-												<dt>$cover->thumbURL</dt>
-													<dd>URL миниатюры обложки альбома</dd>
-												<dt>$pager</dt>
-													<dd>Переключатель страниц</dd>
-												<dt>$images</dt>
-													<dd>Список (массив) изображений в альбоме. Используйте \{foreach $images image}...\{/foreach} для вывода всех изображений альбома</dd>
-												<dt>$image->title</dt>
-													<dd>Название изображения</dd>
-												<dt>$image->posted</dt>
-													<dd>Дата и время добавления изображения</dd>
-												<dt>$image->thumbURL</dt>
-													<dd>URL миниатюры</dd>
-												<dt>$image->showURL</dt>
-													<dd>URL просмотра полного изображения или открытия всплывающего блока</dd>
-											</dl>
-										</div>
-									</div>
-								</fieldset>
-				
-								<fieldset>
-									<legend>Список изображений (с группами)</legend>
-									<textarea name="tmplImageGroupedList" cols="50" rows="10" style="width: 100%">{$this->settings.tmplImageGroupedList|escape}</textarea>
-									<div class="gallery-tmpl-hint">
-										<a href="#" class="pseudo toggle" rel="hint">Показать переменные, доступные в шаблоне</a><br />
-										<div class="content">
-											<dl>
-												<dt>$page->title</dt>
-													<dd>Заголовок страницы (альбома)</dd>
-												<dt>$page->created</dt>
-													<dd>Дата и время создания страницы (альбома)</dd>
-												<dt>$page->content</dt>
-													<dd>Текст страницы (альбома)</dd>
-												<dt>$cover</dt>
-													<dd>Обложка альбома</dd>
-												<dt>$cover->caption</dt>
-													<dd>Название обложки альбома</dd>
-												<dt>$cover->thumbURL</dt>
-													<dd>URL миниатюры обложки альбома</dd>
-												<dt>$pager</dt>
-													<dd>Переключатель страниц</dd>
-												<dt>$groups</dt>
-													<dd>Список (массив) групп. Используйте \{foreach $groups group}...\{/foreach} для вывода всех групп</dd>
-												<dt>$group.title</dt>
-													<dd>Название группы</dd>
-												<dt>$group.description</dt>
-													<dd>Описание группы</dd>
-												<dt>$group.images</dt>
-													<dd>Список (массив) изображений в группе. Используйте \{foreach $group.images image}...\{/foreach} для вывода всех изображений группы</dd>
-												<dt>$image->title</dt>
-													<dd>Название изображения</dd>
-												<dt>$image->posted</dt>
-													<dd>Дата и время добавления изображения</dd>
-												<dt>$image->thumbURL</dt>
-													<dd>URL миниатюры</dd>
-												<dt>$image->showURL</dt>
-													<dd>URL просмотра полного изображения или открытия всплывающего блока</dd>
-											</dl>
-										</div>
-									</div>
-								</fieldset>
-				
-								<fieldset>
-									<legend>Просмотр одного изображения</legend>
-									<textarea name="tmplImage" cols="50" rows="10" style="width: 100%" >{$this->settings.tmplImage|escape}</textarea>
-									<div class="gallery-tmpl-hint">
-										<a href="#" class="pseudo toggle" rel="hint">Показать переменные, доступные в шаблоне</a><br />
-										<div class="content">
-											<dl>
-												<dt>$page->title</dt>
-													<dd>Заголовок страницы (альбома)</dd>
-												<dt>$page->created</dt>
-													<dd>Дата и время создания страницы (альбома)</dd>
-												<dt>$page->content</dt>
-													<dd>Текст страницы (альбома)</dd>
-												<dt>$this->clientListURL()</dt>
-													<dd>URL текущей странице списка изображений</dd>
-												<dt>$image->id</dt>
-													<dd>Идентификатор изображения</dd>
-												<dt>$image->title</dt>
-													<dd>Название изображения</dd>
-												<dt>$image->posted</dt>
-													<dd>Дата и время добавления изображения</dd>
-												<dt>$image->thumbURL</dt>
-													<dd>URL миниатюры</dd>
-												<dt>$image->imageURL</dt>
-													<dd>URL полного изображения</dd>
-												<dt>$album</dt>
-													<dd>Список (массив) изображений в альбоме. Используйте \{foreach $images item}...\{/foreach} для вывода всех изображений альбома</dd>
-												<dt>$album->prev</dt>
-													<dd>Предыдущее изображение в списке. Доступны те же свойства: title, thumbURL, showURL и т.д.</dd>
-												<dt>$album->next</dt>
-													<dd>Следующее изображение в списке. Доступны те же свойства: title, thumbURL, showURL и т.д.</dd>
-											</dl>
-										</div>
-									</div>
-								</fieldset>
-				
-								<fieldset>
-									<legend>Всплывающий блок</legend>
-									<textarea name="tmplPopup" cols="50" rows="10" style="width: 100%" >{$this->settings.tmplPopup|escape}</textarea>
-									<div class="gallery-tmpl-hint">
-										<a href="#" class="pseudo toggle" rel="hint">Подсказка по составлению шаблона</a><br />
-										<div class="content">
-											<p>В шаблоне обязательно должен быть тег &lt;img&gt; с id="gallery-popup-image". В него будет подставлено показываемое изображение.</p>
-											<p>Чтобы сделать элемент разметки элементом управления, добавьте ему соответствующий класс CSS:</p>
-											<dl>
-												<dt>js-gallery-close</dt><dd>Закрыть блок</dd>
-												<dt>js-gallery-prev</dt><dd>Предыдущее изображение</dd>
-												<dt>js-gallery-next</dt><dd>Следующее изображение</dd>
-											</dl>
-										</div>  
-									</div>
-								</fieldset>
-							
-							</div>
-
-						</ef:tab>
-						
-					</ef:tabs>
-					
-				</ef:tabwidget>
-	
-				<div class="ui-button-box">
-					<br />
-					<button type="submit" onclick="formApplyClick('settings')">Сохранить</button>
-					<button type="button" class="cancel" onclick="history.back();">Закрыть</button>
+		<fieldset>
+			<legend>РЎРїРёСЃРѕРє РёР·РѕР±СЂР°Р¶РµРЅРёР№ (СЃ РіСЂСѓРїРїР°РјРё)</legend>
+			<textarea name="tmplImageGroupedList" cols="50" rows="10" style="width: 100%">{$this->settings.tmplImageGroupedList|escape}</textarea>
+			<div class="gallery-tmpl-hint">
+				<a href="#" class="pseudo toggle" rel="hint">РџРѕРєР°Р·Р°С‚СЊ РїРµСЂРµРјРµРЅРЅС‹Рµ, РґРѕСЃС‚СѓРїРЅС‹Рµ РІ С€Р°Р±Р»РѕРЅРµ</a><br />
+				<div class="content">
+					<dl>
+						<dt>$page->title</dt>
+						<dd>Р—Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$page->created</dt>
+						<dd>Р”Р°С‚Р° Рё РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$page->content</dt>
+						<dd>РўРµРєСЃС‚ СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$cover</dt>
+						<dd>РћР±Р»РѕР¶РєР° Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$cover->caption</dt>
+						<dd>РќР°Р·РІР°РЅРёРµ РѕР±Р»РѕР¶РєРё Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$cover->thumbURL</dt>
+						<dd>URL РјРёРЅРёР°С‚СЋСЂС‹ РѕР±Р»РѕР¶РєРё Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$pager</dt>
+						<dd>РџРµСЂРµРєР»СЋС‡Р°С‚РµР»СЊ СЃС‚СЂР°РЅРёС†</dd>
+						<dt>$groups</dt>
+						<dd>РЎРїРёСЃРѕРє (РјР°СЃСЃРёРІ) РіСЂСѓРїРї. РСЃРїРѕР»СЊР·СѓР№С‚Рµ \{foreach $groups group}...\{/foreach} РґР»СЏ РІС‹РІРѕРґР° РІСЃРµС… РіСЂСѓРїРї</dd>
+						<dt>$group.title</dt>
+						<dd>РќР°Р·РІР°РЅРёРµ РіСЂСѓРїРїС‹</dd>
+						<dt>$group.description</dt>
+						<dd>РћРїРёСЃР°РЅРёРµ РіСЂСѓРїРїС‹</dd>
+						<dt>$group.images</dt>
+						<dd>РЎРїРёСЃРѕРє (РјР°СЃСЃРёРІ) РёР·РѕР±СЂР°Р¶РµРЅРёР№ РІ РіСЂСѓРїРїРµ. РСЃРїРѕР»СЊР·СѓР№С‚Рµ \{foreach $group.images image}...\{/foreach} РґР»СЏ РІС‹РІРѕРґР° РІСЃРµС… РёР·РѕР±СЂР°Р¶РµРЅРёР№ РіСЂСѓРїРїС‹</dd>
+						<dt>$image->title</dt>
+						<dd>РќР°Р·РІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->posted</dt>
+						<dd>Р”Р°С‚Р° Рё РІСЂРµРјСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->thumbURL</dt>
+						<dd>URL РјРёРЅРёР°С‚СЋСЂС‹</dd>
+						<dt>$image->showURL</dt>
+						<dd>URL РїСЂРѕСЃРјРѕС‚СЂР° РїРѕР»РЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РёР»Рё РѕС‚РєСЂС‹С‚РёСЏ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ Р±Р»РѕРєР°</dd>
+					</dl>
 				</div>
+			</div>
+		</fieldset>
 
-		</div>
+		<fieldset>
+			<legend>РџСЂРѕСЃРјРѕС‚СЂ РѕРґРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</legend>
+			<textarea name="tmplImage" cols="50" rows="10" style="width: 100%" >{$this->settings.tmplImage|escape}</textarea>
+			<div class="gallery-tmpl-hint">
+				<a href="#" class="pseudo toggle" rel="hint">РџРѕРєР°Р·Р°С‚СЊ РїРµСЂРµРјРµРЅРЅС‹Рµ, РґРѕСЃС‚СѓРїРЅС‹Рµ РІ С€Р°Р±Р»РѕРЅРµ</a><br />
+				<div class="content">
+					<dl>
+						<dt>$page->title</dt>
+						<dd>Р—Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$page->created</dt>
+						<dd>Р”Р°С‚Р° Рё РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$page->content</dt>
+						<dd>РўРµРєСЃС‚ СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°)</dd>
+						<dt>$this->clientListURL()</dt>
+						<dd>URL С‚РµРєСѓС‰РµР№ СЃС‚СЂР°РЅРёС†Рµ СЃРїРёСЃРєР° РёР·РѕР±СЂР°Р¶РµРЅРёР№</dd>
+						<dt>$image->id</dt>
+						<dd>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->title</dt>
+						<dd>РќР°Р·РІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->posted</dt>
+						<dd>Р”Р°С‚Р° Рё РІСЂРµРјСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$image->thumbURL</dt>
+						<dd>URL РјРёРЅРёР°С‚СЋСЂС‹</dd>
+						<dt>$image->imageURL</dt>
+						<dd>URL РїРѕР»РЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ</dd>
+						<dt>$album</dt>
+						<dd>РЎРїРёСЃРѕРє (РјР°СЃСЃРёРІ) РёР·РѕР±СЂР°Р¶РµРЅРёР№ РІ Р°Р»СЊР±РѕРјРµ. РСЃРїРѕР»СЊР·СѓР№С‚Рµ \{foreach $images item}...\{/foreach} РґР»СЏ РІС‹РІРѕРґР° РІСЃРµС… РёР·РѕР±СЂР°Р¶РµРЅРёР№ Р°Р»СЊР±РѕРјР°</dd>
+						<dt>$album->prev</dt>
+						<dd>РџСЂРµРґС‹РґСѓС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РІ СЃРїРёСЃРєРµ. Р”РѕСЃС‚СѓРїРЅС‹ С‚Рµ Р¶Рµ СЃРІРѕР№СЃС‚РІР°: title, thumbURL, showURL Рё С‚.Рґ.</dd>
+						<dt>$album->next</dt>
+						<dd>РЎР»РµРґСѓСЋС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РІ СЃРїРёСЃРєРµ. Р”РѕСЃС‚СѓРїРЅС‹ С‚Рµ Р¶Рµ СЃРІРѕР№СЃС‚РІР°: title, thumbURL, showURL Рё С‚.Рґ.</dd>
+					</dl>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<legend>Р’СЃРїР»С‹РІР°СЋС‰РёР№ Р±Р»РѕРє</legend>
+			<textarea name="tmplPopup" cols="50" rows="10" style="width: 100%" >{$this->settings.tmplPopup|escape}</textarea>
+			<div class="gallery-tmpl-hint">
+				<a href="#" class="pseudo toggle" rel="hint">РџРѕРґСЃРєР°Р·РєР° РїРѕ СЃРѕСЃС‚Р°РІР»РµРЅРёСЋ С€Р°Р±Р»РѕРЅР°</a><br />
+				<div class="content">
+					<p>Р’ С€Р°Р±Р»РѕРЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‚РµРі &lt;img&gt; СЃ id="gallery-popup-image". Р’ РЅРµРіРѕ Р±СѓРґРµС‚ РїРѕРґСЃС‚Р°РІР»РµРЅРѕ РїРѕРєР°Р·С‹РІР°РµРјРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ.</p>
+					<p>Р§С‚РѕР±С‹ СЃРґРµР»Р°С‚СЊ СЌР»РµРјРµРЅС‚ СЂР°Р·РјРµС‚РєРё СЌР»РµРјРµРЅС‚РѕРј СѓРїСЂР°РІР»РµРЅРёСЏ, РґРѕР±Р°РІСЊС‚Рµ РµРјСѓ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ РєР»Р°СЃСЃ CSS:</p>
+					<dl>
+						<dt>js-gallery-close</dt><dd>Р—Р°РєСЂС‹С‚СЊ Р±Р»РѕРє</dd>
+						<dt>js-gallery-prev</dt><dd>РџСЂРµРґС‹РґСѓС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ</dd>
+						<dt>js-gallery-next</dt><dd>РЎР»РµРґСѓСЋС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ</dd>
+					</dl>
+				</div>
+			</div>
+		</fieldset>
+
 	</div>
 
-	<div id="thumbsRebuildDialog">
-		<div class="progressbar"></div>
-		<div>Осталось переделать: <strong id="thumbsRebuildLeft">неизвестно</strong></div>
-		<div class="error" id="thumbsRebuildErrors"></div>
-		<div class="ajax-loading" id="thumbsRebuildMessage"></div>
-	</div>
-	
-	<script type="text/javascript"><!--//--><![CDATA[//><!--
-	
-		jQuery(document).ready(function ()
+</ef:tab>
+
+</ef:tabs>
+
+</ef:tabwidget>
+
+<div class="ui-button-box">
+	<br />
+	<button type="submit" onclick="formApplyClick('settings')">РЎРѕС…СЂР°РЅРёС‚СЊ</button>
+	<button type="button" class="cancel" onclick="history.back();">Р—Р°РєСЂС‹С‚СЊ</button>
+</div>
+
+</div>
+</div>
+
+<div id="thumbsRebuildDialog">
+	<div class="progressbar"></div>
+	<div>РћСЃС‚Р°Р»РѕСЃСЊ РїРµСЂРµРґРµР»Р°С‚СЊ: <strong id="thumbsRebuildLeft">РЅРµРёР·РІРµСЃС‚РЅРѕ</strong></div>
+	<div class="error" id="thumbsRebuildErrors"></div>
+	<div class="ajax-loading" id="thumbsRebuildMessage"></div>
+</div>
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+jQuery(document).ready(function ()
+{
+	jQuery("#gallery-settings-tabs button").eq(1).click(function()
+	{
+		jQuery(this).hide();
+		jQuery("#gallery-settings-main").hide();
+		jQuery("#gallery-settings-tabs button").eq(0).show();
+		jQuery("#gallery-settings-templates").show();
+	});
+
+	jQuery("#gallery-settings-tabs button").eq(0).click(function()
+	{
+		jQuery(this).hide();
+		jQuery("#gallery-settings-templates").hide();
+		jQuery("#gallery-settings-tabs button").eq(1).show();
+		jQuery("#gallery-settings-main").show();
+	});
+
+	jQuery("#gallery-useGroups-input").click(function ()
+	{
+		var images = jQuery("#gallery-itemsPerPage-input");
+		var groups = jQuery("#gallery-groupsPerPage-input");
+
+		if (jQuery(this).get(0).checked)
 		{
-			jQuery("#gallery-settings-tabs button").eq(1).click(function()
+			images.attr("disabled", "disabled");
+			groups.removeAttr("disabled");
+		}
+		else
+		{
+			groups.attr("disabled", "disabled");
+			images.removeAttr("disabled");
+		}
+	});
+
+	jQuery("#gallery-logoEnable-input").click(function ()
+	{
+		var inputs = jQuery("#gallery-settings-main .gallery-logoEnable-related :input");
+		if ($(this).get(0).checked)
+		{
+			inputs.removeAttr('disabled');
+		}
+		else
+		{
+			inputs.attr('disabled', 'disabled');
+		}
+	});
+
+	jQuery("#gallery-settings-templates div.gallery-tmpl-hint").click(function (e)
+	{
+		jQuery(e.target).parent().children("div.content").toggle();
+		return false;
+	});
+
+	/**
+	 * РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РІРёРґРёРјРѕСЃС‚СЊ СЃРѕРѕР±С‰РµРЅРёСЏ Рѕ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РїРµСЂРµСЃР±РѕСЂРєРё РјРёРЅРёР°С‚СЋСЂ
+	 */
+	jQuery('#settings').submit(function ()
+	{
+		if (window.Eresus.gallery.thumbsRebuild.dialog === null)
+		{
+			var newWidth = jQuery('#settings-thumbWidth-input').val();
+			var newHeight = jQuery('#settings-thumbHeight-input').val();
+			var widthChanged = newWidth != '{$this->settings.thumbWidth}';
+			var heightChanged = newHeight != '{$this->settings.thumbHeight}';
+
+			if (widthChanged || heightChanged)
 			{
-				jQuery(this).hide();
-				jQuery("#gallery-settings-main").hide();
-				jQuery("#gallery-settings-tabs button").eq(0).show();
-				jQuery("#gallery-settings-templates").show();
-			});
-	
-			jQuery("#gallery-settings-tabs button").eq(0).click(function()
-			{
-				jQuery(this).hide();
-				jQuery("#gallery-settings-templates").hide();
-				jQuery("#gallery-settings-tabs button").eq(1).show();
-				jQuery("#gallery-settings-main").show();
-			});
-	
-			jQuery("#gallery-useGroups-input").click(function ()
-			{
-				var images = jQuery("#gallery-itemsPerPage-input");
-				var groups = jQuery("#gallery-groupsPerPage-input");
-	
-				if (jQuery(this).get(0).checked)
-				{
-					images.attr("disabled", "disabled");
-					groups.removeAttr("disabled");
-				}
-				else
-				{
-					groups.attr("disabled", "disabled");
-					images.removeAttr("disabled");
-				}
-			});
-	
-			jQuery("#gallery-logoEnable-input").click(function ()
-			{
-				var inputs = jQuery("#gallery-settings-main .gallery-logoEnable-related :input");
-				if ($(this).get(0).checked)
-				{
-					inputs.removeAttr('disabled');
-				}
-				else
-				{
-					inputs.attr('disabled', 'disabled');
-				}
-			});
-			
-			jQuery("#gallery-settings-templates div.gallery-tmpl-hint").click(function (e)
-			{
-				jQuery(e.target).parent().children("div.content").toggle();
+				rebuildThumbnails(newWidth, newHeight);
 				return false;
-			});
-	
-			/**
-			 * Устанавливает видимость сообщения о необходимости пересборки миниатюр
-			 */
-			jQuery('#settings').submit(function ()
-			{
-				if (window.Eresus.gallery.thumbsRebuild.dialog === null)
-				{
-					var newWidth = jQuery('#settings-thumbWidth-input').val();
-					var newHeight = jQuery('#settings-thumbHeight-input').val();
-					var widthChanged = newWidth != '{$this->settings.thumbWidth}';
-					var heightChanged = newHeight != '{$this->settings.thumbHeight}';
-					
-					if (widthChanged || heightChanged)
-					{
-						rebuildThumbnails(newWidth, newHeight);
-						return false;
-					}
-				}
-			});
-			
-		});
-	//--><!]]></script>
+			}
+		}
+	});
+
+});
+//--><!]]></script>
 </form>
