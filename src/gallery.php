@@ -52,7 +52,6 @@ class Gallery extends ContentPlugin
 	 */
 	public $version = '${product.version}';
 
-
 	/**
 	 * Требуемая версия CMS
 	 *
@@ -111,19 +110,6 @@ class Gallery extends ContentPlugin
 	);
 
 	/**
-	 * Возвращает свойство $urlData
-	 *
-	 * @return string
-	 *
-	 * @since 2.00
-	 */
-	public function getDataURL()
-	{
-		return $this->urlData;
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
 	 * Возвращает свойство $dirData
 	 *
 	 * @return string
@@ -133,19 +119,6 @@ class Gallery extends ContentPlugin
 	public function getDataDir()
 	{
 		return $this->dirData;
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Возвращает свойство $urlCode
-	 *
-	 * @return string
-	 *
-	 * @since 2.00
-	 */
-	public function getCodeURL()
-	{
-		return $this->urlCode;
 	}
 	//-----------------------------------------------------------------------------
 
@@ -239,42 +212,22 @@ class Gallery extends ContentPlugin
 	 *
 	 * Метод создаёт необходимые таблицы в БД и директорию данных.
 	 *
+	 * @throws EresusRuntimeException
+	 *
 	 * @return void
 	 */
 	public function install()
 	{
 		parent::install();
 
-		/*
-		 * Создаём таблицу изображений
-		 */
-		$sql = "
-			`id` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентифкатор',
-			`section` int(10) unsigned default NULL COMMENT 'Привязка к разделу сайта',
-			`title` varchar(255) default NULL COMMENT 'Название картинки',
-			`image` varchar(128) default NULL COMMENT 'Имя файла исходной картинки',
-			`thumb` varchar(128) default NULL COMMENT 'Имя файла миниатюры',
-			`posted` datetime default NULL COMMENT 'Дата и время добавления',
-			`groupId` int(10) unsigned NOT NULL default '0' COMMENT 'Привязка к группе',
-			`cover` tinyint(1) unsigned default '0' COMMENT 'Обложка альбома',
-			`active` tinyint(1) unsigned default '0' COMMENT 'Активность',
-			`position` int(10) unsigned NOT NULL default '0' COMMENT 'Порядковый номер',
-			PRIMARY KEY  (`id`),
-			KEY `section` (`section`),
-			KEY `position` (`position`),
-			KEY `active` (`active`),
-			KEY `posted` (`posted`),
-			KEY `findCovers` (`section`, `active`, `cover`),
-			KEY `imagesByTime` (`section`, `active`, `posted`),
-			KEY `imagesByPosition` (`section`, `active`, `position`)
-			";
-		$this->dbCreateTable($sql, 'images');
+		$table = ORM::getTable($this, 'Image');
+		$table->create();
 
 		/*
 		 * Создаём таблицу групп
 		 */
 		$sql = "
-			`id` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентифкатор',
+			`id` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентификатор',
 			`section` int(10) unsigned default NULL COMMENT 'Привязка к разделу сайта',
 			`title` varchar(255) default '' COMMENT 'Название группы',
 			`description` text default '' COMMENT 'Описание',
@@ -287,19 +240,16 @@ class Gallery extends ContentPlugin
 		// Создаём директорию данных
 		$this->mkdir();
 
-		/* Создаём директорию шаблонов */
-		$tmplDir = Eresus_CMS::getLegacyKernel()->froot . 'templates/' . $this->name;
-		$umask = umask(0000);
-		@mkdir($tmplDir, 0777);
-		umask($umask);
-
-		/* Копируем шаблоны */
-		$files = glob($this->dirCode . 'distrib/*.html');
-		foreach ($files as $file)
+		$ts = TemplateService::getInstance();
+		try
 		{
-			$target = $tmplDir . '/' . basename($file);
-			copy($file, $target);
-			chmod($target, 0666);
+			$ts->installTemplates($this->dirCode . 'distrib', $this->name);
+		}
+		catch (Exception $e)
+		{
+			$this->uninstall();
+			throw new EresusRuntimeException('Fail to install templates',
+				'Не удалось установить шаблоны плагина. Подробная информация доступна в журнале.', $e);
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -309,6 +259,8 @@ class Gallery extends ContentPlugin
 	 *
 	 * Метод удаляет файлы данных плагина.
 	 *
+	 * @throws EresusRuntimeException
+	 *
 	 * @return void
 	 */
 	public function uninstall()
@@ -316,16 +268,16 @@ class Gallery extends ContentPlugin
 		// Удаляем директорию данных
 		$this->rmdir();
 
-		/* Удаляем шаблоны */
-		$tmplDir = Eresus_CMS::getLegacyKernel()->froot . 'templates/' . $this->name;
-		$files = glob($tmplDir . '/*');
-		foreach ($files as $file)
+		$ts = TemplateService::getInstance();
+		try
 		{
-			filedelete($file);
+			$ts->uninstallTemplates($this->name);
 		}
-
-		/* Удаляем директорию шаблонов */
-		@rmdir($tmplDir);
+		catch (Exception $e)
+		{
+			throw new EresusRuntimeException('Fail to uninstall templates',
+				'Не удалось удалить шаблоны плагина. Подробная информация доступна в журнале.', $e);
+		}
 
 		parent::uninstall();
 	}
@@ -339,6 +291,8 @@ class Gallery extends ContentPlugin
 	public function adminRenderContent()
 	{
 		$result = '';
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		switch (true)
 		{
 			/*
@@ -441,28 +395,23 @@ class Gallery extends ContentPlugin
 		$tabs = array('width' => '14em', 'items' => array());
 		$tabs['items'] []= array(
 			'caption' => 'Изображения',
-			'url' => preg_replace('/&(id|pg)=\d+/', '',
-				Eresus_Kernel::app()->getPage()->url(null, array('action'))),
+			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(null, array('action'))),
 		);
 
 		if ($this->settings['useGroups'])
 		{
 			$tabs['items'] []= array(
 				'caption' => 'Группы',
-				'url' => preg_replace('/&(id|pg)=\d+/', '',
-					Eresus_Kernel::app()->getPage()->url(array('action' => 'group'))),
+				'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(array('action' => 'group'))),
 			);
 		}
 
 		$tabs['items'] []= array(
 			'caption' => 'Свойства галереи',
-			'url' => preg_replace('/&(id|pg)=\d+/', '',
-				Eresus_Kernel::app()->getPage()->url(array('action' => 'props'))),
+			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(array('action' => 'props'))),
 		);
 
-		$result =
-			Eresus_Kernel::app()->getPage()->renderTabs($tabs) .
-				$result;
+		$result = $page->renderTabs($tabs) . $result;
 
 		return $result;
 	}
@@ -489,9 +438,10 @@ class Gallery extends ContentPlugin
 	{
 		$this->clientCheckRequest();
 
-		$result = '';
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 
-		if (Eresus_Kernel::app()->getPage()->topic)
+		if ($page->topic)
 		{
 			$result = $this->clientRenderItem();
 		}
@@ -525,9 +475,11 @@ class Gallery extends ContentPlugin
 	{
 		$url = $this->clientURL();
 
-		if (Eresus_Kernel::app()->getPage()->subpage)
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		if ($page->subpage)
 		{
-			$url .= 'p' . Eresus_Kernel::app()->getPage()->subpage . '/';
+			$url .= 'p' . $page->subpage . '/';
 		}
 
 		return $url;
@@ -813,7 +765,9 @@ class Gallery extends ContentPlugin
 			),
 		);
 
-		$result = Eresus_Kernel::app()->getPage()->renderTable($table, null, 'group_');
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$result = $page->renderTable($table, null, 'group_');
 		return $result;
 	}
 	//-----------------------------------------------------------------------------
@@ -840,7 +794,9 @@ class Gallery extends ContentPlugin
 			'buttons' => array('ok', 'cancel'),
 		);
 
-		$result = Eresus_Kernel::app()->getPage()->renderForm($form);
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$result = $page->renderForm($form);
 
 		return $result;
 	}
@@ -871,7 +827,9 @@ class Gallery extends ContentPlugin
 			'buttons' => array('ok', 'apply', 'cancel'),
 		);
 
-		$result = Eresus_Kernel::app()->getPage()->renderForm($form, $item);
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$result = $page->renderForm($form, $item);
 
 		return $result;
 	}
@@ -1006,21 +964,21 @@ class Gallery extends ContentPlugin
 	 */
 	private function clientCheckRequest()
 	{
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		/* Собираем вместе ожидаемые элементы URL */
 		$acceptUrl = Eresus_CMS::getLegacyKernel()->request['path'] .
-			(Eresus_Kernel::app()->getPage()->subpage !== 0 ? 'p' .
-				Eresus_Kernel::app()->getPage()->subpage . '/' : '');
+			($page->subpage !== 0 ? 'p' . $page->subpage . '/' : '');
 
-		if (Eresus_Kernel::app()->getPage()->topic)
+		if ($page->topic)
 		{
-			$acceptUrl .= Eresus_Kernel::app()->getPage()->topic !== false ?
-				Eresus_Kernel::app()->getPage()->topic . '/' : '';
+			$acceptUrl .= $page->topic !== false ? $page->topic . '/' : '';
 		}
 
 		/* Сравниваем с переданным URL */
 		if ($acceptUrl != Eresus_CMS::getLegacyKernel()->request['url'])
 		{
-			Eresus_Kernel::app()->getPage()->httpError(404);
+			$page->httpError(404);
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -1053,33 +1011,35 @@ class Gallery extends ContentPlugin
 	 */
 	private function clientRenderItem()
 	{
-		$id = intval(Eresus_Kernel::app()->getPage()->topic);
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$id = intval($page->topic);
 
-		if ($id != Eresus_Kernel::app()->getPage()->topic)
+		if ($id != $page->topic)
 		{
-			Eresus_Kernel::app()->getPage()->httpError(404);
+			$page->httpError(404);
 		}
 
 		$image = new Gallery_Image($id);
 
 		if (!$image || !$image->active)
 		{
-			Eresus_Kernel::app()->getPage()->HttpError(404);
+			$page->HttpError(404);
 		}
 
 		// Данные для подстановки в шаблон
 		$data = array();
 		$data['this'] = $this;
-		$data['page'] = Eresus_Kernel::app()->getPage();
+		$data['page'] = $page;
 		$data['Eresus'] = $GLOBALS['Eresus'];
 		$data['image'] = $image;
 		if ($this->settings['useGroups'])
 		{
-			$data['album'] = new Gallery_AlbumGrouped(Eresus_Kernel::app()->getPage()->id);
+			$data['album'] = new Gallery_AlbumGrouped($page->id);
 		}
 		else
 		{
-			$data['album'] = new Gallery_Album(Eresus_Kernel::app()->getPage()->id);
+			$data['album'] = new Gallery_Album($page->id);
 		}
 		$data['album']->setCurrent($data['image']);
 
@@ -1129,14 +1089,14 @@ class Gallery extends ContentPlugin
 				$item['selectable'] = true;
 			}
 
-			$subitems = $this->buildGalleryList($section['id'], $level + 1);
+			$subItems = $this->buildGalleryList($section['id'], $level + 1);
 
-			if ($item['selectable'] || $subitems)
+			if ($item['selectable'] || $subItems)
 			{
 				$branch []= $item;
 			}
 
-			$branch = array_merge($branch, $subitems);
+			$branch = array_merge($branch, $subItems);
 		}
 
 		return $branch;
@@ -1166,14 +1126,16 @@ class Gallery extends ContentPlugin
 				array('type' => 'checkbox', 'name' => 'active', 'label' => 'Активна'),
 				array('type' => 'html', 'name' => 'content', 'height' => '400px',
 					'label' => 'Описание<div class="ui-state-warning"><em>Внимание!</em> Для того, чтобы ' .
-						'это описание показывалось посетителям, надо добавить в ' .
-						'<a href="admin.php?mod=plgmgr&id=gallery">шаблон</a> вывод текста страницы (альбома).' .
-						'</div>'),
+					'это описание показывалось посетителям, надо добавить в ' .
+					'<a href="admin.php?mod=plgmgr&id=gallery">шаблон</a> вывод текста страницы (альбома).' .
+					'</div>'),
 			),
 			'buttons'=> array('ok', 'apply', 'cancel'),
 		);
 
-		$result = Eresus_Kernel::app()->getPage()->renderForm($form, $item);
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$result = $page->renderForm($form, $item);
 		return $result;
 	}
 	//-----------------------------------------------------------------------------
