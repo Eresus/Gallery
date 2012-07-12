@@ -526,25 +526,25 @@ class Gallery extends ContentPlugin
 		}
 
 		// Данные для подстановки в шаблон
-		$data = array();
-		$data['this'] = $this;
-		$data['page'] = Eresus_Kernel::app()->getPage();
-		$data['Eresus'] = $GLOBALS['Eresus'];
-		$data['sectionId'] = arg('section', 'int');
-		$data['items'] = $items;
+		$vars = array();
+		$vars['this'] = $this;
+		$vars['page'] = Eresus_Kernel::app()->getPage();
+		$vars['Eresus'] = $GLOBALS['Eresus'];
+		$vars['sectionId'] = arg('section', 'int');
+		$vars['items'] = $items;
 
 		/* Шаблоны адресов действий */
-		$data['urlEdit'] = str_replace('&', '&amp;',
+		$vars['urlEdit'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('id' => '%s')));
-		$data['urlToggle'] = str_replace('&', '&amp;',
+		$vars['urlToggle'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('toggle' => '%s')));
-		$data['urlCover'] = str_replace('&', '&amp;',
+		$vars['urlCover'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('cover' => '%s')));
-		$data['urlUp'] = str_replace('&', '&amp;',
+		$vars['urlUp'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('up' => '%s')));
-		$data['urlDown'] = str_replace('&', '&amp;',
+		$vars['urlDown'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('down' => '%s')));
-		$data['urlDelete'] = str_replace('&', '&amp;',
+		$vars['urlDelete'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('delete' => '%s')));
 
 		if ($this->settings['useGroups'])
@@ -560,11 +560,11 @@ class Gallery extends ContentPlugin
 		{
 			$pager = new PaginationHelper($totalPages, $pg,
 				Eresus_Kernel::app()->getPage()->url(array('pg' => '%s')));
-			$data['pager'] = $pager->render();
+			$vars['pager'] = $pager->render();
 		}
 		else
 		{
-			$data['pager'] = '';
+			$vars['pager'] = '';
 		}
 
 		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
@@ -575,7 +575,7 @@ class Gallery extends ContentPlugin
 		{
 			$tmpl = new Template('ext/' . $this->name . '/templates/image-grouped-list.html');
 			// Изображения вне групп
-			$data['orphans'] = Gallery_Image::findOrphans($section);
+			$vars['orphans'] = Gallery_Image::findOrphans($section);
 		}
 		else
 		{
@@ -583,7 +583,7 @@ class Gallery extends ContentPlugin
 		}
 
 		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
+		$html = $tmpl->compile($vars);
 
 		return $html;
 	}
