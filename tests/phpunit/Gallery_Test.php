@@ -37,18 +37,37 @@ require_once TESTS_SRC_ROOT . '/gallery/classes/Exception/NotFound.php';
 class Gallery_Test extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * @covers Gallery::adminImageToggle
+	 */
+	public function test_adminImageToggle()
+	{
+		$gallery = new Gallery();
+
+		$adminImageToggle = new ReflectionMethod('Gallery', 'adminImageToggle');
+		$adminImageToggle->setAccessible(true);
+
+		$image = new Gallery_Entity_Image($gallery);
+		$image->active = true;
+		$table = $this->getMock('Gallery_Entity_Table_Image', array('find', 'update'));
+		$table->expects($this->once())->method('find')->with(45)->will($this->returnValue($image));
+		$table->expects($this->once())->method('update')->with($image);
+
+		$orm = $this->getMock('stdClass', array('getTable'));
+		$orm->expects($this->any())->method('getTable')->with($gallery, 'Image')->
+			will($this->returnValue($table));
+
+		ORM::setMock($orm);
+
+		$adminImageToggle->invoke($gallery, 45);
+		$this->assertFalse($image->active);
+	}
+
+	/**
 	 * @covers Gallery::coverAction
 	 */
 	public function test_coverAction()
 	{
 		$gallery = new Gallery();
-
-		$coverAction = new ReflectionMethod('Gallery', 'coverAction');
-		$coverAction->setAccessible(true);
-
-		/*$tableAlbum = $this->getMock('Gallery_Entity_Table_Album', array('find'));
-		$tableAlbum->expects($this->once())->method('find')->with(1)->
-			will($this->returnValue($image));*/
 
 		$orm = $this->getMock('stdClass', array('getTable'));
 		$orm->expects($this->any())->method('getTable')->will($this->returnCallback(
@@ -86,6 +105,9 @@ class Gallery_Test extends PHPUnit_Framework_TestCase
 		ORM::setMock($orm);
 
 		$GLOBALS['args'] = array('cover' => 1);
+
+		$coverAction = new ReflectionMethod('Gallery', 'coverAction');
+		$coverAction->setAccessible(true);
 		$coverAction->invoke($gallery);
 	}
 }

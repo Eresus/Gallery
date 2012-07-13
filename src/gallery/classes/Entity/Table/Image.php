@@ -6,7 +6,7 @@
  *
  * @copyright 2012, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Михаил Красильников <mk@dvaslonas.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -35,7 +35,7 @@
  * @package Gallery
  * @since 3.00
  */
-class Gallery_Entity_Table_Image extends ORM_Table
+class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 {
 	/**
 	 * Структура таблицы

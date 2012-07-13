@@ -6,7 +6,7 @@
  *
  * @copyright 2012, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Михаил Красильников <mk@dvaslonas.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -41,6 +41,7 @@
  * @property      bool                 $active       является ли активным
  * @property      int                  $position     порядковый номер
  * @property-read string               $thumbURL     URL миниатюры
+ * @property-read Gallery_Entity_Album $album        альбом этого изображения
  *
  * @package Gallery
  * @since 3.00
@@ -95,17 +96,6 @@ class Gallery_Entity_Image extends ORM_Entity
 	private $origActive = null;
 
 	/**
-	 * Конструктор
-	 *
-	 * @param Plugin $plugin  модуль
-	 * @param array  $attrs   исходные значения полей
-	 */
-	public function __construct(Plugin $plugin, array $attrs = array())
-	{
-		parent::__construct($plugin, $attrs);
-	}
-
-	/**
 	 * Создаёт или пересоздаёт миниатюру
 	 *
 	 * @param int $width
@@ -135,7 +125,56 @@ class Gallery_Entity_Image extends ORM_Entity
 	 */
 	public function beforeSave(ezcQuery $query)
 	{
-		$this->serveCoverChanges();
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this->plugin, 'Image');
+
+		/* При смене раздела флаг "Обложка" должен быть сброшен */
+		if (!$this->id && $this->section != $this->origSection && $this->cover)
+		{
+			$this->cover = false;
+			$table->autoSetCover($this->origSection);
+		}
+
+		/* Если это единственное изображение в разделе, делаем его обложкой */
+		if ($table->countInSection($this->section) == 0)
+		{
+			$this->cover = true;
+			// Нам не надо сбрасывать флаг у других изображений раздела, потому что их нет
+			$this->setAsCover = false;
+		}
+
+		if ($this->setAsCover)
+		{
+			$table->clearCovers($this->section);
+			$this->setAsCover = false;
+		}
+
+		/*
+		 * Если отключается изображение-обложка, либо сбрасывается флаг "Обложка", то обложкой должно
+		 * стать другое активное изображение в том же разделе.
+		 */
+		$isDisablingActiveCover =
+			$this->cover == true && $this->active == false && $this->origActive == true;
+
+		$isDroppingCoverFlag = $this->cover == false && $this->origCover == true;
+
+		if ($isDisablingActiveCover || $isDroppingCoverFlag)
+		{
+			$table->autoSetCover($this->section);
+			$this->cover = false;
+		}
+
+		/*
+		 * Если включается изображение НЕ-обложка, то проверяем, не надо ли сделать его обложкой.
+		 */
+		if ($this->cover == false && $this->active == true && $this->origActive == false)
+		{
+			$tmp = $table->findCover($this->section);
+			if ($tmp == false)
+			{
+				$this->cover = true;
+			}
+		}
 	}
 
 	/**
@@ -242,6 +281,17 @@ class Gallery_Entity_Image extends ORM_Entity
 	}
 
 	/**
+	 * Геттер свойства $album
+	 *
+	 * @return Gallery_Entity_Album
+	 */
+	protected function getAlbum()
+	{
+		$table = ORM::getTable($this->plugin, 'Album');
+		return $table->find($this->section);
+	}
+
+	/**
 	 * Сеттер свойства $image
 	 *
 	 * @param string $value
@@ -337,67 +387,6 @@ class Gallery_Entity_Image extends ORM_Entity
 			}
 			imageDestroy($logo);
 			imageDestroy($src);
-		}
-	}
-
-	/**
-	 * Обрабатывает изменения в обложках
-	 *
-	 * @return void
-	 *
-	 * @since 2.00
-	 */
-	private function serveCoverChanges()
-	{
-		/* @var Gallery_Entity_Table_Image $table */
-		$table = ORM::getTable($this->plugin, 'Image');
-
-		/* При смене раздела флаг "Обложка" должен быть сброшен */
-		if (!$this->id && $this->section != $this->origSection && $this->cover)
-		{
-			$this->cover = false;
-			$table->autoSetCover($this->origSection);
-		}
-
-		/* Если это единственное изображение в разделе, делаем его обложкой */
-		if ($table->countInSection($this->section) == 0)
-		{
-			$this->cover = true;
-			// Нам не надо сбрасывать флаг у других изображений раздела, потому что их нет
-			$this->setAsCover = false;
-		}
-
-		if ($this->setAsCover)
-		{
-			$table->clearCovers($this->section);
-			$this->setAsCover = false;
-		}
-
-		/*
-		 * Если отключается изображение-обложка, либо сбрасывается флаг "Обложка", то обложкой должно
-		 * стать другое активное изображение в том же разделе.
-		 */
-		$isDisablingActiveCover = $this->cover == true && $this->active == false &&
-			$this->origActive == true;
-
-		$isDroppingCoverFlag = $this->cover == false && $this->origCover == true;
-
-		if ($isDisablingActiveCover || $isDroppingCoverFlag)
-		{
-			$table->autoSetCover($this->section);
-			$this->cover = false;
-		}
-
-		/*
-		 * Если включается изображение НЕ-обложка, то проверяем, не надо ли сделать его обложкой.
-		 */
-		if ($this->cover == false && $this->active == true && $this->origActive == false)
-		{
-			$tmp = $table->findCover($this->section);
-			if ($tmp == false)
-			{
-				$this->cover = true;
-			}
 		}
 	}
 }

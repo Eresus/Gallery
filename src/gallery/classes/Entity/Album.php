@@ -39,4 +39,13 @@
  */
 class Gallery_Entity_Album extends ORM_Entity
 {
+	/**
+	 * Делает изображение обложкой альбома
+	 *
+	 * @param Gallery_Entity_Image $image
+	 */
+	public function setCover(Gallery_Entity_Image $image)
+	{
+		// TODO
+	}
 }

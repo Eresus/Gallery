@@ -1220,6 +1220,7 @@ class Gallery extends ContentPlugin
 	private function adminImageToggle($id)
 	{
 		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
 		$image = $table->find($id);
 		$image->active = ! $image->active;
 		$table->update($image);

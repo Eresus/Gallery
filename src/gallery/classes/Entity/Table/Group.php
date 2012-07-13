@@ -6,7 +6,7 @@
  *
  * @copyright 2012, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Михаил Красильников <mk@dvaslonas.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -35,7 +35,7 @@
  * @package Gallery
  * @since 3.00
  */
-class Gallery_Entity_Table_Group extends ORM_Table
+class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
 {
 	/**
 	 * Структура таблицы
@@ -88,19 +88,5 @@ class Gallery_Entity_Table_Group extends ORM_Table
 		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
 		$q->orderBy('position');
 		return $this->loadFromQuery($q, $limit, $offset);
-	}
-
-	/**
-	 * Возвращает количество групп в указанном разделе
-	 *
-	 * @param int $id  ID раздела сайта
-	 *
-	 * @return int
-	 */
-	public function countInSection($id)
-	{
-		$q = $this->createCountQuery();
-		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
-		return $this->count($q);
 	}
 }
