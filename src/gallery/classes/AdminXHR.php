@@ -35,7 +35,7 @@
  *
  * @package Gallery
  */
-class Gallery_AdminXHRController extends Gallery_Prototype_EresusAdminXHRController
+class Gallery_AdminXHR extends Gallery_Prototype_AdminXHR
 {
 	/**
 	 * Возвращает список групп в указанном разделе
@@ -48,7 +48,9 @@ class Gallery_AdminXHRController extends Gallery_Prototype_EresusAdminXHRControl
 	protected function actionGetGroups($sectionId)
 	{
 		$sectionId = intval($sectionId);
-		$groups = Gallery_Group::find($sectionId);
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Group');
+		$groups = $table->findInSection($sectionId);
 		return $groups;
 	}
 	//-----------------------------------------------------------------------------

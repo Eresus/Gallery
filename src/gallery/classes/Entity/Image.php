@@ -42,6 +42,7 @@
  * @property-read string               $thumbURL     URL миниатюры
  *
  * @package Gallery
+ * @since 3.00
  */
 class Gallery_Entity_Image extends ORM_Entity
 {

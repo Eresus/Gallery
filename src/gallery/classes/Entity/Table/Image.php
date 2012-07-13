@@ -33,6 +33,7 @@
  * Таблица изображений
  *
  * @package Gallery
+ * @since 3.00
  */
 class Gallery_Entity_Table_Image extends ORM_Table
 {
@@ -97,5 +98,7 @@ class Gallery_Entity_Table_Image extends ORM_Table
 		$this->index('find_covers', array('fields' => array('section', 'active', 'cover')));
 		$this->index('images_by_time', array('fields' => array('section', 'active', 'posted')));
 		$this->index('images_by_position', array('fields' => array('section', 'active', 'position')));
+		/* Проверенные индексы */
+		$this->index('images_by_group_idx', array('fields' => array('group', 'active', 'position')));
 	}
 }

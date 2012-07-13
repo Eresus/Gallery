@@ -44,7 +44,7 @@ include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
  * @property-write array             $image        Элемент $_FILES соответсвующий загружаемому файлу
  * @property       string            $thumb        Имя файла миниатюры
  * @property       string            $posted       Дата и время добавления изображения
- * @property-read  Gallery_Group      $group        Группа изображения
+ * @property-read  Gallery_Entity_Group $group        Группа изображения
  * @property-write int               $group        Идентификатор группы
  * @property       bool              $cover        Является ли обложкой альбома
  * @property       bool              $active       Является ли активным
@@ -316,10 +316,10 @@ class Gallery_Image extends Gallery_AbstractActiveRecord
 	/**
 	 * Выбирает изображения из БД
 	 *
-	 * @param int|Gallery_Group $owner [optional]       идентификатор раздела или группа
-	 * @param int              $limit [optional]       вернуть не более $limit изображений
-	 * @param int              $offset [optional]      пропустить $offset первых изображений
-	 * @param bool             $activeOnly [optional]  искать только активные изображения
+	 * @param int|Gallery_Entity_Group $owner       идентификатор раздела или группа
+	 * @param int                      $limit       вернуть не более $limit изображений
+	 * @param int                      $offset      пропустить $offset первых изображений
+	 * @param bool                     $activeOnly  искать только активные изображения
 	 *
 	 * @return array(GalleryImage)
 	 *
@@ -336,7 +336,7 @@ class Gallery_Image extends Gallery_AbstractActiveRecord
 		$cond = '1';
 		if ($owner)
 		{
-			if ($owner instanceof Gallery_Group)
+			if ($owner instanceof Gallery_Entity_Group)
 			{
 				$cond = $e->eq('groupId', $q->bindValue($owner->id, null, PDO::PARAM_INT));
 			}
@@ -426,13 +426,14 @@ class Gallery_Image extends Gallery_AbstractActiveRecord
 	/**
 	 * Геттер свойства $group
 	 *
-	 * @return Gallery_Group
+	 * @return Gallery_Entity_Group
 	 */
 	protected function getGroup()
 	{
 		try
 		{
-			return new Gallery_Group($this->getProperty('groupId'));
+			$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Group');
+			return $table->find($this->getProperty('groupId'));
 		}
 		catch (DomainException $e)
 		{

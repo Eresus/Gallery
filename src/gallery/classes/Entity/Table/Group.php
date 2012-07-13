@@ -33,6 +33,7 @@
  * Таблица групп
  *
  * @package Gallery
+ * @since 3.00
  */
 class Gallery_Entity_Table_Group extends ORM_Table
 {
@@ -73,17 +74,33 @@ class Gallery_Entity_Table_Group extends ORM_Table
 	}
 
 	/**
-	 * Возвращает группы в указанном разделе
+	 * Возвращает включенные группы в указанном разделе
 	 *
-	 * @param int $id
+	 * @param int $id      ID раздела сайта
+	 * @param int $limit   максимальное количество возвращаемых групп
+	 * @param int $offset  позиция с которой начать выборку
 	 *
 	 * @return Gallery_Entity_Group[]
 	 */
-	public function findInSection($id)
+	public function findInSection($id, $limit = null, $offset = 0)
 	{
 		$q = $this->createSelectQuery();
 		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
 		$q->orderBy('position');
-		return $this->loadFromQuery($q);
+		return $this->loadFromQuery($q, $limit, $offset);
+	}
+
+	/**
+	 * Возвращает количество групп в указанном разделе
+	 *
+	 * @param int $id  ID раздела сайта
+	 *
+	 * @return int
+	 */
+	public function countInSection($id)
+	{
+		$q = $this->createCountQuery();
+		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
+		return $this->count($q);
 	}
 }

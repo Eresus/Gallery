@@ -35,12 +35,14 @@
  *
  * @package Gallery
  */
-class Gallery_Prototype_EresusAdminXHRController
+class Gallery_Prototype_AdminXHR
 {
 	/**
 	 * Выполняет действия контроллера
 	 *
 	 * @param string $args  Аргументы запроса
+	 *
+	 * @throws BadMethodCallException
 	 *
 	 * @return void
 	 */
@@ -48,7 +50,7 @@ class Gallery_Prototype_EresusAdminXHRController
 	{
 		$args = explode('/', urldecode($args));
 
-		/* Отрбрасываем пустые элементы с концов */
+		/* Отбрасываем пустые элементы с концов */
 		array_shift($args);
 		array_pop($args);
 

@@ -8,7 +8,7 @@
 	{foreach $items group}
 	<div class="group">
 		<div class="gallery-group-title">{$group->title}</div>
-		{foreach $group->images image}
+		{foreach $group->allImages image}
 		{include "image-list-item.html"}
 		{/foreach}
 	</div>

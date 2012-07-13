@@ -424,7 +424,7 @@ class Gallery extends ContentPlugin
 	 */
 	public function adminRender()
 	{
-		$ctl = new Gallery_AdminXHRController;
+		$ctl = new Gallery_AdminXHR;
 		$ctl->execute(arg('args'));
 	}
 	//-----------------------------------------------------------------------------
@@ -520,7 +520,9 @@ class Gallery extends ContentPlugin
 
 		if ($this->settings['useGroups'])
 		{
-			$items = Gallery_Group::find($section, $maxCount, $startFrom);
+			/* @var Gallery_Entity_Table_Group $table */
+			$table = ORM::getTable($this, 'Group');
+			$items = $table->findInSection($section, $maxCount, $startFrom);
 		}
 		else
 		{
@@ -551,7 +553,7 @@ class Gallery extends ContentPlugin
 
 		if ($this->settings['useGroups'])
 		{
-			$totalPages = ceil(Gallery_Group::count($section) / $maxCount);
+			$totalPages = ceil($table->countInSection($section) / $maxCount);
 		}
 		else
 		{
@@ -852,17 +854,18 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminInsertGroup()
 	{
-		$item = new Gallery_Group();
-		$item->section = arg('section');
-		$item->title = arg('title');
-		$item->description = arg('description');
+		$group = new Gallery_Entity_Group($this);
+		$group->section = arg('section');
+		$group->title = arg('title');
+		$group->description = arg('description');
 
 		// Код определения позиции желательно перенести в Gallery_Group
-		$maxPosition = $this->dbSelect('groups', "`section` = '{$item->section}'", null,
+		$maxPosition = $this->dbSelect('groups', "`section` = '{$group->section}'", null,
 			'MAX(`position`) AS `value`');
-		$item->position = intval($maxPosition[0]['value']) + 1;
+		$group->position = intval($maxPosition[0]['value']) + 1;
 
-		$item->save();
+		$table = ORM::getTable($this, 'Group');
+		$table->persist($group);
 
 		HTTP::redirect(arg('submitURL') . '&action=group');
 	}
@@ -899,7 +902,9 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminMoveUpGroup()
 	{
-		$group = new Gallery_Group(arg('group_up', 'int'));
+		$table = ORM::getTable($this, 'Group');
+		/* @var Gallery_Entity_Group $group */
+		$group = $table->find(arg('group_up', 'int'));
 		$group->moveUp();
 		HTTP::goback();
 	}
@@ -912,7 +917,9 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminMoveDownGroup()
 	{
-		$group = new Gallery_Group(arg('group_down', 'int'));
+		$table = ORM::getTable($this, 'Group');
+		/* @var Gallery_Entity_Group $group */
+		$group = $table->find(arg('group_down', 'int'));
 		$group->moveDown();
 		HTTP::goback();
 	}
@@ -926,8 +933,10 @@ class Gallery extends ContentPlugin
 	private function adminDeleteGroup()
 	{
 		$id = arg('group_delete', 'int');
-		$group = new Gallery_Group($id);
-		$group->delete();
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable($this, 'Group');
+		$group = $table->find($id);
+		$table->delete($group);
 
 		HTTP::goback();
 	}
