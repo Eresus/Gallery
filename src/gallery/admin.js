@@ -1,28 +1,28 @@
 /**
- * Галерея изображений
+ * Р“Р°Р»РµСЂРµСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№
  *
- * Клиентские скрипты АИ
+ * РљР»РёРµРЅС‚СЃРєРёРµ СЃРєСЂРёРїС‚С‹ РђР
  *
  * @version ${product.version}
  *
- * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
+ * @copyright 2010, РћРћРћ "Р”РІР° СЃР»РѕРЅР°", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author РњРёС…Р°РёР» РљСЂР°СЃРёР»СЊРЅРёРєРѕРІ <mk@3wstyle.ru>
  *
- * Данная программа является свободным программным обеспечением. Вы
- * вправе распространять ее и/или модифицировать в соответствии с
- * условиями версии 3 либо по вашему выбору с условиями более поздней
- * версии Стандартной Общественной Лицензии GNU, опубликованной Free
+ * Р”Р°РЅРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° СЏРІР»СЏРµС‚СЃСЏ СЃРІРѕР±РѕРґРЅС‹Рј РїСЂРѕРіСЂР°РјРјРЅС‹Рј РѕР±РµСЃРїРµС‡РµРЅРёРµРј. Р’С‹
+ * РІРїСЂР°РІРµ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏС‚СЊ РµРµ Рё/РёР»Рё РјРѕРґРёС„РёС†РёСЂРѕРІР°С‚СЊ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ
+ * СѓСЃР»РѕРІРёСЏРјРё РІРµСЂСЃРёРё 3 Р»РёР±Рѕ РїРѕ РІР°С€РµРјСѓ РІС‹Р±РѕСЂСѓ СЃ СѓСЃР»РѕРІРёСЏРјРё Р±РѕР»РµРµ РїРѕР·РґРЅРµР№
+ * РІРµСЂСЃРёРё РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРё GNU, РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅРѕР№ Free
  * Software Foundation.
  *
- * Мы распространяем эту программу в надежде на то, что она будет вам
- * полезной, однако НЕ ПРЕДОСТАВЛЯЕМ НА НЕЕ НИКАКИХ ГАРАНТИЙ, в том
- * числе ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ и ПРИГОДНОСТИ ДЛЯ
- * ИСПОЛЬЗОВАНИЯ В КОНКРЕТНЫХ ЦЕЛЯХ. Для получения более подробной
- * информации ознакомьтесь со Стандартной Общественной Лицензией GNU.
+ * РњС‹ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏРµРј СЌС‚Сѓ РїСЂРѕРіСЂР°РјРјСѓ РІ РЅР°РґРµР¶РґРµ РЅР° С‚Рѕ, С‡С‚Рѕ РѕРЅР° Р±СѓРґРµС‚ РІР°Рј
+ * РїРѕР»РµР·РЅРѕР№, РѕРґРЅР°РєРѕ РќР• РџР Р•Р”РћРЎРўРђР’Р›РЇР•Рњ РќРђ РќР•Р• РќРРљРђРљРРҐ Р“РђР РђРќРўРР™, РІ С‚РѕРј
+ * С‡РёСЃР»Рµ Р“РђР РђРќРўРР РўРћР’РђР РќРћР“Рћ РЎРћРЎРўРћРЇРќРРЇ РџР Р РџР РћР”РђР–Р• Рё РџР РР“РћР”РќРћРЎРўР Р”Р›РЇ
+ * РРЎРџРћР›Р¬Р—РћР’РђРќРРЇ Р’ РљРћРќРљР Р•РўРќР«РҐ Р¦Р•Р›РЇРҐ. Р”Р»СЏ РїРѕР»СѓС‡РµРЅРёСЏ Р±РѕР»РµРµ РїРѕРґСЂРѕР±РЅРѕР№
+ * РёРЅС„РѕСЂРјР°С†РёРё РѕР·РЅР°РєРѕРјСЊС‚РµСЃСЊ СЃРѕ РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРµР№ GNU.
  *
- * Вы должны были получить копию Стандартной Общественной Лицензии
- * GNU с этой программой. Если Вы ее не получили, смотрите документ на
+ * Р’С‹ РґРѕР»Р¶РЅС‹ Р±С‹Р»Рё РїРѕР»СѓС‡РёС‚СЊ РєРѕРїРёСЋ РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРё
+ * GNU СЃ СЌС‚РѕР№ РїСЂРѕРіСЂР°РјРјРѕР№. Р•СЃР»Рё Р’С‹ РµРµ РЅРµ РїРѕР»СѓС‡РёР»Рё, СЃРјРѕС‚СЂРёС‚Рµ РґРѕРєСѓРјРµРЅС‚ РЅР°
  * <http://www.gnu.org/licenses/>
  *
  * @package gallery
@@ -31,9 +31,9 @@
  */
 
 /**
- * Глобальные переменные модуля
+ * Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ РјРѕРґСѓР»СЏ
  */
-window.Eresus.gallery = 
+window.Eresus.gallery =
 {
 	thumbsRebuild: {dialog: null}
 };
@@ -41,13 +41,13 @@ window.Eresus.gallery =
 
 jQuery('#content div.image a.delete').live('click', function (e)
 {
-	return confirm("Подтверждаете удаление изображения?");
+	return confirm("РџРѕРґС‚РІРµСЂР¶РґР°РµС‚Рµ СѓРґР°Р»РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ?");
 });
 
 
 /**
- * Заправшивает список групп в указанном разделе в диалоге изменения изображения
- * 
+ * Р—Р°РїСЂР°РІС€РёРІР°РµС‚ СЃРїРёСЃРѕРє РіСЂСѓРїРї РІ СѓРєР°Р·Р°РЅРЅРѕРј СЂР°Р·РґРµР»Рµ РІ РґРёР°Р»РѕРіРµ РёР·РјРµРЅРµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+ *
  * @param {Event} e
  * @type void
  */
@@ -57,7 +57,7 @@ jQuery('#input-section').live('change', function (e)
 	var blockGroup = jQuery('#input-group-block');
 	var inputSection = jQuery('#input-section');
 	var inputGroup = jQuery('#input-group');
-	
+
 	if (inputSection.val() != form.original_section.value)
 	{
 		blockGroup.show();
@@ -73,19 +73,19 @@ jQuery('#input-section').live('change', function (e)
 
 
 jQuery('#settings span.hint-control').
-live('mouseenter', function (e)
-{
-	var control = jQuery(e.target); 
-	control.next('.hint-block').css('left', control.position().left + 'px').fadeIn();
-}).
-live('mouseleave', function (e)
-{
-	jQuery(e.target).next('.hint-block').fadeOut();
-});
+	live('mouseenter', function (e)
+	{
+		var control = jQuery(e.target);
+		control.next('.hint-block').css('left', control.position().left + 'px').fadeIn();
+	}).
+	live('mouseleave', function (e)
+	{
+		jQuery(e.target).next('.hint-block').fadeOut();
+	});
 
 /**
- * Загружает в форму список групп
- * 
+ * Р—Р°РіСЂСѓР¶Р°РµС‚ РІ С„РѕСЂРјСѓ СЃРїРёСЃРѕРє РіСЂСѓРїРї
+ *
  * @param {Object|XMLHttpRequest}    data
  * @param {String}                   textStatus
  * @param {XMLHttpRequest|Exception} extra
@@ -102,22 +102,22 @@ function galleryImageEditLoadGroups(data, textStatus, extra)
 			{
 				jQuery('<option />').text(data[i].title).attr('value', data[i].id).appendTo(inputGroup);
 			}
-		break;
-		
+			break;
+
 		default:
-			alert('Не удалось получить список групп с сервера. Обновите страницу и попробуйте ещё раз.');
+			alert('РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє РіСЂСѓРїРї СЃ СЃРµСЂРІРµСЂР°. РћР±РЅРѕРІРёС‚Рµ СЃС‚СЂР°РЅРёС†Сѓ Рё РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·.');
 	}
 }
 
 
 /**
- * Выполняет XMLHttpRequest к АИ плагина
- * 
- * @param {String}   module    Имя модуля (всегда должно быть "gallery")
- * @param {String}   action    Запрашиваемое действие
- * @param {Function} callback  Обработчик ответа
- * @param дополнительные аргументы
- * 
+ * Р’С‹РїРѕР»РЅСЏРµС‚ XMLHttpRequest Рє РђР РїР»Р°РіРёРЅР°
+ *
+ * @param {String}   module    РРјСЏ РјРѕРґСѓР»СЏ (РІСЃРµРіРґР° РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ "gallery")
+ * @param {String}   action    Р—Р°РїСЂР°С€РёРІР°РµРјРѕРµ РґРµР№СЃС‚РІРёРµ
+ * @param {Function} callback  РћР±СЂР°Р±РѕС‚С‡РёРє РѕС‚РІРµС‚Р°
+ * @param РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ Р°СЂРіСѓРјРµРЅС‚С‹
+ *
  * @type void
  */
 window.Eresus.galleryRequest = function (module, action, callback)
@@ -134,8 +134,8 @@ window.Eresus.galleryRequest = function (module, action, callback)
 
 
 /**
- * Запускает процесс пересоздания миниатюр
- * 
+ * Р—Р°РїСѓСЃРєР°РµС‚ РїСЂРѕС†РµСЃСЃ РїРµСЂРµСЃРѕР·РґР°РЅРёСЏ РјРёРЅРёР°С‚СЋСЂ
+ *
  * @param {Integer} newWidth
  * @param {Integer} newHeight
  * @type Boolean
@@ -144,21 +144,21 @@ window.Eresus.galleryRequest = function (module, action, callback)
 function rebuildThumbnails(newWidth, newHeight)
 {
 	var dialog = jQuery('#thumbsRebuildDialog');
-	// Сохраняем переменные в глобальной области
+	// РЎРѕС…СЂР°РЅСЏРµРј РїРµСЂРµРјРµРЅРЅС‹Рµ РІ РіР»РѕР±Р°Р»СЊРЅРѕР№ РѕР±Р»Р°СЃС‚Рё
 	window.Eresus.gallery.thumbsRebuild.dialog = dialog;
-	
+
 	dialog.
 		dialog({
 			autoOpen: false,
-			buttons: { "Закрыть": function() { jQuery(this).dialog('close'); }},
+			buttons: { "Р—Р°РєСЂС‹С‚СЊ": function() { jQuery(this).dialog('close'); }},
 			draggable: false,
 			modal: true,
 			rsizable: false,
-			title: 'Идёт пересоздание миниатюр...',
+			title: 'РРґС‘С‚ РїРµСЂРµСЃРѕР·РґР°РЅРёРµ РјРёРЅРёР°С‚СЋСЂ...',
 			open: function ()
 			{
 				jQuery('#thumbsRebuildErrors *').remove();
-				jQuery('#thumbsRebuildMessage').text('Не закрывайте эту страницу до окончания процесса.');
+				jQuery('#thumbsRebuildMessage').text('РќРµ Р·Р°РєСЂС‹РІР°Р№С‚Рµ СЌС‚Сѓ СЃС‚СЂР°РЅРёС†Сѓ РґРѕ РѕРєРѕРЅС‡Р°РЅРёСЏ РїСЂРѕС†РµСЃСЃР°.');
 				jQuery('.progressbar', this).progressbar().progressbar('value', 0);
 				window.Eresus.galleryRequest('gallery', 'thumbsRebuildStart', galleryThumbsRebuildHandler,
 					newWidth, newHeight);
@@ -169,14 +169,14 @@ function rebuildThumbnails(newWidth, newHeight)
 			}
 		}).
 		dialog('open');
-	
+
 	return false;
 }
 
 
 /**
- * Загружает в форму список групп
- * 
+ * Р—Р°РіСЂСѓР¶Р°РµС‚ РІ С„РѕСЂРјСѓ СЃРїРёСЃРѕРє РіСЂСѓРїРї
+ *
  * @param {Object|XMLHttpRequest}    data
  * @param {String}                   textStatus
  * @param {XMLHttpRequest|Exception} extra
@@ -188,7 +188,7 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 	{
 		return;
 	}
-	
+
 	switch (textStatus)
 	{
 		case 'success':
@@ -210,8 +210,8 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 						jQuery('#settings').submit();
 						return;
 					}
-				break;
-				
+					break;
+
 				case 'build':
 					if (data.status != 'success')
 					{
@@ -224,11 +224,11 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 					var progress = Math.round(100 / window.Eresus.gallery.thumbsRebuild.total * done);
 					jQuery('.progressbar', window.Eresus.gallery.thumbsRebuild.dialog).
 						progressbar('value', progress);
-					
+
 					if (window.Eresus.gallery.thumbsRebuild.ids.length)
 					{
 						window.Eresus.galleryRequest('gallery', 'thumbsRebuildNext',
-							galleryThumbsRebuildHandler, window.Eresus.gallery.thumbsRebuild.ids[0], 
+							galleryThumbsRebuildHandler, window.Eresus.gallery.thumbsRebuild.ids[0],
 							data.width, data.height);
 					}
 					else
@@ -242,13 +242,13 @@ function galleryThumbsRebuildHandler(data, textStatus, extra)
 						}
 
 						jQuery('#thumbsRebuildMessage').
-							text('В процессе работы произошли ошибки. Возможно одна или несколько миниатюр не пересоздано.');
+							text('Р’ РїСЂРѕС†РµСЃСЃРµ СЂР°Р±РѕС‚С‹ РїСЂРѕРёР·РѕС€Р»Рё РѕС€РёР±РєРё. Р’РѕР·РјРѕР¶РЅРѕ РѕРґРЅР° РёР»Рё РЅРµСЃРєРѕР»СЊРєРѕ РјРёРЅРёР°С‚СЋСЂ РЅРµ РїРµСЂРµСЃРѕР·РґР°РЅРѕ.');
 					}
-				break;
+					break;
 			}
-		break;
-		
+			break;
+
 		default:
-			alert('Не удалось получить ответ от сервера. Обновите страницу и попробуйте ещё раз.');
+			alert('РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ РѕС‚РІРµС‚ РѕС‚ СЃРµСЂРІРµСЂР°. РћР±РЅРѕРІРёС‚Рµ СЃС‚СЂР°РЅРёС†Сѓ Рё РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·.');
 	}
 }
