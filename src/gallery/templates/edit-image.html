@@ -53,7 +53,7 @@
 
 				<div class="input-pair">
 					<label>Дата и время добавления:</label><br />
-					<input type="text" name="posted" value="{$image->posted}" />
+					<input type="text" name="posted" value="{$image->posted->format('Y-m-d H:i:s')}" />
 					<span class="minor">Формат: ГГГГ-ММ-ДД ЧЧ:ММ:СС</span>
 				</div>
 

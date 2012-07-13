@@ -142,7 +142,9 @@ class Gallery_ClientListView
 	 */
 	protected function countPageCount($sectionId, $itemsPerPage)
 	{
-		return ceil(Gallery_Image::count($sectionId, true) / $itemsPerPage);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($GLOBALS['Eresys']->plugins->load('gallery'), 'Image');
+		return ceil($table->countInSection($sectionId, false) / $itemsPerPage);
 	}
 	//-----------------------------------------------------------------------------
 

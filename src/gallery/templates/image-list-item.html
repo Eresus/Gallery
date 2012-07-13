@@ -4,7 +4,7 @@
 	</div>
 	<div class="info" style="margin-left: {$this->settings.thumbWidth + 10}px">
 		<div class="title">{$image->title}</div>
-		<div class="date">{date_format($image->posted, "%d.%m.%Y %H:%M")}</div>
+		<div class="date">{$image->posted->format("d.m.Y H:i")}</div>
 		{if $image->cover}
 		<div class="cover-text">(обложка альбома)</div>
 		{else}{if $image->active}

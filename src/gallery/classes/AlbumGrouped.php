@@ -45,7 +45,7 @@
 class Gallery_AlbumGrouped extends Gallery_Album
 {
 	/**
-	 * Загружет объекты из БД, если они не были загружены ранее
+	 * Загружает объекты из БД, если они не были загружены ранее
 	 *
 	 * @return void
 	 *
@@ -58,7 +58,8 @@ class Gallery_AlbumGrouped extends Gallery_Album
 			return;
 		}
 
-		$q = DB::getHandler()->createSelectQuery();
+		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Image');
+		$q = $table->createSelectQuery();
 		$e = $q->expr;
 
 		$q->where(
@@ -69,7 +70,7 @@ class Gallery_AlbumGrouped extends Gallery_Album
 			))->
 			orderBy('groupId');
 
-		$this->items = Gallery_Image::load($q);
+		$this->items = $table->loadFromQuery($q);
 
 		$this->loaded = true;
 	}

@@ -59,21 +59,21 @@ class Gallery_AdminXHR extends Gallery_Prototype_AdminXHR
 	 * Запускает процесс перестройки миниатюр
 	 *
 	 * @param int $newWidth   новая ширина миниатюр
-	 * @param int $newHeihgt  новая высота миниатюр
+	 * @param int $newHeight  новая высота миниатюр
+	 *
 	 * @return array
 	 *
 	 * @since 2.01
 	 */
 	protected function actionThumbsRebuildStart($newWidth, $newHeight)
 	{
-		$query = DB::getHandler()->createSelectQuery();
-		$query->select('id')->from(Gallery_Image::getDbTableStatic('Gallery_Image'));
-		$raw = DB::fetchAll($query);
+		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Image');
+		$images = $table->findAll();
 
 		$ids = array();
-		foreach ($raw as $image)
+		foreach ($images as $image)
 		{
-			$ids []= $image['id'];
+			$ids []= $image->id;
 		}
 		return array('action' => 'start', 'ids' => $ids, 'width' => $newWidth, 'height' => $newHeight);
 	}
@@ -93,9 +93,12 @@ class Gallery_AdminXHR extends Gallery_Prototype_AdminXHR
 	{
 		$response = array('action' => 'build', 'id' => $imageId, 'status' => 'success',
 			'width' => $width, 'height' => $height);
+
+		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Image');
 		try
 		{
-			$image = new Gallery_Image($imageId);
+			/* @var Gallery_Entity_Image $image */
+			$image = $table->find($imageId);
 			$image->buildThumb($width, $height);
 		}
 		catch (Exception $e)

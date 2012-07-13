@@ -101,4 +101,189 @@ class Gallery_Entity_Table_Image extends ORM_Table
 		/* Проверенные индексы */
 		$this->index('images_by_group_idx', array('fields' => array('group', 'active', 'position')));
 	}
+
+	/**
+	 * Возвращает изображения, принадлежащие разделу или группе
+	 *
+	 * @param int|Gallery_Entity_Group $owner   идентификатор раздела или группа
+	 * @param int                      $limit   максимальное количество возвращаемых групп
+	 * @param int                      $offset  позиция с которой начать выборку
+	 * @param bool                     $all     возвращать также отключенные изображения
+	 *
+	 * @return Gallery_Entity_Group[]
+	 */
+	public function findInSection($owner, $limit = null, $offset = 0, $all = true)
+	{
+		$q = $this->createSelectQuery();
+		/* Строим условие выборки */
+		$where = '1';
+		if ($owner)
+		{
+			if ($owner instanceof Gallery_Entity_Group)
+			{
+				$where = $q->expr->eq('groupId', $q->bindValue($owner->id, null, PDO::PARAM_INT));
+			}
+			else
+			{
+				$where = $q->expr->eq('section', $q->bindValue($owner, null, PDO::PARAM_INT));
+			}
+		}
+
+		if (false == $all)
+		{
+			$where = $q->expr->lAnd($where,
+				$q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)));
+		}
+
+		if ($this->plugin->settings['useGroups'])
+		{
+			// Отбираем только изображения, привязанные к группам
+			$where = $q->expr->lAnd($where, $q->expr->neq('groupId', 0));
+		}
+
+		$q->where($where);
+		$q->orderBy('position');
+
+		return $this->loadFromQuery($q, $limit, $offset);
+	}
+
+	/**
+	 * Возвращает количество групп в указанном разделе
+	 *
+	 * @param int  $id   ID раздела сайта
+	 * @param bool $all  возвращать также отключенные изображения
+	 *
+	 * @return int
+	 */
+	public function countInSection($id, $all = true)
+	{
+		$q = $this->createCountQuery();
+
+		$where = $q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR));
+		if (false == $all)
+		{
+			$where = $q->expr->lAnd($where,
+				$q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)));
+		}
+
+		$q->where($where);
+		return $this->count($q);
+	}
+
+	/**
+	 * Сбрасывает флаг "Обложка альбома" у всех изображений в указанном разделе
+	 *
+	 * @param int $section
+	 */
+	public function clearCovers($section)
+	{
+		$q = DB::getHandler()->createUpdateQuery();
+		$q->update($this->getTableName())->
+			set('cover', $q->bindValue(false, null, PDO::PARAM_BOOL))->
+			where($q->expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)));
+		DB::execute($q);
+	}
+
+	/**
+	 * Автоматически выбирает изображение для обложки в указанном разделе
+	 *
+	 * @param int  $section  Идентификатор раздела
+	 *
+	 * @return void
+	 *
+	 * @since 2.00
+	 */
+	public function autoSetCover($section)
+	{
+		/*
+		 * ez Components не поддерживает LIMIT в запросах UPDATE, так что делаем два запроса
+		 */
+		$q = DB::getHandler()->createSelectQuery();
+		$e = $q->expr;
+		$q->select('id');
+		$q->from($this->getTableName());
+		$q->where($e->lAnd(
+			$e->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
+			$e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+			$e->neq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
+		));
+		$q->limit(1);
+
+		switch ($this->plugin->settings['sort'])
+		{
+			case 'date_asc':
+				$q->orderBy('posted', ezcQuerySelect::DESC);
+				break;
+
+			case 'date_desc':
+				$q->orderBy('posted', ezcQuerySelect::ASC);
+				break;
+
+			case 'manual':
+				$q->orderBy('position');
+				break;
+		}
+
+		try
+		{
+			$tmp = DB::fetch($q);
+		}
+		catch (DBQueryException $e)
+		{
+			// Нет такой записи. Ничего делать не надо
+			return;
+		}
+
+		$q = DB::getHandler()->createUpdateQuery();
+		$e = $q->expr;
+		$q->update($this->getTableName());
+		$q->set('cover', true);
+		$q->where($e->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
+
+		DB::execute($q);
+	}
+
+	/**
+	 * Ищет обложку для указанного раздела
+	 *
+	 * @param int $section
+	 *
+	 * @return Gallery_Image|bool  Возвращает изображение или FALSE, если обложка отсутствует
+	 */
+	public function findCover($section)
+	{
+		$q = DB::getHandler()->createSelectQuery();
+		$e = $q->expr;
+		$q->select('*');
+		$q->from($this->getTableName());
+		$q->where($e->lAnd(
+			$e->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
+			$e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+			$e->eq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
+		));
+
+		$image = $this->loadOneFromQuery($q);
+		if (!$image)
+		{
+			return false;
+		}
+		return $image;
+	}
+
+	/**
+	 * @param ORM_Entity $entity
+	 */
+	public function persist(ORM_Entity $entity)
+	{
+		/* Вычисляем порядковый номер */
+		$q = DB::getHandler()->createSelectQuery();
+		$e = $q->expr;
+		$q->select($q->alias($e->max('position'), 'maxval'));
+		$q->from($this->getTableName());
+		$q->where($e->eq('section', $q->bindValue($entity->section, null, PDO::PARAM_INT)));
+		$result = DB::fetch($q);
+		$entity->position = $result['maxval'] + 1;
+
+		parent::persist($entity);
+	}
 }

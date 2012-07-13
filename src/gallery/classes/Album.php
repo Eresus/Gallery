@@ -68,21 +68,21 @@ class Gallery_Album implements Iterator, Countable
 	/**
 	 * Текущее (просматриваемое посетителем) изображение
 	 *
-	 * @var Gallery_Image
+	 * @var Gallery_Entity_Image
 	 */
 	protected $current;
 
 	/**
 	 * Следующее (относительно просматриваемого посетителем) изображение
 	 *
-	 * @var Gallery_Image
+	 * @var Gallery_Entity_Image
 	 */
 	protected $next;
 
 	/**
 	 * Предыдущее (относительно просматриваемого посетителем) изображение
 	 *
-	 * @var Gallery_Image
+	 * @var Gallery_Entity_Image
 	 */
 	protected $prev;
 
@@ -195,13 +195,13 @@ class Gallery_Album implements Iterator, Countable
 	/**
 	 * Устанавливает изображение альбома в качестве текущего
 	 *
-	 * @param Gallery_Image $image
+	 * @param Gallery_Entity_Image $image
 	 *
 	 * @return void
 	 *
 	 * @since 2.03
 	 */
-	public function setCurrent(Gallery_Image $image)
+	public function setCurrent(Gallery_Entity_Image $image)
 	{
 		$this->current = $image;
 		$this->next = -1;
@@ -210,7 +210,7 @@ class Gallery_Album implements Iterator, Countable
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Загружет объекты из БД, если они не были загружены ранее
+	 * Загружает объекты из БД, если они не были загружены ранее
 	 *
 	 * @return void
 	 *
@@ -222,7 +222,9 @@ class Gallery_Album implements Iterator, Countable
 		{
 			return;
 		}
-		$this->items = Gallery_Image::find($this->sectionId, null, null, true);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Image');
+		$this->items = $table->find($this->sectionId, null, null, true);
 		$this->loaded = true;
 	}
 	//-----------------------------------------------------------------------------
@@ -230,7 +232,7 @@ class Gallery_Album implements Iterator, Countable
 	/**
 	 * Возвращает следующее изображение в альбоме или null.
 	 *
-	 * @return Gallery_Image|null
+	 * @return Gallery_Entity_Image|null
 	 *
 	 * @since 2.03
 	 */
@@ -264,7 +266,7 @@ class Gallery_Album implements Iterator, Countable
 	/**
 	 * Возвращает предыдущее изображение в альбоме или null.
 	 *
-	 * @return Gallery_Image|null
+	 * @return Gallery_Entity_Image|null
 	 *
 	 * @since 2.03
 	 */

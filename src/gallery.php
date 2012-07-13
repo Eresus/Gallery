@@ -110,6 +110,36 @@ class Gallery extends ContentPlugin
 	);
 
 	/**
+	 * Конструктор
+	 *
+	 * @since 3.00
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		spl_autoload_register(array($this, 'autoload'));
+	}
+
+	/**
+	 * Автозагрузчик классов
+	 *
+	 * @param $className
+	 *
+	 * @return bool
+	 *
+	 * @since 3.00
+	 */
+	public function autoload($className)
+	{
+		if (substr($className, 0, 8) == 'PhpThumb')
+		{
+			include_once $this->getCodeDir() . '/phpthumb/ThumbLib.inc.php';
+			return class_exists($className, false) || interface_exists($className, false);
+		}
+		return false;
+	}
+
+	/**
 	 * Возвращает свойство $dirData
 	 *
 	 * @return string
@@ -685,26 +715,27 @@ class Gallery extends ContentPlugin
 			HTTP::goback();
 		}
 
-		$item = new Gallery_Image();
-		$item->section = arg('section');
-		$item->group = arg('group');
+		$image = new Gallery_Entity_Image($this);
+		$image->section = arg('section');
+		$image->groupId = arg('group') ? arg('group') : 0;
 		$_SESSION['gallery_default_group'] = arg('group');
-		$item->title = arg('title');
-		$item->cover = arg('cover');
-		$item->active = arg('active');
-		$item->posted = gettime();
-		$item->image = 'image'; // $_FILES['image'];
+		$image->title = arg('title');
+		$image->cover = arg('cover') ? arg('cover') : false;
+		$image->active = arg('active');
+		$image->posted = new DateTime();
+		$image->image = 'image'; // $_FILES['image'];
 
+		$table = ORM::getTable($this, 'Image');
 		try
 		{
-			$item->save();
+			$table->persist($image);
 		}
 		catch (Gallery_Exception_FileTooBigException $e)
 		{
 			throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
 		}
 
-		$url = 'admin.php?mod=content&section=' . $item->section;
+		$url = 'admin.php?mod=content&section=' . $image->section;
 		if (arg('pg'))
 		{
 			$url .= '&pg=' . arg('pg', 'int');
@@ -1196,9 +1227,10 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminImageToggle($id)
 	{
-		$image = new Gallery_Image($id);
+		$table = ORM::getTable($this, 'Image');
+		$image = $table->find($id);
 		$image->active = ! $image->active;
-		$image->save();
+		$table->update($image);
 
 		HTTP::goback();
 	}
