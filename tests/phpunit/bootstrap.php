@@ -32,32 +32,101 @@
  * $Id$
  */
 
+define('TESTS_SRC_ROOT', realpath(__DIR__ . '/../../src'));
+
+require_once 'stubs.php';
+require_once TESTS_SRC_ROOT . '/gallery/classes/Prototype/AdminXHR.php';
+require_once TESTS_SRC_ROOT . '/gallery/classes/ClientListView.php';
+require_once TESTS_SRC_ROOT . '/gallery/classes/ClientPopupView.php';
+require_once TESTS_SRC_ROOT . '/gallery/classes/Exception/UploadException.php';
+
 /**
- * @package Gallery
- * @subpackage Tests
+ * Универсальная заглушка
  */
-class EresusPropertyNotExistsException extends Exception
+class UniversalStub implements ArrayAccess
 {
-	function __construct($property = null, $class = null, $description = null, $previous = null)
+	public function __get($a)
 	{
+		return $this;
 	}
-	//-----------------------------------------------------------------------------
+
+	public function __call($a, $b)
+	{
+		return $this;
+	}
+
+	public function offsetExists($offset)
+	{
+		return true;
+	}
+
+	public function offsetGet($offset)
+	{
+		return $this;
+	}
+
+	public function offsetSet($offset, $value)
+	{
+		;
+	}
+
+	public function offsetUnset($offset)
+	{
+		;
+	}
+
+	public function __toString()
+	{
+		return '';
+	}
 }
 
 
-
 /**
- * @package Gallery
- * @subpackage Tests
+ * Фасад к моку для эмуляции статичных методов
+ *
  */
-class EresusTypeException extends Exception
+class MockFacade
 {
-	function __construct($var = null, $expectedType = null, $description = null, $previous = null)
+	/**
+	 * Мок
+	 *
+	 * @var object
+	 */
+	private static $mock;
+
+	/**
+	 * Устанавливает мок
+	 *
+	 * @param object $mock
+	 *
+	 * @return void
+	 */
+	public static function setMock($mock)
 	{
+		self::$mock = $mock;
+	}
+	//-----------------------------------------------------------------------------
+
+	/**
+	 * Вызывает метод мока
+	 *
+	 * @param string $method
+	 * @param array  $args
+	 *
+	 * @return mixed
+	 */
+	public static function __callstatic($method, $args)
+	{
+		if (self::$mock && method_exists(self::$mock, $method))
+		{
+			return call_user_func_array(array(self::$mock, $method), $args);
+		}
+
+		return new UniversalStub();
 	}
 	//-----------------------------------------------------------------------------
 }
-
 
 
 /**
@@ -86,31 +155,3 @@ class PluginsStub
 	}
 	//-----------------------------------------------------------------------------
 }
-
-
-
-/**
- * @package Gallery
- * @subpackage Tests
- */
-class Gallery
-{
-	public $name = 'gallery';
-
-	public $settings = array(
-		'showItemMode' => 'default'
-	);
-
-	public function getDataURL()
-	{
-		return 'http://example.org/data/name/';
-	}
-	//-----------------------------------------------------------------------------
-
-	public function clientListURL()
-	{
-		return 'http://example.org/name/';
-	}
-	//-----------------------------------------------------------------------------
-}
-

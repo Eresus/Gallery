@@ -532,8 +532,6 @@ class Gallery extends ContentPlugin
 	 * Отрисовывает интерфейс списка изображений
 	 *
 	 * @return string  HTML
-	 *
-	 * @TODO Переделать через ORM
 	 */
 	private function adminRenderImagesList()
 	{
@@ -548,16 +546,17 @@ class Gallery extends ContentPlugin
 
 		$startFrom = ($pg - 1) * $maxCount;
 
+		/* @var Gallery_Entity_Table_AbstractContent $table */
 		if ($this->settings['useGroups'])
 		{
-			/* @var Gallery_Entity_Table_Group $table */
 			$table = ORM::getTable($this, 'Group');
-			$items = $table->findInSection($section, $maxCount, $startFrom);
 		}
 		else
 		{
-			$items = Gallery_Image::find($section, $maxCount, $startFrom);
+			$table = ORM::getTable($this, 'Image');
 		}
+
+		$items = $table->findInSection($section, $maxCount, $startFrom);
 
 		// Данные для подстановки в шаблон
 		$vars = array();
@@ -581,14 +580,7 @@ class Gallery extends ContentPlugin
 		$vars['urlDelete'] = str_replace('&', '&amp;',
 			Eresus_Kernel::app()->getPage()->url(array('delete' => '%s')));
 
-		if ($this->settings['useGroups'])
-		{
-			$totalPages = ceil($table->countInSection($section) / $maxCount);
-		}
-		else
-		{
-			$totalPages = ceil(Gallery_Image::count($section) / $maxCount);
-		}
+		$totalPages = ceil($table->countInSection($section) / $maxCount);
 
 		if ($totalPages > 1)
 		{
@@ -1239,15 +1231,22 @@ class Gallery extends ContentPlugin
 	/**
 	 * Делает указанное в запросе Изображение обложкой альбома
 	 *
+	 * @throws Gallery_Exception_NotFound
+	 *
 	 * @return void
 	 */
 	private function coverAction()
 	{
 		$id = arg('cover', 'int');
 
-		$image = new Gallery_Image($id);
-		$image->cover = true;
-		$image->save();
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
+		if (null === $image)
+		{
+			throw new Gallery_Exception_NotFound('Запрошенное изображение не найдено');
+		}
+		$image->album->setCover($image);
 
 		HTTP::goback();
 	}
