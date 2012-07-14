@@ -42,6 +42,7 @@
  * @property      int                  $position     порядковый номер
  * @property-read string               $thumbURL     URL миниатюры
  * @property-read Gallery_Entity_Album $album        альбом этого изображения
+ * @property-read Gallery_ImageOwner   $owner        непосредственный владелец изображения
  *
  * @package Gallery
  * @since 3.00
@@ -299,6 +300,23 @@ class Gallery_Entity_Image extends ORM_Entity
 	protected function setImage($value)
 	{
 		$this->upload = $value;
+	}
+
+	/**
+	 * Геттер свойства $owner
+	 *
+	 * @return Gallery_ImageOwner
+	 */
+	protected function getOwner()
+	{
+		if ($this->plugin->settings['useGroups'])
+		{
+			return $this->group;
+		}
+		else
+		{
+			return $this->album;
+		}
 	}
 
 	/**
