@@ -29,47 +29,12 @@
 
 require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Table/Album.php';
 
-class Gallery_Entity_Table_Album_Test extends PHPUnit_Extensions_Database_TestCase
+class Gallery_Entity_Table_Album_Test extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var PDO
+	 * @ covers Gallery_Entity_Table_Album::
 	 */
-	private $pdo = null;
-
-	/**
-	 * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
-	 */
-	private $connection = null;
-
-	/**
-	 * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
-	 */
-	public function getConnection()
+	public function test_foo()
 	{
-		if (null === $this->connection)
-		{
-			$this->pdo = new PDO('sqlite::memory:');
-			$this->pdo->query('CREATE TABLE pages (id INTEGER, name TEXT, owner INTEGER, title TEXT, ' .
-				'caption TEXT, description TEXT, hint TEXT, keywords TEXT, position INTEGER, ' .
-				'active INTEGER, access INTEGER, visible INTEGER, template TEXT, type TEXT, ' .
-				'content TEXT, options TEXT, created TEXT, updated TEXT)');
-			$this->pdo->query('CREATE UNIQUE INDEX id ON pages (id);');
-			$this->connection = $this->createDefaultDBConnection($this->pdo, ':memory:');
-		}
-		return $this->connection;
-	}
-
-	/**
-	 * @return PHPUnit_Extensions_Database_DataSet_IDataSet
-	 */
-	public function getDataSet()
-	{
-		return $this->createFlatXmlDataSet(__DIR__ . '/Album.fixtures/db.xml');
-	}
-
-	public function test_find()
-	{
-		//$table = $this->getMockForAbstractClass('Gallery_Entity_Table_Album');
-		//$page = $table->find(1);
 	}
 }
