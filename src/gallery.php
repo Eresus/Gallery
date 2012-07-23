@@ -925,10 +925,11 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminMoveUpGroup()
 	{
+		/* @var Gallery_Entity_Table_Group $table */
 		$table = ORM::getTable($this, 'Group');
 		/* @var Gallery_Entity_Group $group */
 		$group = $table->find(arg('group_up', 'int'));
-		$group->moveUp();
+		$table->moveUp($group);
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
@@ -940,10 +941,11 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminMoveDownGroup()
 	{
+		/* @var Gallery_Entity_Table_Group $table */
 		$table = ORM::getTable($this, 'Group');
 		/* @var Gallery_Entity_Group $group */
 		$group = $table->find(arg('group_down', 'int'));
-		$group->moveDown();
+		$table->moveDown($group);
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
@@ -1191,8 +1193,10 @@ class Gallery extends ContentPlugin
 	 */
 	private function up($id)
 	{
-		$image = new Gallery_Image($id);
-		$image->moveUp();
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
+		$table->moveUp($image);
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
@@ -1206,11 +1210,12 @@ class Gallery extends ContentPlugin
 	 */
 	private function down($id)
 	{
-		$image = new Gallery_Image($id);
-		$image->moveDown();
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
+		$table->moveDown($image);
 		HTTP::goback();
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Включает или отключает изображение
@@ -1227,7 +1232,6 @@ class Gallery extends ContentPlugin
 
 		HTTP::goback();
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Делает указанное в запросе Изображение обложкой альбома
@@ -1251,6 +1255,4 @@ class Gallery extends ContentPlugin
 
 		HTTP::goback();
 	}
-	//-----------------------------------------------------------------------------
-
 }

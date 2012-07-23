@@ -286,4 +286,84 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 
 		parent::persist($entity);
 	}
+
+	/**
+	 * Перемещает изображение выше по списку
+	 *
+	 * @param Gallery_Entity_Image $image
+	 */
+	public function moveUp(Gallery_Entity_Image $image)
+	{
+		if (0 == $image->position)
+		{
+			return;
+		}
+
+		$q = $this->createSelectQuery(false);
+		$q->select('*');
+		$e = $q->expr;
+		$expr = $e->lt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
+		if ($this->plugin->settings['useGroups'])
+		{
+			$q->where($e->lAnd($e->eq('groupId',
+				$q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
+		}
+		else
+		{
+			$q->where($e->lAnd($e->eq('section',
+				$q->bindValue($image->id, null, PDO::PARAM_INT)), $expr));
+		}
+
+		$q->orderBy('position', ezcQuerySelect::DESC);
+		$q->limit(1);
+
+		/* @var Gallery_Entity_Image $swap */
+		$swap = $this->loadOneFromQuery($q);
+
+		if ($swap)
+		{
+			$pos = $image->position;
+			$image->position = $swap->position;
+			$swap->position = $pos;
+			$this->update($swap);
+			$this->update($image);
+		}
+	}
+
+	/**
+	 * Перемещает изображение ниже по списку
+	 *
+	 * @param Gallery_Entity_Image $image
+	 */
+	public function moveDown(Gallery_Entity_Image $image)
+	{
+		$q = $this->createSelectQuery();
+		$e = $q->expr;
+		$expr = $e->gt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
+		if ($this->plugin->settings['useGroups'])
+		{
+			$q->where($e->lAnd($e->eq('groupId',
+				$q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
+		}
+		else
+		{
+			$q->where($e->lAnd($e->eq('section',
+				$q->bindValue($image->id, null, PDO::PARAM_INT)), $expr));
+		}
+
+		$q->orderBy('position', ezcQuerySelect::DESC);
+		$q->limit(1);
+
+		/* @var Gallery_Entity_Image $swap */
+		$swap = $this->loadOneFromQuery($q);
+
+		if ($swap)
+		{
+			$pos = $image->position;
+			$image->position = $swap->position;
+			$swap->position = $pos;
+			$this->update($swap);
+			$this->update($image);
+		}
+	}
 }

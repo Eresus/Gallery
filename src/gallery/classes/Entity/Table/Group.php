@@ -89,4 +89,70 @@ class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
 		$q->orderBy('position');
 		return $this->loadFromQuery($q, $limit, $offset);
 	}
+
+	/**
+	 * Перемещает группу выше по списку
+	 *
+	 * @param Gallery_Entity_Group $group
+	 */
+	public function moveUp(Gallery_Entity_Group $group)
+	{
+		if (0 == $group->position)
+		{
+			return;
+		}
+
+		$q = $this->createSelectQuery(false);
+		$q->select('*');
+		$e = $q->expr;
+		$q->where($e->lAnd(
+			$e->eq('section',$q->bindValue($group->section, null, PDO::PARAM_INT)),
+			$e->lt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
+		));
+
+		$q->orderBy('position', ezcQuerySelect::DESC);
+		$q->limit(1);
+
+		/* @var Gallery_Entity_Group $swap */
+		$swap = $this->loadOneFromQuery($q);
+
+		if ($swap)
+		{
+			$pos = $group->position;
+			$group->position = $swap->position;
+			$swap->position = $pos;
+			$this->update($swap);
+			$this->update($group);
+		}
+	}
+
+	/**
+	 * Перемещает группу ниже по списку
+	 *
+	 * @param Gallery_Entity_Group $group
+	 */
+	public function moveDown(Gallery_Entity_Group $group)
+	{
+		$q = $this->createSelectQuery();
+		$e = $q->expr;
+		$q->where($e->lAnd(
+			$e->eq('section',$q->bindValue($group->section, null, PDO::PARAM_INT)),
+			$e->gt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
+		));
+
+		$q->orderBy('position', ezcQuerySelect::DESC);
+		$q->limit(1);
+
+		/* @var Gallery_Entity_Group $swap */
+		$swap = $this->loadOneFromQuery($q);
+
+		if ($swap)
+		{
+			$pos = $group->position;
+			$group->position = $swap->position;
+			$swap->position = $pos;
+			$this->update($swap);
+			$this->update($group);
+		}
+	}
 }

@@ -32,29 +32,8 @@ require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Image.php';
 class Gallery_Entity_Image_Test extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers Gallery_Entity_Image::getOwner
 	 */
-	public function test_adminImageToggle()
+	public function test_stub()
 	{
-		$image = $this->getMockBuilder('Gallery_Entity_Image')->
-			setMethods(array('getGroup', 'getAlbum'))->disableOriginalConstructor()->getMock();
-
-		$image->expects($this->once())->method('getGroup')->will($this->returnValue('group'));
-		$image->expects($this->once())->method('getAlbum')->will($this->returnValue('album'));
-
-		$getOwner = new ReflectionMethod('Gallery_Entity_Image', 'getOwner');
-		$getOwner->setAccessible(true);
-
-		$plugin = new ReflectionProperty('Gallery_Entity_Image', 'plugin');
-		$plugin->setAccessible(true);
-
-		$gallery = new stdClass();
-		$plugin->setValue($image, $gallery);
-
-		$gallery->settings = array('useGroups' => false);
-		$this->assertEquals('album', $getOwner->invoke($image));
-
-		$gallery->settings['useGroups'] = true;
-		$this->assertEquals('group', $getOwner->invoke($image));
 	}
 }
