@@ -744,7 +744,9 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminUpdateImage()
 	{
-		$image = new Gallery_Image(arg('update', 'int'));
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		$image = $table->find(arg('update', 'int'));
 
 		$new_section = arg('section', 'int');
 		if ($new_section == $image->section)
@@ -992,8 +994,10 @@ class Gallery extends ContentPlugin
 	 */
 	private function delete($id)
 	{
-		$image = new Gallery_Image($id);
-		$image->delete();
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		$image = $table->find($id);
+		$table->delete($image);
 
 		HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
 	}
@@ -1064,7 +1068,9 @@ class Gallery extends ContentPlugin
 			$page->httpError(404);
 		}
 
-		$image = new Gallery_Image($id);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		$image = $table->find($id);
 
 		if (!$image || !$image->active)
 		{

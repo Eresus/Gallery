@@ -35,7 +35,6 @@
 define('TESTS_SRC_ROOT', realpath(__DIR__ . '/../../src'));
 
 require_once 'stubs.php';
-require_once TESTS_SRC_ROOT . '/gallery/classes/Prototype/AdminXHR.php';
 require_once TESTS_SRC_ROOT . '/gallery/classes/ClientListView.php';
 require_once TESTS_SRC_ROOT . '/gallery/classes/ClientPopupView.php';
 require_once TESTS_SRC_ROOT . '/gallery/classes/Exception/UploadException.php';

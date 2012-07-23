@@ -71,7 +71,9 @@ class Gallery_ClientPopupView
 	 */
 	protected function renderImageList()
 	{
-		$items = Gallery_Image::find($GLOBALS['page']->id, null, null, true);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$items = $table->findInSection($GLOBALS['page']->id);
 		$jsArray = array();
 		foreach ($items as $item)
 		{

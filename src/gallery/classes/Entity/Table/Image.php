@@ -248,7 +248,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 	 *
 	 * @param int $section
 	 *
-	 * @return Gallery_Image|bool  Возвращает изображение или FALSE, если обложка отсутствует
+	 * @return Gallery_Entity_Image|bool  Возвращает изображение или FALSE, если обложка отсутствует
 	 */
 	public function findCover($section)
 	{

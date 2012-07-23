@@ -68,7 +68,9 @@ class Gallery_ClientListView
 		$data['items'] = $items;
 
 		/* Ищем обложку альбома */
-		$data['cover'] = Gallery_Image::findCover($page->id);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$data['cover'] = $table->findCover($page->id);
 		$totalPages = $this->countPageCount($page->id, $maxCount);
 
 		if ($totalPages > 1)
@@ -110,7 +112,9 @@ class Gallery_ClientListView
 	 */
 	protected function getItems($sectionId, $limit, $offset)
 	{
-		$items = Gallery_Image::find($sectionId, $limit, $offset, true);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$items = $table->findInSection($sectionId, $limit, $offset);
 		return $items;
 	}
 	//-----------------------------------------------------------------------------
