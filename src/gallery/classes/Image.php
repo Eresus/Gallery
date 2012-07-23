@@ -41,7 +41,7 @@ include_once dirname(__FILE__) . '/../phpthumb/ThumbLib.inc.php';
  * @property       int               $section      Идентификатор раздела
  * @property       string            $title        Название изображения
  * @property-read  string            $image        Имя файла картинки
- * @property-write array             $image        Элемент $_FILES соответсвующий загружаемому файлу
+ * @property-write array             $image        Элемент $_FILES соотв. загружаемому файлу
  * @property       string            $thumb        Имя файла миниатюры
  * @property       string            $posted       Дата и время добавления изображения
  * @property-read  Gallery_Entity_Group $group        Группа изображения

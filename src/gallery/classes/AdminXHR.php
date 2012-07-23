@@ -35,8 +35,42 @@
  *
  * @package Gallery
  */
-class Gallery_AdminXHR extends Gallery_Prototype_AdminXHR
+class Gallery_AdminXHR
 {
+	/**
+	 * Выполняет действия контроллера
+	 *
+	 * @param string $args  Аргументы запроса
+	 *
+	 * @throws BadMethodCallException
+	 *
+	 * @return void
+	 */
+	public function execute($args)
+	{
+		$args = explode('/', urldecode($args));
+
+		/* Отбрасываем пустые элементы с концов */
+		array_shift($args);
+		array_pop($args);
+
+		// Получаем имя действия
+		$method = 'action' . array_shift($args);
+
+		if (!method_exists($this, $method))
+		{
+			throw new BadMethodCallException("Method $method does not exists in class " .
+				get_class($this));
+		}
+
+		$result = call_user_func_array(array($this, $method), $args);
+
+		$result = $this->prepareResponseData($result);
+
+		$json = json_encode($result);
+		die($json);
+	}
+
 	/**
 	 * Возвращает список групп в указанном разделе
 	 *
@@ -108,5 +142,36 @@ class Gallery_AdminXHR extends Gallery_Prototype_AdminXHR
 
 		return $response;
 	}
-	//-----------------------------------------------------------------------------
+
+	/**
+	 * Подготавливает данные для передачи json_encode
+	 *
+	 * @param mixed unknown_type $data
+	 * @return mixed
+	 */
+	private function prepareResponseData($data)
+	{
+		switch (true)
+		{
+			case is_object($data):
+				if (method_exists($data, 'toArray'))
+				{
+					$data = $data->toArray();
+				}
+				else
+				{
+					$data = get_object_vars($data);
+				}
+				$data = $this->prepareResponseData($data);
+				break;
+
+			case is_array($data):
+				foreach ($data as $key => $value)
+				{
+					$data[$key] = $this->prepareResponseData($value);
+				}
+				break;
+		}
+		return $data;
+	}
 }
