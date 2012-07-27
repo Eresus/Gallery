@@ -146,7 +146,7 @@ class Gallery_AdminXHR
 	/**
 	 * Подготавливает данные для передачи json_encode
 	 *
-	 * @param mixed unknown_type $data
+	 * @param mixed $data
 	 * @return mixed
 	 */
 	private function prepareResponseData($data)
