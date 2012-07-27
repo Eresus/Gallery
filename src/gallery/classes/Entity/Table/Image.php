@@ -91,6 +91,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 				'default' => 0,
 			),
 		));
+		// TODO Проверить индексы
 		$this->index('section', array('fields' => array('section')));
 		$this->index('position', array('fields' => array('position')));
 		$this->index('active', array('fields' => array('active')));
@@ -196,16 +197,17 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 	public function autoSetCover($section)
 	{
 		/*
-		 * ez Components не поддерживает LIMIT в запросах UPDATE, так что делаем два запроса
+		 * eZ Components не поддерживает LIMIT в запросах UPDATE, так что делаем два запроса
 		 */
 		$q = DB::getHandler()->createSelectQuery();
-		$e = $q->expr;
+		/** @var ezcQueryExpression $expr */
+		$expr = $q->expr;
 		$q->select('id');
 		$q->from($this->getTableName());
-		$q->where($e->lAnd(
-			$e->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
-			$e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
-			$e->neq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
+		$q->where($expr->lAnd(
+			$expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
+			$expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+			$expr->neq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
 		));
 		$q->limit(1);
 
@@ -235,10 +237,10 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 		}
 
 		$q = DB::getHandler()->createUpdateQuery();
-		$e = $q->expr;
+		$expr = $q->expr;
 		$q->update($this->getTableName());
 		$q->set('cover', true);
-		$q->where($e->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
+		$q->where($expr->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
 
 		DB::execute($q);
 	}

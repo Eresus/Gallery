@@ -564,7 +564,7 @@ class Gallery extends ContentPlugin
 		$vars = array();
 		$vars['this'] = $this;
 		$vars['page'] = Eresus_Kernel::app()->getPage();
-		$vars['Eresus'] = $GLOBALS['Eresus'];
+		$vars['Eresus'] = Eresus_CMS::getLegacyKernel();
 		$vars['sectionId'] = arg('section', 'int');
 		$vars['items'] = $items;
 
@@ -1088,7 +1088,7 @@ class Gallery extends ContentPlugin
 		$data = array();
 		$data['this'] = $this;
 		$data['page'] = $page;
-		$data['Eresus'] = $GLOBALS['Eresus'];
+		$data['Eresus'] = Eresus_CMS::getLegacyKernel();
 		$data['image'] = $image;
 		if ($this->settings['useGroups'])
 		{

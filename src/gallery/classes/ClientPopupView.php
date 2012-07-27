@@ -41,13 +41,14 @@ class Gallery_ClientPopupView
 	/**
 	 * Возвращает разметку представления
 	 *
-	 * @return void
+	 * @return string
 	 *
 	 * @since 2.03
 	 */
 	public function render()
 	{
-		$plugin = $GLOBALS['Eresus']->plugins->load('gallery');
+		/** @var Gallery $plugin */
+		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
 		$plugin->linkJQuery();
 		$GLOBALS['page']->linkScripts($plugin->getCodeURL() . 'gallery.js');
 		$GLOBALS['page']->linkStyles($plugin->getCodeURL() . 'gallery.css');
@@ -63,7 +64,7 @@ class Gallery_ClientPopupView
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Отрисовывает список изображений альбма для перехода к ним во всплывающем блоке.
+	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
 	 *
 	 * @return string
 	 *
@@ -75,9 +76,10 @@ class Gallery_ClientPopupView
 		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
 		$items = $table->findInSection($GLOBALS['page']->id);
 		$jsArray = array();
-		foreach ($items as $item)
+		foreach ($items as $image)
 		{
-			$jsArray []= '"' . $item->imageURL . '"';
+			/* @var Gallery_Entity_Image $image */
+			$jsArray []= '"' . $image->imageURL . '"';
 		}
 		$html = '<script type="text/javascript">Eresus.Gallery.images = ['.
 			implode(',', $jsArray) . '];</script>';

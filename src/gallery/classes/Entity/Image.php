@@ -41,6 +41,7 @@
  * @property       bool                 $cover        является ли обложкой альбома
  * @property       bool                 $active       является ли активным
  * @property       int                  $position     порядковый номер
+ * @property-read  string               $imageURL     URL изображения
  * @property-read  string               $thumbURL     URL миниатюры
  * @property-read  Gallery_Entity_Album $album        альбом этого изображения
  * @property-write string               $image        свойство для загрузки файла изображения
@@ -270,6 +271,16 @@ class Gallery_Entity_Image extends ORM_Entity
 		{
 			return new Gallery_NullObject();
 		}
+	}
+
+	/**
+	 * Геттер свойства $imageURL
+	 *
+	 * @return string
+	 */
+	protected function getImageURL()
+	{
+		return $this->plugin->getDataURL() . $this->getProperty('image');
 	}
 
 	/**

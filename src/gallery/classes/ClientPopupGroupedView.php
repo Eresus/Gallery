@@ -48,7 +48,7 @@ class Gallery_ClientPopupGroupedView extends Gallery_ClientPopupView
 	protected function renderImageList()
 	{
 		/* @var Gallery_Entity_Table_Group $table */
-		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Group');
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
 		$groups = $table->findInSection($GLOBALS['page']->id);
 		$jsArray = array();
 		foreach ($groups as $group)

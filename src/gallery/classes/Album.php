@@ -223,7 +223,7 @@ class Gallery_Album implements Iterator, Countable
 			return;
 		}
 		/* @var Gallery_Entity_Table_Image $table */
-		$table = ORM::getTable($GLOBALS['Eresus']->plugins->load('gallery'), 'Image');
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
 		$this->items = $table->find($this->sectionId, null, null, true);
 		$this->loaded = true;
 	}
