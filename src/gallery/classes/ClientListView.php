@@ -113,6 +113,7 @@ class Gallery_ClientListView
 	protected function getItems($sectionId, $limit, $offset)
 	{
 		/* @var Gallery_Entity_Table_Image $table */
+		// TODO Добавить в этот класс ссылку на плагин
 		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
 		$items = $table->findInSection($sectionId, $limit, $offset);
 		return $items;
@@ -148,7 +149,7 @@ class Gallery_ClientListView
 	{
 		/* @var Gallery_Entity_Table_Image $table */
 		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		return ceil($table->countInSection($sectionId, false) / $itemsPerPage);
+		return ceil($table->countInSection($sectionId) / $itemsPerPage);
 	}
 	//-----------------------------------------------------------------------------
 

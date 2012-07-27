@@ -139,7 +139,7 @@ class Gallery_Entity_Image extends ORM_Entity
 		}
 
 		/* Если это единственное изображение в разделе, делаем его обложкой */
-		if ($table->countInSection($this->section) == 0)
+		if ($table->countInSection($this->section, false) == 0)
 		{
 			$this->cover = true;
 			// Нам не надо сбрасывать флаг у других изображений раздела, потому что их нет

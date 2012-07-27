@@ -48,6 +48,7 @@ class Gallery_ClientPopupView
 	public function render()
 	{
 		/** @var Gallery $plugin */
+		// TODO Добавить в этот класс ссылку на плагин
 		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
 		$plugin->linkJQuery();
 		Eresus_Kernel::app()->getPage()->linkScripts($plugin->getCodeURL() . 'gallery.js');
@@ -73,6 +74,7 @@ class Gallery_ClientPopupView
 	protected function renderImageList()
 	{
 		/* @var Gallery_Entity_Table_Image $table */
+		// TODO Добавить в этот класс ссылку на плагин
 		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
 		$items = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
 		$jsArray = array();
