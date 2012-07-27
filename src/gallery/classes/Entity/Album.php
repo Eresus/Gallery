@@ -48,4 +48,21 @@ class Gallery_Entity_Album extends ORM_Entity
 	{
 		// TODO
 	}
+
+	/**
+	 * Возвращает список изображений не привязанных к какой-либо группе
+	 *
+	 * @return Gallery_Entity_Image[]
+	 */
+	public function getOrphans()
+	{
+		$table = ORM::getTable($this->plugin, 'Image');
+		$q = $table->createSelectQuery();
+		$e = $q->expr;
+		$q->where($e->lAnd(
+			$e->eq('section', $q->bindValue($this->id, null, PDO::PARAM_INT)),
+			$e->eq('groupId', $q->bindValue(0, null, PDO::PARAM_INT))
+		));
+		return $table->loadFromQuery($q);
+	}
 }

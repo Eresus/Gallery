@@ -601,7 +601,10 @@ class Gallery extends ContentPlugin
 		{
 			$tmpl = new Template('ext/' . $this->name . '/templates/image-grouped-list.html');
 			// Изображения вне групп
-			$vars['orphans'] = Gallery_Image::findOrphans($section);
+			$table = ORM::getTable($this, 'Album');
+			/* @var Gallery_Entity_Album $album */
+			$album = $table->find($section);
+			$vars['orphans'] = $album->getOrphans();
 		}
 		else
 		{
