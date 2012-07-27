@@ -24,7 +24,7 @@
 	<!-- Исходные файлы PHP -->
 	<fileset dir="src" id="files.sources.php">
 		<include name="**/*.php" />
-		<exclude name="gallery/classes/phpthumb/**" />
+		<exclude name="gallery/phpthumb/**" />
 	</fileset>
 
 	<!--
@@ -90,6 +90,7 @@
 		</if>
 
 		<phpcodesniffer
+				encoding="utf-8"
 				standard="Eresus"
 				haltonerror="false"
 				>
