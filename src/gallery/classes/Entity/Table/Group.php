@@ -82,7 +82,7 @@ class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
 	 *
 	 * @return Gallery_Entity_Group[]
 	 */
-	public function findInSection($id, $limit = null, $offset = 0)
+	public function findInSection($id, $limit = null, $offset = 0, $all = false)
 	{
 		$q = $this->createSelectQuery();
 		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));

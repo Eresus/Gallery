@@ -52,6 +52,9 @@ class EresusRuntimeException extends Exception
 
 class ORM_Table
 {
+	protected function hasColumns(array $columns)
+	{
+	}
 }
 
 /**

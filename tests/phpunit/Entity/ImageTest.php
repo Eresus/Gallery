@@ -29,7 +29,7 @@
 
 require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Image.php';
 
-class Gallery_Entity_Image_Test extends PHPUnit_Framework_TestCase
+class Gallery_Entity_ImageTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 */

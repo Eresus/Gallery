@@ -275,6 +275,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 	 */
 	public function persist(ORM_Entity $entity)
 	{
+		/* @var Gallery_Entity_Image $entity */
 		/* Вычисляем порядковый номер */
 		$q = DB::getHandler()->createSelectQuery();
 		$e = $q->expr;

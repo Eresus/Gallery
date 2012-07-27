@@ -34,7 +34,7 @@ require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Album.php';
 require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Image.php';
 require_once TESTS_SRC_ROOT . '/gallery/classes/Exception/NotFound.php';
 
-class Gallery_Test extends PHPUnit_Framework_TestCase
+class GalleryTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @covers Gallery::adminImageToggle
