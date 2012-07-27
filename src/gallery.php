@@ -133,7 +133,8 @@ class Gallery extends ContentPlugin
 	{
 		if (substr($className, 0, 8) == 'PhpThumb')
 		{
-			include_once $this->getCodeDir() . '/phpthumb/ThumbLib.inc.php';
+			$filename = $this->getCodeDir() . '/phpthumb/ThumbLib.inc.php';
+			include_once $filename;
 			return class_exists($className, false) || interface_exists($className, false);
 		}
 		return false;
@@ -749,6 +750,7 @@ class Gallery extends ContentPlugin
 	{
 		/* @var Gallery_Entity_Table_Image $table */
 		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
 		$image = $table->find(arg('update', 'int'));
 
 		$new_section = arg('section', 'int');
@@ -767,7 +769,7 @@ class Gallery extends ContentPlugin
 		$image->active = arg('active', 'int');
 		$image->image = 'image'; // $_FILES['image'];
 
-		$image->save();
+		$table->update($image);
 
 		HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
 	}
@@ -1073,6 +1075,7 @@ class Gallery extends ContentPlugin
 
 		/* @var Gallery_Entity_Table_Image $table */
 		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
 		$image = $table->find($id);
 
 		if (!$image || !$image->active)
@@ -1202,6 +1205,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function up($id)
 	{
+		/* @var Gallery_Entity_Table_Image $table */
 		$table = ORM::getTable($this, 'Image');
 		/* @var Gallery_Entity_Image $image */
 		$image = $table->find($id);
@@ -1219,6 +1223,7 @@ class Gallery extends ContentPlugin
 	 */
 	private function down($id)
 	{
+		/* @var Gallery_Entity_Table_Image $table */
 		$table = ORM::getTable($this, 'Image');
 		/* @var Gallery_Entity_Image $image */
 		$image = $table->find($id);

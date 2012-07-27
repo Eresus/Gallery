@@ -32,16 +32,18 @@
 /**
  * Изображение
  *
- * @property      int                  $id           идентификатор картинки
- * @property      int                  $section      идентификатор раздела
- * @property      string               $title        название изображения
- * @property      DateTime             $posted       дата добавления
- * @property      Gallery_Entity_Group $group        группа изображений
- * @property      bool                 $cover        является ли обложкой альбома
- * @property      bool                 $active       является ли активным
- * @property      int                  $position     порядковый номер
- * @property-read string               $thumbURL     URL миниатюры
- * @property-read Gallery_Entity_Album $album        альбом этого изображения
+ * @property       int                  $id           идентификатор картинки
+ * @property       int                  $section      идентификатор раздела
+ * @property       string               $title        название изображения
+ * @property       DateTime             $posted       дата добавления
+ * @property       int                  $groupId      ID группы изображений
+ * @property-read  Gallery_Entity_Group $group        группа изображений
+ * @property       bool                 $cover        является ли обложкой альбома
+ * @property       bool                 $active       является ли активным
+ * @property       int                  $position     порядковый номер
+ * @property-read  string               $thumbURL     URL миниатюры
+ * @property-read  Gallery_Entity_Album $album        альбом этого изображения
+ * @property-write string               $image        свойство для загрузки файла изображения
  *
  * @package Gallery
  * @since 3.00
