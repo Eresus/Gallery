@@ -24,6 +24,7 @@
 	<!-- Исходные файлы PHP -->
 	<fileset dir="src" id="files.sources.php">
 		<include name="**/*.php" />
+		<exclude name="gallery/classes/phpthumb/**" />
 	</fileset>
 
 	<!--
