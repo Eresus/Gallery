@@ -49,7 +49,7 @@ class Gallery_ClientPopupGroupedView extends Gallery_ClientPopupView
 	{
 		/* @var Gallery_Entity_Table_Group $table */
 		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
-		$groups = $table->findInSection($GLOBALS['page']->id);
+		$groups = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
 		$jsArray = array();
 		foreach ($groups as $group)
 		{

@@ -50,8 +50,8 @@ class Gallery_ClientPopupView
 		/** @var Gallery $plugin */
 		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
 		$plugin->linkJQuery();
-		$GLOBALS['page']->linkScripts($plugin->getCodeURL() . 'gallery.js');
-		$GLOBALS['page']->linkStyles($plugin->getCodeURL() . 'gallery.css');
+		Eresus_Kernel::app()->getPage()->linkScripts($plugin->getCodeURL() . 'gallery.js');
+		Eresus_Kernel::app()->getPage()->linkStyles($plugin->getCodeURL() . 'gallery.css');
 
 		$tmpl = new Template('templates/' . $plugin->name . '/popup.html');
 		$popup = $tmpl->compile();
@@ -74,7 +74,7 @@ class Gallery_ClientPopupView
 	{
 		/* @var Gallery_Entity_Table_Image $table */
 		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$items = $table->findInSection($GLOBALS['page']->id);
+		$items = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
 		$jsArray = array();
 		foreach ($items as $image)
 		{
