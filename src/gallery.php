@@ -134,6 +134,7 @@ class Gallery extends ContentPlugin
 		if (substr($className, 0, 8) == 'PhpThumb')
 		{
 			$filename = $this->getCodeDir() . '/phpthumb/ThumbLib.inc.php';
+			/** @noinspection PhpIncludeInspection */
 			include_once $filename;
 			return class_exists($className, false) || interface_exists($className, false);
 		}

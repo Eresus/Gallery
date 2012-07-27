@@ -55,6 +55,7 @@ class Gallery_ClientPopupGroupedView extends Gallery_ClientPopupView
 		{
 			foreach ($group->images as $image)
 			{
+				/* @var Gallery_Entity_Image $image */
 				$jsArray []= '"' . $image->imageURL . '"';
 			}
 		}
