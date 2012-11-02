@@ -45,6 +45,7 @@
  * @property-read  string               $thumbURL     URL миниатюры
  * @property-read  Gallery_Entity_Album $album        альбом этого изображения
  * @property-write string               $image        свойство для загрузки файла изображения
+ * @property-read  string               $showURL      URL или JavaScript для показа картинки
  *
  * @package Gallery
  * @since 3.00
@@ -306,6 +307,27 @@ class Gallery_Entity_Image extends ORM_Entity
 	protected function setImage($value)
 	{
 		$this->upload = $value;
+	}
+
+	/**
+	 * Геттер свойства $showURL
+	 *
+	 * @return string
+	 */
+	protected function getShowURL()
+	{
+		/** @var Gallery $plugin */
+		$plugin = $this->plugin;
+		if ('popup' == $plugin->settings['showItemMode'])
+		{
+			$url = $this->imageURL . '#gallery-popup';
+		}
+		else
+		{
+			$url = $plugin->clientListURL() . $this->id . '/';
+		}
+
+		return $url;
 	}
 
 	/**
