@@ -21,7 +21,7 @@
 		</td>
 		<td>
 			<div class="title"><strong><a href="{$image->showURL}">{$image->title}</a></strong></div>
-			<div class="date">{date_format($image->posted, "%d.%m.%Y %H:%M")}</div>
+			<div class="date">{$image->posted->format("d.m.Y H:i")}</div>
 		</td>
 	</tr>
 </table>

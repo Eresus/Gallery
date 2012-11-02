@@ -1,5 +1,5 @@
 <h1>{$image->title}</h1>
-<div class="date">{date_format($image->posted, "%d.%m.%Y %H:%M")}</div>
+<div class="date">{$image->posted->format("d.m.Y H:i")}</div>
 <p><a href="{$this->clientListURL()}">[ Вернуться к списку ]</a></p>
 <div class="image">
 	<img src="{$image->imageURL}" alt="Не удаётся загрузить картинку" title="{$image->title|escape}" />
