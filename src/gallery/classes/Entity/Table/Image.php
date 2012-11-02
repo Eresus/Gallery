@@ -100,7 +100,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 		$this->index('images_by_time', array('fields' => array('section', 'active', 'posted')));
 		$this->index('images_by_position', array('fields' => array('section', 'active', 'position')));
 		/* Проверенные индексы */
-		$this->index('images_by_group_idx', array('fields' => array('group', 'active', 'position')));
+		$this->index('images_by_group_idx', array('fields' => array('groupId', 'active', 'position')));
 	}
 
 	/**
