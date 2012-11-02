@@ -59,18 +59,6 @@ class Gallery_Entity_Image extends ORM_Entity
 	private $upload = null;
 
 	/**
-	 * Список поддерживаемых форматов
-	 * @var array
-	 */
-	private static $supportedFormats = array(
-		'image/jpeg',
-		'image/jpg',
-		'image/pjpeg',
-		'image/png',
-		'image/gif',
-	);
-
-	/**
 	 * Указывает на то что это изображение при сохранении надо сделать обложкой
 	 *
 	 * @var bool
@@ -125,6 +113,9 @@ class Gallery_Entity_Image extends ORM_Entity
 	 * Действия перед сохранением
 	 *
 	 * @param ezcQuery $query
+	 *
+	 * @throws Gallery_Exception_FileTooBigException
+	 * @throws Gallery_Exception_UnsupportedFormatException
 	 */
 	public function beforeSave(ezcQuery $query)
 	{
@@ -194,18 +185,11 @@ class Gallery_Entity_Image extends ORM_Entity
 		{
 			throw new Gallery_Exception_FileTooBigException();
 		}
-
-		if (!in_array($fileInfo['type'], self::$supportedFormats))
-		{
-			throw new Gallery_Exception_UnsupportedFormatException($fileInfo['type']);
-		}
 	}
 
 	/**
 	 * Действия после сохранения
 	 *
-	 * @throws Gallery_Exception_FileTooBigException
-	 * @throws Gallery_Exception_UnsupportedFormatException
 	 * @throws Gallery_Exception_UploadException
 	 */
 	public function afterSave()
@@ -330,6 +314,9 @@ class Gallery_Entity_Image extends ORM_Entity
 	 *
 	 * @param string $file
 	 *
+	 * @throws Gallery_Exception_UnsupportedFormatException
+	 * @throws LogicException
+	 *
 	 * @return void
 	 */
 	private function overlayLogo($file)
@@ -357,6 +344,8 @@ class Gallery_Entity_Image extends ORM_Entity
 			case IMAGETYPE_GIF:
 				$src = imageCreateFromGIF($file);
 				break;
+			default:
+				throw new Gallery_Exception_UnsupportedFormatException($type);
 		}
 		imagealphablending($src, true);
 		$logo = imageCreateFromPNG($logoFile);
@@ -389,6 +378,8 @@ class Gallery_Entity_Image extends ORM_Entity
 					$x = $sw - $lw - $settings['logoHPadding'];
 					$y = $sh - $lh - $settings['logoVPadding'];
 					break;
+				default:
+					throw new LogicException('Invalid logo position');
 			}
 			imagesavealpha($src, true);
 			imagecopy($src, $logo, $x, $y, 0, 0, $lw, $lh);
