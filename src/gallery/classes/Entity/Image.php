@@ -100,13 +100,12 @@ class Gallery_Entity_Image extends ORM_Entity
 		$plugin = $this->plugin;
 
 		$filename = $this->getProperty('image');
-		$ext = substr(strrchr($filename, '.'), 1);
 		$thumb = PhpThumbFactory::create($plugin->getDataDir() . $filename);
 
 		$thumb->resize(
 			$width ? $width : $plugin->settings['thumbWidth'],
 			$height ? $height : $plugin->settings['thumbHeight']);
-		$thumb->save($plugin->getDataDir() . $this->getProperty('thumb'), $ext);
+		$thumb->save($plugin->getDataDir() . $this->getProperty('thumb'));
 	}
 
 	/**
@@ -234,7 +233,7 @@ class Gallery_Entity_Image extends ORM_Entity
 			$thumb = PhpThumbFactory::create($imageFileName);
 			$thumb->resize($plugin->settings['imageWidth'], $plugin->settings['imageHeight']);
 			filedelete($imageFileName);
-			$thumb->save($imageFileName, $ext);
+			$thumb->save($imageFileName);
 		}
 
 		if ($plugin->settings['logoEnable'])
