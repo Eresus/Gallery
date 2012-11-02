@@ -178,6 +178,27 @@ class Gallery_Entity_Image extends ORM_Entity
 				$this->cover = true;
 			}
 		}
+
+		if (null === $this->upload)
+		{
+			return;
+		}
+
+		$fileInfo = $_FILES[$this->upload];
+		if ($fileInfo['error'] == UPLOAD_ERR_NO_FILE)
+		{
+			return;
+		}
+
+		if ($fileInfo['error'] == UPLOAD_ERR_INI_SIZE)
+		{
+			throw new Gallery_Exception_FileTooBigException();
+		}
+
+		if (!in_array($fileInfo['type'], self::$supportedFormats))
+		{
+			throw new Gallery_Exception_UnsupportedFormatException($fileInfo['type']);
+		}
 	}
 
 	/**
@@ -200,20 +221,10 @@ class Gallery_Entity_Image extends ORM_Entity
 			return;
 		}
 
-		if ($fileInfo['error'] == UPLOAD_ERR_INI_SIZE)
-		{
-			throw new Gallery_Exception_FileTooBigException();
-		}
-
 		$ext = strtolower(substr(strrchr($fileInfo['name'], '.'), 1));
 		if ($ext == 'jpeg')
 		{
 			$ext = 'jpg';
-		}
-
-		if (!in_array($fileInfo['type'], self::$supportedFormats))
-		{
-			throw new Gallery_Exception_UnsupportedFormatException($fileInfo['type']);
 		}
 
 		/* @var Gallery $plugin */

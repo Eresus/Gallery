@@ -206,6 +206,8 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 
 	/**
 	 * @param ORM_Entity $entity
+	 *
+	 * @throws Gallery_Exception_UploadException
 	 */
 	public function persist(ORM_Entity $entity)
 	{
@@ -219,7 +221,15 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 		$result = DB::fetch($q);
 		$entity->position = $result['maxval'] + 1;
 
-		parent::persist($entity);
+		try
+		{
+			parent::persist($entity);
+		}
+		catch (Gallery_Exception_UploadException $e)
+		{
+			$this->delete($entity);
+			throw $e;
+		}
 	}
 
 	/**
