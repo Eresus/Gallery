@@ -13,20 +13,20 @@
 			</div>
 
 			<div class="input-pair">
-				<label>Файл изображения:</label><br />
+				<label for="gallery-image-input">Файл изображения:</label><br />
 				<input type="file" name="image" id="gallery-image-input" />
 				<div class="ui-minor">Формат JPEG, PNG или GIF. Размер файла не более {ini_get('upload_max_filesize')}</div>
 			</div>
 
 			<div class="input-pair">
-				<label>Название:</label><br />
+				<label for="gallery-caption-input">Название:</label><br />
 				<input type="text" name="title" id="gallery-caption-input" value="" maxlength="255" style="width: 99%" />
 			</div>
 
 			{if $this->settings.useGroups}
 			<div class="input-pair">
-				<label>Группа:</label><br />
-				<select name="group">
+				<label for="gallery-group-input">Группа:</label><br />
+				<select name="group" id="gallery-group-input">
 					{foreach $groups group}
 					<option value="{$group.id}"{if $group.id == $defaultGroup} selected="selected"{/if}>{$group.title}</option>
 					{/foreach}
@@ -50,7 +50,7 @@
 
 			<div class="ui-button-box">
 				<br />
-				<button type="submit" >Добавить</button>
+				<button type="submit">Добавить</button>
 				<button type="button" class="cancel" onclick="history.back();">Отменить</button>
 			</div>
 
