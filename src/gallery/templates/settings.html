@@ -1,6 +1,6 @@
 <form xmlns:ef="http://eresus.ru/schema/form/" name="settings" id="settings" action="admin.php?mod=plgmgr&amp;id={$this->name}" enctype="multipart/form-data">
 <div class="box ui-widget-content" style="width: 600px;">
-<div class="header">Настройки каталога товаров</div>
+<div class="header">Настройки галереи изображений</div>
 <div class="content">
 
 <div class="hidden">
@@ -86,7 +86,7 @@
 			<td>
 				<input type="text" name="itemsPerPage" id="gallery-itemsPerPage-input"
 				       value="{$this->settings.itemsPerPage}" maxlength="3" size="3"{if $this->settings.useGroups} disabled="disabled"{/if} />
-				<span class="minor">(только если группы отключенны)</span>
+				<span class="minor">(только если группы отключены)</span>
 			</td>
 		</tr>
 		<tr>
@@ -94,7 +94,7 @@
 			<td>
 				<input type="text" name="groupsPerPage" id="gallery-groupsPerPage-input"
 				       value="{$this->settings.groupsPerPage}" maxlength="3" size="3"{if !$this->settings.useGroups} disabled="disabled"{/if} />
-				<span class="minor">(только если группы включенны)</span>
+				<span class="minor">(только если группы включены)</span>
 			</td>
 		</tr>
 
