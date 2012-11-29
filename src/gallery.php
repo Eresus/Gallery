@@ -765,7 +765,7 @@ class Gallery extends ContentPlugin
 			$image->group = arg('new_group', 'int');
 		}
 		$image->title = arg('title', 'dbsafe');
-		$image->posted = arg('posted', 'dbsafe');
+		$image->posted = new DateTime(arg('posted'));
 		$image->cover = arg('cover', 'int');
 		$image->active = arg('active', 'int');
 		$image->image = 'image'; // $_FILES['image'];
@@ -774,7 +774,6 @@ class Gallery extends ContentPlugin
 
 		HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Отрисовывает интерфейс списка групп
