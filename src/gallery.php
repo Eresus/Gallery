@@ -516,19 +516,6 @@ class Gallery extends ContentPlugin
 
 		return $url;
 	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Подключает библиотеку jQuery
-	 *
-	 * @return void
-	 */
-	public function linkJQuery()
-	{
-		Eresus_Kernel::app()->getPage()->
-			linkScripts(Eresus_CMS::getLegacyKernel()->root . 'core/jquery/jquery.min.js');
-	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Отрисовывает интерфейс списка изображений
@@ -629,7 +616,6 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminAddItem()
 	{
-		$this->linkJQuery();
 		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
 
 		// Данные для подстановки в шаблон
@@ -654,7 +640,6 @@ class Gallery extends ContentPlugin
 
 		return $html;
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Возвращает диалог изменения изображения

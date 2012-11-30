@@ -50,9 +50,12 @@ class Gallery_ClientPopupView
 		/** @var Gallery $plugin */
 		// TODO Добавить в этот класс ссылку на плагин
 		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
-		$plugin->linkJQuery();
-		Eresus_Kernel::app()->getPage()->linkScripts($plugin->getCodeURL() . 'gallery.js');
-		Eresus_Kernel::app()->getPage()->linkStyles($plugin->getCodeURL() . 'gallery.css');
+
+		/** @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$page->linkJsLib('jquery');
+		$page->linkScripts($plugin->getCodeURL() . 'gallery.js');
+		$page->linkStyles($plugin->getCodeURL() . 'gallery.css');
 
 		$tmpl = new Template('templates/' . $plugin->name . '/popup.html');
 		$popup = $tmpl->compile();
@@ -62,7 +65,6 @@ class Gallery_ClientPopupView
 
 		return $html;
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
