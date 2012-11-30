@@ -757,12 +757,12 @@ class Gallery extends ContentPlugin
 		$new_section = arg('section', 'int');
 		if ($new_section == $image->section)
 		{
-			$image->group = arg('group', 'int');
+			$image->groupId = arg('group', 'int');
 		}
 		else
 		{
 			$image->section = $new_section;
-			$image->group = arg('new_group', 'int');
+			$image->groupId = arg('new_group', 'int');
 		}
 		$image->title = arg('title', 'dbsafe');
 		$image->posted = new DateTime(arg('posted'));
