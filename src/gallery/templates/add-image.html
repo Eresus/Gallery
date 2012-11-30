@@ -9,7 +9,7 @@
 				<input type="hidden" name="mod" value="content" />
 				<input type="hidden" name="section" value="{$sectionId}" />
 				{if arg('pg')}<input type="hidden" name="pg" value="{arg('pg')}" />{/if}
-				<input type="hidden" name="action" value="insert" />
+				<input type="hidden" name="action" value="create" />
 			</div>
 
 			<div class="input-pair">
@@ -20,7 +20,8 @@
 
 			<div class="input-pair">
 				<label for="gallery-caption-input">Название:</label><br />
-				<input type="text" name="title" id="gallery-caption-input" value="" maxlength="255" style="width: 99%" />
+				<input type="text" name="title" id="gallery-caption-input"
+					value="{if $image}{$image->title}{/if}" maxlength="255" style="width: 99%" />
 			</div>
 
 			{if $this->settings.useGroups}
@@ -28,7 +29,7 @@
 				<label for="gallery-group-input">Группа:</label><br />
 				<select name="group" id="gallery-group-input">
 					{foreach $groups group}
-					<option value="{$group.id}"{if $group.id == $defaultGroup} selected="selected"{/if}>{$group.title}</option>
+					<option value="{$group.id}"{if ($image && $image->group->id == $group.id) || $group.id == $defaultGroup} selected="selected"{/if}>{$group.title}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -36,14 +37,14 @@
 
 			<div class="input-pair">
 				<label>
-					<input type="checkbox" name="cover" value="1" />
+					<input type="checkbox" name="cover" value="1"{if $image && $image->cover} checked="checked"{/if}>
 					Сделать обложкой альбома
 				</label>
 			</div>
 
 			<div class="input-pair">
 				<label>
-					<input type="checkbox" name="active" value="1" checked="checked" />
+					<input type="checkbox" name="active" value="1"{if !$image || $image->active} checked="checked"{/if} />
 					Показывать это изображение посетителям
 				</label>
 			</div>

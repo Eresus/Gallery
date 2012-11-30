@@ -372,10 +372,6 @@ class Gallery extends ContentPlugin
 				$result = $this->adminAddItem();
 				break;
 
-			case arg('action') == 'insert':
-				$this->adminInsertImage();
-				break;
-
 			case arg('id') !== null:
 				$result = $this->adminEditItem();
 				break;
@@ -608,7 +604,7 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог добавления изображения
+	 * Добавление изображения
 	 *
 	 * @return string  HTML
 	 *
@@ -616,6 +612,40 @@ class Gallery extends ContentPlugin
 	 */
 	private function adminAddItem()
 	{
+		$request = Eresus_CMS::getLegacyKernel()->request;
+		if ('POST' == $request['method'])
+		{
+			$image = new Gallery_Entity_Image($this);
+			$image->section = arg('section');
+			$image->groupId = arg('group') ? arg('group') : 0;
+			$_SESSION['gallery_default_group'] = arg('group');
+			$image->title = arg('title');
+			$image->cover = arg('cover') ? arg('cover') : false;
+			$image->active = arg('active');
+			$image->posted = new DateTime();
+			$image->image = 'image'; // $_FILES['image'];
+
+			if ($this->isImageInputValid($image))
+			{
+				$table = ORM::getTable($this, 'Image');
+				try
+				{
+					$table->persist($image);
+				}
+				catch (Gallery_Exception_FileTooBigException $e)
+				{
+					throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
+				}
+
+				$url = 'admin.php?mod=content&section=' . $image->section;
+				if (arg('pg'))
+				{
+					$url .= '&pg=' . arg('pg', 'int');
+				}
+				HTTP::redirect($url);
+			}
+		}
+
 		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
 
 		// Данные для подстановки в шаблон
@@ -623,8 +653,10 @@ class Gallery extends ContentPlugin
 		$data['this'] = $this;
 		$data['page'] = Eresus_Kernel::app()->getPage();
 		$data['sectionId'] = arg('section', 'int');
-		$data['defaultGroup'] = isset($_SESSION['gallery_default_group']) ?
-			$_SESSION['gallery_default_group'] : null;
+		$data['defaultGroup'] = isset($_SESSION['gallery_default_group'])
+			? $_SESSION['gallery_default_group']
+			: null;
+		$data['image'] = isset($image) ? $image : null;
 
 		if ($this->settings['useGroups'])
 		{
@@ -679,50 +711,6 @@ class Gallery extends ContentPlugin
 		$html = $tmpl->compile($data);
 
 		return $html;
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Добавляет изображение
-	 *
-	 * @throws DomainException
-	 *
-	 * @return void
-	 */
-	private function adminInsertImage()
-	{
-		if (empty($_FILES['image']['name']))
-		{
-			ErrorMessage(isset($form['message']) ? $form['message'] : 'Поле "файл" не заполнено');
-			HTTP::goback();
-		}
-
-		$image = new Gallery_Entity_Image($this);
-		$image->section = arg('section');
-		$image->groupId = arg('group') ? arg('group') : 0;
-		$_SESSION['gallery_default_group'] = arg('group');
-		$image->title = arg('title');
-		$image->cover = arg('cover') ? arg('cover') : false;
-		$image->active = arg('active');
-		$image->posted = new DateTime();
-		$image->image = 'image'; // $_FILES['image'];
-
-		$table = ORM::getTable($this, 'Image');
-		try
-		{
-			$table->persist($image);
-		}
-		catch (Gallery_Exception_FileTooBigException $e)
-		{
-			throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
-		}
-
-		$url = 'admin.php?mod=content&section=' . $image->section;
-		if (arg('pg'))
-		{
-			$url .= '&pg=' . arg('pg', 'int');
-		}
-		HTTP::redirect($url);
 	}
 	//-----------------------------------------------------------------------------
 
@@ -1253,5 +1241,23 @@ class Gallery extends ContentPlugin
 		$image->album->setCover($image);
 
 		HTTP::goback();
+	}
+
+	/**
+	 * Проверяет правильность заполнения свойств изображения
+	 *
+	 * @param Gallery_Entity_Image $image
+	 *
+	 * @return bool
+	 * @since 3.00
+	 */
+	private function isImageInputValid(Gallery_Entity_Image $image)
+	{
+		if (empty($_FILES['image']['name'])) // TODO FIXME заменить 'image' на значение из $image
+		{
+			ErrorMessage(isset($form['message']) ? $form['message'] : 'Поле "файл" не заполнено');
+			return false;
+		}
+		return true;
 	}
 }
