@@ -177,6 +177,7 @@ class Gallery extends ContentPlugin
 		$page = Eresus_Kernel::app()->getPage();
 		$page->linkStyles($this->urlCode . 'admin.css');
 		$page->linkScripts($this->urlCode . 'admin.js');
+		$page->linkJsLib('webshim');
 
 		// Данные для подстановки в шаблон
 		$data = array();

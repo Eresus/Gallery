@@ -24,14 +24,16 @@
 		<tr>
 			<td class="formLabel">Ширина</td>
 			<td>
-				<input type="text" name="imageWidth" value="{$this->settings.imageWidth}" maxlength="4" size="4" />
+				<input type="number" name="imageWidth" value="{$this->settings.imageWidth}" maxlength="4"
+					min="10" step="10" size="4" />
 				точек
 			</td>
 		</tr>
 		<tr>
 			<td class="formLabel">Высота</td>
 			<td>
-				<input type="text" name="imageHeight" value="{$this->settings.imageHeight}" maxlength="4" size="4" />
+				<input type="number" name="imageHeight" value="{$this->settings.imageHeight}" maxlength="4"
+					min="10" step="10" size="4" />
 				точек
 			</td>
 		</tr>
@@ -40,14 +42,16 @@
 		<tr>
 			<td class="formLabel"><label for="settings-thumbWidth-input">Ширина</label></td>
 			<td>
-				<input type="text" name="thumbWidth" id="settings-thumbWidth-input" value="{$this->settings.thumbWidth}" maxlength="3" size="3" />
+				<input type="number" name="thumbWidth" id="settings-thumbWidth-input"
+					value="{$this->settings.thumbWidth}" min="10" step="10" maxlength="3" size="3" />
 				точек
 			</td>
 		</tr>
 		<tr>
 			<td class="formLabel"><label for="settings-thumbHeight-input">Высота</label></td>
 			<td>
-				<input type="text" name="thumbHeight" id="settings-thumbHeight-input" value="{$this->settings.thumbHeight}" maxlength="3" size="3" />
+				<input type="number" name="thumbHeight" id="settings-thumbHeight-input"
+					value="{$this->settings.thumbHeight}" min="10" step="10" maxlength="3" size="3" />
 				точек
 			</td>
 		</tr>
@@ -84,16 +88,18 @@
 		<tr>
 			<td class="formLabel">Изображений на страницу</td>
 			<td>
-				<input type="text" name="itemsPerPage" id="gallery-itemsPerPage-input"
-				       value="{$this->settings.itemsPerPage}" maxlength="3" size="3"{if $this->settings.useGroups} disabled="disabled"{/if} />
+				<input type="number" name="itemsPerPage" id="gallery-itemsPerPage-input"
+					value="{$this->settings.itemsPerPage}" min="1" maxlength="3" size="3"
+			 		{if $this->settings.useGroups} disabled="disabled"{/if} />
 				<span class="minor">(только если группы отключены)</span>
 			</td>
 		</tr>
 		<tr>
 			<td class="formLabel">Групп на страницу</td>
 			<td>
-				<input type="text" name="groupsPerPage" id="gallery-groupsPerPage-input"
-				       value="{$this->settings.groupsPerPage}" maxlength="3" size="3"{if !$this->settings.useGroups} disabled="disabled"{/if} />
+				<input type="number" name="groupsPerPage" id="gallery-groupsPerPage-input"
+					value="{$this->settings.groupsPerPage}" min="1" maxlength="3" size="3"
+			 		{if !$this->settings.useGroups} disabled="disabled"{/if} />
 				<span class="minor">(только если группы включены)</span>
 			</td>
 		</tr>
@@ -145,14 +151,16 @@
 		<tr class="gallery-logoEnable-related">
 			<td class="formLabel">Отступ</td>
 			<td>
-				<input type="text" name="logoVPadding" value="{$this->settings.logoVPadding}" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
+				<input type="number" name="logoVPadding" value="{$this->settings.logoVPadding}"
+					min="0" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
 				точек по вертикали
 			</td>
 		</tr>
 		<tr class="gallery-logoEnable-related">
 			<td class="formLabel">Отступ</td>
 			<td>
-				<input type="text" name="logoHPadding" value="{$this->settings.logoHPadding}" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
+				<input type="number" name="logoHPadding" value="{$this->settings.logoHPadding}"
+					min="0" maxlength="4" size="4"{if !$this->settings.logoEnable} disabled="disabled"{/if} />
 				точек по горизонтали
 			</td>
 		</tr>
