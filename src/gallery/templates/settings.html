@@ -133,10 +133,10 @@
 			<td class="formLabel">Положение</td>
 			<td>
 				<select name="logoPosition"{if !$this->settings.logoEnable} disabled="disabled"{/if} >
-				<option value="TL"{if $this->settings.logoPosition} selected="selected"{/if}>Верхний левый угол</option>
-				<option value="TR"{if $this->settings.logoPosition} selected="selected"{/if}>Верхний правый угол</option>
-				<option value="BL"{if $this->settings.logoPosition} selected="selected"{/if}>Нижний левый угол</option>
-				<option value="BR"{if $this->settings.logoPosition} selected="selected"{/if}>Нижний правый угол</option>
+				<option value="TL"{if $this->settings.logoPosition == 'TL'} selected="selected"{/if}>Верхний левый угол</option>
+				<option value="TR"{if $this->settings.logoPosition == 'TR'} selected="selected"{/if}>Верхний правый угол</option>
+				<option value="BL"{if $this->settings.logoPosition == 'BL'} selected="selected"{/if}>Нижний левый угол</option>
+				<option value="BR"{if $this->settings.logoPosition == 'BR'} selected="selected"{/if}>Нижний правый угол</option>
 				</select>
 			</td>
 		</tr>
