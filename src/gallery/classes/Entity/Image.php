@@ -310,6 +310,17 @@ class Gallery_Entity_Image extends ORM_Entity
 	}
 
 	/**
+	 * Сеттер свойства $cover
+	 *
+	 * @param int $value
+	 */
+	protected function setCover($value)
+	{
+		$this->setProperty('cover', $value);
+		$this->setAsCover = $value;
+	}
+
+	/**
 	 * Геттер свойства $showURL
 	 *
 	 * @return string

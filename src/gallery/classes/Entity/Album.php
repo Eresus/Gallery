@@ -46,7 +46,8 @@ class Gallery_Entity_Album extends ORM_Entity
 	 */
 	public function setCover(Gallery_Entity_Image $image)
 	{
-		// TODO
+		$image->cover = true;
+		$image->getTable()->update($image);
 	}
 
 	/**
