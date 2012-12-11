@@ -251,6 +251,19 @@ class Gallery_Entity_Image extends ORM_Entity
 	}
 
 	/**
+	 * Действия после удаления
+	 */
+	public function afterDelete()
+	{
+		if ($this->cover)
+		{
+			/** @var Gallery_Entity_Table_Image $table  */
+			$table = $this->getTable();
+			$table->autoSetCover($this->section);
+		}
+	}
+
+	/**
 	 * Геттер свойства $group
 	 *
 	 * @return Gallery_Entity_Group|Gallery_NullObject
