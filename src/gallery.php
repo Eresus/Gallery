@@ -1,31 +1,29 @@
 <?php
 /**
- * Галерея изображений
- *
- * Плагин позволяет публиковать на сайте картинки.
+ * Р“Р°Р»РµСЂРµСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№
  *
  * @version ${product.version}
  *
- * @copyright 2008, ООО "Два слона", http://dvaslona.ru/
+ * @copyright 2008, РћРћРћ "Р”РІР° СЃР»РѕРЅР°", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author РњРёС…Р°РёР» РљСЂР°СЃРёР»СЊРЅРёРєРѕРІ <mk@3wstyle.ru>
  * @author Ghost
  * @author Olex
  *
- * Данная программа является свободным программным обеспечением. Вы
- * вправе распространять ее и/или модифицировать в соответствии с
- * условиями версии 3 либо по вашему выбору с условиями более поздней
- * версии Стандартной Общественной Лицензии GNU, опубликованной Free
+ * Р”Р°РЅРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° СЏРІР»СЏРµС‚СЃСЏ СЃРІРѕР±РѕРґРЅС‹Рј РїСЂРѕРіСЂР°РјРјРЅС‹Рј РѕР±РµСЃРїРµС‡РµРЅРёРµРј. Р’С‹
+ * РІРїСЂР°РІРµ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏС‚СЊ РµРµ Рё/РёР»Рё РјРѕРґРёС„РёС†РёСЂРѕРІР°С‚СЊ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ
+ * СѓСЃР»РѕРІРёСЏРјРё РІРµСЂСЃРёРё 3 Р»РёР±Рѕ РїРѕ РІР°С€РµРјСѓ РІС‹Р±РѕСЂСѓ СЃ СѓСЃР»РѕРІРёСЏРјРё Р±РѕР»РµРµ РїРѕР·РґРЅРµР№
+ * РІРµСЂСЃРёРё РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРё GNU, РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅРѕР№ Free
  * Software Foundation.
  *
- * Мы распространяем эту программу в надежде на то, что она будет вам
- * полезной, однако НЕ ПРЕДОСТАВЛЯЕМ НА НЕЕ НИКАКИХ ГАРАНТИЙ, в том
- * числе ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ и ПРИГОДНОСТИ ДЛЯ
- * ИСПОЛЬЗОВАНИЯ В КОНКРЕТНЫХ ЦЕЛЯХ. Для получения более подробной
- * информации ознакомьтесь со Стандартной Общественной Лицензией GNU.
+ * РњС‹ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏРµРј СЌС‚Сѓ РїСЂРѕРіСЂР°РјРјСѓ РІ РЅР°РґРµР¶РґРµ РЅР° С‚Рѕ, С‡С‚Рѕ РѕРЅР° Р±СѓРґРµС‚ РІР°Рј
+ * РїРѕР»РµР·РЅРѕР№, РѕРґРЅР°РєРѕ РќР• РџР Р•Р”РћРЎРўРђР’Р›РЇР•Рњ РќРђ РќР•Р• РќРРљРђРљРРҐ Р“РђР РђРќРўРР™, РІ С‚РѕРј
+ * С‡РёСЃР»Рµ Р“РђР РђРќРўРР РўРћР’РђР РќРћР“Рћ РЎРћРЎРўРћРЇРќРРЇ РџР Р РџР РћР”РђР–Р• Рё РџР РР“РћР”РќРћРЎРўР Р”Р›РЇ
+ * РРЎРџРћР›Р¬Р—РћР’РђРќРРЇ Р’ РљРћРќРљР Р•РўРќР«РҐ Р¦Р•Р›РЇРҐ. Р”Р»СЏ РїРѕР»СѓС‡РµРЅРёСЏ Р±РѕР»РµРµ РїРѕРґСЂРѕР±РЅРѕР№
+ * РёРЅС„РѕСЂРјР°С†РёРё РѕР·РЅР°РєРѕРјСЊС‚РµСЃСЊ СЃРѕ РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРµР№ GNU.
  *
- * Вы должны были получить копию Стандартной Общественной Лицензии
- * GNU с этой программой. Если Вы ее не получили, смотрите документ на
+ * Р’С‹ РґРѕР»Р¶РЅС‹ Р±С‹Р»Рё РїРѕР»СѓС‡РёС‚СЊ РєРѕРїРёСЋ РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРё
+ * GNU СЃ СЌС‚РѕР№ РїСЂРѕРіСЂР°РјРјРѕР№. Р•СЃР»Рё Р’С‹ РµРµ РЅРµ РїРѕР»СѓС‡РёР»Рё, СЃРјРѕС‚СЂРёС‚Рµ РґРѕРєСѓРјРµРЅС‚ РЅР°
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
@@ -34,106 +32,117 @@
  */
 
 /**
- * Класс плагина
+ * РљР»Р°СЃСЃ РїР»Р°РіРёРЅР°
  *
  * @package Gallery
  */
 class Gallery extends ContentPlugin
 {
 	/**
-	 * Название плагина
+	 * РќР°Р·РІР°РЅРёРµ РїР»Р°РіРёРЅР°
 	 *
 	 * @var string
 	 */
-	public $title = 'Галерея изображений';
+	public $title = 'Р“Р°Р»РµСЂРµСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№';
 
 	/**
-	 * Версия плагина
+	 * Р’РµСЂСЃРёСЏ РїР»Р°РіРёРЅР°
 	 *
 	 * @var string
 	 */
 	public $version = '${product.version}';
 
-
 	/**
-	 * Требуемая версия CMS
+	 * РўСЂРµР±СѓРµРјР°СЏ РІРµСЂСЃРёСЏ CMS
 	 *
 	 * @var string
 	 */
-	public $kernel = '2.14';
+	public $kernel = '3.00b';
 
 	/**
-	 * Описание плагина
+	 * РћРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР°
 	 *
 	 * @var string
 	 */
-	public $description = 'Создание галерей изображений';
+	public $description = 'РЎРѕР·РґР°РЅРёРµ РіР°Р»РµСЂРµР№ РёР·РѕР±СЂР°Р¶РµРЅРёР№';
 
 	/**
-	 * Параметры плагина
+	 * РџР°СЂР°РјРµС‚СЂС‹ РїР»Р°РіРёРЅР°
 	 *
 	 * @var array
 	 */
 	public $settings = array(
 
-		/* Свойства изображений */
-		// Ширина изображения
+		/* РЎРІРѕР№СЃС‚РІР° РёР·РѕР±СЂР°Р¶РµРЅРёР№ */
+		// РЁРёСЂРёРЅР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 		'imageWidth' => 800,
-		// Высота изображения
+		// Р’С‹СЃРѕС‚Р° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 		'imageHeight' => 600,
 
-		/* Свойства миниатюр */
-		// Ширина миниатюры
+		/* РЎРІРѕР№СЃС‚РІР° РјРёРЅРёР°С‚СЋСЂ */
+		// РЁРёСЂРёРЅР° РјРёРЅРёР°С‚СЋСЂС‹
 		'thumbWidth' => 120,
-		// Высота миниатюры
+		// Р’С‹СЃРѕС‚Р° РјРёРЅРёР°С‚СЋСЂС‹
 		'thumbHeight' => 90,
 
-		/* Список изображений */
-		// Сортировка: date_asc, date_desc, manual
+		/* РЎРїРёСЃРѕРє РёР·РѕР±СЂР°Р¶РµРЅРёР№ */
+		// РЎРѕСЂС‚РёСЂРѕРІРєР°: date_asc, date_desc, manual
 		'sort' => 'date_asc',
-		// изображений на страницу
+		// РёР·РѕР±СЂР°Р¶РµРЅРёР№ РЅР° СЃС‚СЂР°РЅРёС†Сѓ
 		'itemsPerPage' => 20,
-		// Режим отображения изображений: normal, popup
+		// Р РµР¶РёРј РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№: normal, popup
 		'showItemMode' => 'normal',
 
-		/* Группы изображений */
-		// Использовать группы
+		/* Р“СЂСѓРїРїС‹ РёР·РѕР±СЂР°Р¶РµРЅРёР№ */
+		// РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РіСЂСѓРїРїС‹
 		'useGroups' => false,
-		// Групп на страницу
+		// Р“СЂСѓРїРї РЅР° СЃС‚СЂР°РЅРёС†Сѓ
 		'groupsPerPage' => 10,
 
-		// Накладывать логотип
+		// РќР°РєР»Р°РґС‹РІР°С‚СЊ Р»РѕРіРѕС‚РёРї
 		'logoEnable' => false,
-		// Положение логотипа
+		// РџРѕР»РѕР¶РµРЅРёРµ Р»РѕРіРѕС‚РёРїР°
 		'logoPosition' => 'BR',
-		// Вертикальный отступ
+		// Р’РµСЂС‚РёРєР°Р»СЊРЅС‹Р№ РѕС‚СЃС‚СѓРї
 		'logoVPadding' => 10,
-		// Горизонтальный отступ
+		// Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Р№ РѕС‚СЃС‚СѓРї
 		'logoHPadding' => 10,
 	);
 
+	/**
+	 * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+	 *
+	 * @since 3.00
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		EresusClassAutoloader::add($this->dirCode . 'gallery.autoload.php');
+		spl_autoload_register(array($this, 'autoload'));
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает свойство $urlData
+	 * РђРІС‚РѕР·Р°РіСЂСѓР·С‡РёРє РєР»Р°СЃСЃРѕРІ
 	 *
-	 * @return string
+	 * @param $className
 	 *
-	 * @since 2.00
+	 * @return bool
+	 *
+	 * @since 3.00
 	 */
-	public function getDataURL()
+	public function autoload($className)
 	{
-		return $this->urlData;
+		if (substr($className, 0, 8) == 'PhpThumb')
+		{
+			$filename = $this->getCodeDir() . '/phpthumb/ThumbLib.inc.php';
+			/** @noinspection PhpIncludeInspection */
+			include_once $filename;
+			return class_exists($className, false) || interface_exists($className, false);
+		}
+		return false;
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает свойство $dirData
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРІРѕР№СЃС‚РІРѕ $dirData
 	 *
 	 * @return string
 	 *
@@ -146,20 +155,7 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает свойство $urlCode
-	 *
-	 * @return string
-	 *
-	 * @since 2.00
-	 */
-	public function getCodeURL()
-	{
-		return $this->urlCode;
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Возвращает свойство $dirCode
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРІРѕР№СЃС‚РІРѕ $dirCode
 	 *
 	 * @return string
 	 *
@@ -172,38 +168,38 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог настроек
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРёР°Р»РѕРі РЅР°СЃС‚СЂРѕРµРє
 	 *
 	 * @return string  HTML
 	 */
 	public function settings()
 	{
-		global $Eresus, $page;
-
+		$page = Eresus_Kernel::app()->getPage();
 		$page->linkStyles($this->urlCode . 'admin.css');
 		$page->linkScripts($this->urlCode . 'admin.js');
+		$page->linkJsLib('webshim');
 
-		// Данные для подстановки в шаблон
+		// Р”Р°РЅРЅС‹Рµ РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ С€Р°Р±Р»РѕРЅ
 		$data = array();
 		$data['this'] = $this;
 		$data['page'] = $page;
 		$data['logo_exists'] = file_exists($this->dirData . 'logo.png');
 
-		$tmplDir = $Eresus->froot . 'templates/' . $this->name;
+		$tmplDir = Eresus_CMS::getLegacyKernel()->froot . 'templates/' . $this->name;
 		$this->settings['tmplImageList'] = file_get_contents($tmplDir . '/image-list.html');
 		$this->settings['tmplImageGroupedList'] =
 			file_get_contents($tmplDir . '/image-grouped-list.html');
 		$this->settings['tmplImage'] = file_get_contents($tmplDir . '/image.html');
 		$this->settings['tmplPopup'] = file_get_contents($tmplDir . '/popup.html');
 
-		// Создаём экземпляр шаблона
-		$form = new EresusForm('ext/' . $this->name . '/templates/settings.html', LOCALE_CHARSET);
+		// РЎРѕР·РґР°С‘Рј СЌРєР·РµРјРїР»СЏСЂ С€Р°Р±Р»РѕРЅР°
+		$form = new EresusForm('ext/' . $this->name . '/templates/settings.html');
 		foreach ($data as $key => $value)
 		{
 			$form->setValue($key, $value);
 		}
 
-		// Компилируем шаблон и данные
+		// РљРѕРјРїРёР»РёСЂСѓРµРј С€Р°Р±Р»РѕРЅ Рё РґР°РЅРЅС‹Рµ
 		$html = $form->compile();
 
 		return $html;
@@ -211,18 +207,16 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Обновление настроек
+	 * РћР±РЅРѕРІР»РµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє
 	 *
-	 * Загрузка рамок
+	 * @throws EresusRuntimeException
 	 *
 	 * @return void
 	 */
 	public function updateSettings()
 	{
-		global $Eresus;
-
 		/*
-		 * Загрузка логотипа
+		 * Р—Р°РіСЂСѓР·РєР° Р»РѕРіРѕС‚РёРїР°
 		 */
 		if (isset($_FILES['logoImage']['tmp_name']) &&
 			is_uploaded_file($_FILES['logoImage']['tmp_name']))
@@ -233,280 +227,248 @@ class Gallery extends ContentPlugin
 			}
 			else
 			{
-				ErrorMessage('Логотип должен быть в формате PNG');
+				ErrorMessage('Р›РѕРіРѕС‚РёРї РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ С„РѕСЂРјР°С‚Рµ PNG');
 			}
 		}
 
-		$tmplDir = $Eresus->froot . 'templates/' . $this->name;
-		@file_put_contents($tmplDir . '/image-list.html', arg('tmplImageList'));
-		@file_put_contents($tmplDir . '/image-grouped-list.html', arg('tmplImageGroupedList'));
-		@file_put_contents($tmplDir . '/image.html', arg('tmplImage'));
-		@file_put_contents($tmplDir . '/popup.html', arg('tmplPopup'));
+		$ts = TemplateService::getInstance();
+		try
+		{
+			$ts->setContents(arg('tmplImageList'), 'image-list.html', $this->name);
+			$ts->setContents(arg('tmplImageList'), 'image-list.html', $this->name);
+			$ts->setContents(arg('tmplImageGroupedList'), 'image-grouped-list.html', $this->name);
+			$ts->setContents(arg('tmplImage'), 'image.html', $this->name);
+			$ts->setContents(arg('tmplPopup'), 'popup.html', $this->name);
+		}
+		catch (Exception $e)
+		{
+			throw new EresusRuntimeException('Fail to save templates',
+				'РќРµ СѓРґР°Р»РѕСЃСЊ РёР·РјРµРЅРёС‚СЊ РѕРґРёРЅ РёР»Рё РЅРµСЃРєРѕР»СЊРєРѕ С€Р°Р±Р»РѕРЅРѕРІ. РџРѕРґСЂРѕР±РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РґРѕСЃС‚СѓРїРЅР° РІ Р¶СѓСЂРЅР°Р»Рµ.',
+				$e);
+		}
 
 		parent::updateSettings();
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Действия при установке
+	 * Р”РµР№СЃС‚РІРёСЏ РїСЂРё СѓСЃС‚Р°РЅРѕРІРєРµ
 	 *
-	 * Метод создаёт необходимые таблицы в БД и директорию данных.
+	 * РњРµС‚РѕРґ СЃРѕР·РґР°С‘С‚ РЅРµРѕР±С…РѕРґРёРјС‹Рµ С‚Р°Р±Р»РёС†С‹ РІ Р‘Р” Рё РґРёСЂРµРєС‚РѕСЂРёСЋ РґР°РЅРЅС‹С….
+	 *
+	 * @throws EresusRuntimeException
 	 *
 	 * @return void
 	 */
 	public function install()
 	{
-		global $Eresus;
-
 		parent::install();
 
-		/*
-		 * Создаём таблицу изображений
-		 */
-		$sql = "
-			`id` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентифкатор',
-			`section` int(10) unsigned default NULL COMMENT 'Привязка к разделу сайта',
-			`title` varchar(255) default NULL COMMENT 'Название картинки',
-			`image` varchar(128) default NULL COMMENT 'Имя файла исходной картинки',
-			`thumb` varchar(128) default NULL COMMENT 'Имя файла миниатюры',
-			`posted` datetime default NULL COMMENT 'Дата и время добавления',
-			`groupId` int(10) unsigned NOT NULL default '0' COMMENT 'Привязка к группе',
-			`cover` tinyint(1) unsigned default '0' COMMENT 'Обложка альбома',
-			`active` tinyint(1) unsigned default '0' COMMENT 'Активность',
-			`position` int(10) unsigned NOT NULL default '0' COMMENT 'Порядковый номер',
-			PRIMARY KEY  (`id`),
-			KEY `section` (`section`),
-			KEY `position` (`position`),
-			KEY `active` (`active`),
-			KEY `posted` (`posted`),
-			KEY `findCovers` (`section`, `active`, `cover`),
-			KEY `imagesByTime` (`section`, `active`, `posted`),
-			KEY `imagesByPosition` (`section`, `active`, `position`)
-			";
-		$this->dbCreateTable($sql, 'images');
+		$table = ORM::getTable($this, 'Image');
+		$table->create();
 
-		/*
-		 * Создаём таблицу групп
-		 */
-		$sql = "
-			`id` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентифкатор',
-			`section` int(10) unsigned default NULL COMMENT 'Привязка к разделу сайта',
-			`title` varchar(255) default '' COMMENT 'Название группы',
-			`description` text default '' COMMENT 'Описание',
-			`position` int(10) unsigned NOT NULL default '0' COMMENT 'Порядковый номер',
-			PRIMARY KEY  (`id`),
-			KEY `list` (`section`, `position`)
-		";
-		$this->dbCreateTable($sql, 'groups');
+		$table = ORM::getTable($this, 'Group');
+		$table->create();
 
-		// Создаём директорию данных
+		// РЎРѕР·РґР°С‘Рј РґРёСЂРµРєС‚РѕСЂРёСЋ РґР°РЅРЅС‹С…
 		$this->mkdir();
 
-		/* Создаём директорию шаблонов */
-		$tmplDir = $Eresus->froot . 'templates/' . $this->name;
-		$umask = umask(0000);
-		@mkdir($tmplDir, 0777);
-		umask($umask);
-
-		/* Копируем шаблоны */
-		$files = glob($this->dirCode . 'distrib/*.html');
-		foreach ($files as $file)
+		$ts = TemplateService::getInstance();
+		try
 		{
-			$target = $tmplDir . '/' . basename($file);
-			copy($file, $target);
-			chmod($target, 0666);
+			$ts->installTemplates($this->dirCode . 'distrib', $this->name);
+		}
+		catch (Exception $e)
+		{
+			$this->uninstall();
+			throw new EresusRuntimeException('Fail to install templates',
+				'РќРµ СѓРґР°Р»РѕСЃСЊ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С€Р°Р±Р»РѕРЅС‹ РїР»Р°РіРёРЅР°. РџРѕРґСЂРѕР±РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РґРѕСЃС‚СѓРїРЅР° РІ Р¶СѓСЂРЅР°Р»Рµ.', $e);
 		}
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Действия при удалении плагина
+	 * Р”РµР№СЃС‚РІРёСЏ РїСЂРё СѓРґР°Р»РµРЅРёРё РїР»Р°РіРёРЅР°
 	 *
-	 * Метод удалаяет файлы данных плагина.
+	 * РњРµС‚РѕРґ СѓРґР°Р»СЏРµС‚ С„Р°Р№Р»С‹ РґР°РЅРЅС‹С… РїР»Р°РіРёРЅР°.
+	 *
+	 * @throws EresusRuntimeException
 	 *
 	 * @return void
 	 */
 	public function uninstall()
 	{
-		global $Eresus;
-
-		// Удаляем директорию данных
+		// РЈРґР°Р»СЏРµРј РґРёСЂРµРєС‚РѕСЂРёСЋ РґР°РЅРЅС‹С…
 		$this->rmdir();
 
-		/* Удаляем шаблоны */
-		$tmplDir = $Eresus->froot . 'templates/' . $this->name;
-		$files = glob($tmplDir . '/*');
-		foreach ($files as $file)
+		$ts = TemplateService::getInstance();
+		try
 		{
-			filedelete($file);
+			$ts->uninstallTemplates($this->name);
 		}
-
-		/* Удаляем директорию шаблонов */
-		@rmdir($tmplDir);
+		catch (Exception $e)
+		{
+			throw new EresusRuntimeException('Fail to uninstall templates',
+				'РќРµ СѓРґР°Р»РѕСЃСЊ СѓРґР°Р»РёС‚СЊ С€Р°Р±Р»РѕРЅС‹ РїР»Р°РіРёРЅР°. РџРѕРґСЂРѕР±РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РґРѕСЃС‚СѓРїРЅР° РІ Р¶СѓСЂРЅР°Р»Рµ.', $e);
+		}
 
 		parent::uninstall();
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Формирование HTML-кода АИ
+	 * Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ HTML-РєРѕРґР° РђР
 	 *
 	 * @return string  HTML
 	 */
 	public function adminRenderContent()
 	{
-		global $page;
-
+		$result = '';
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		switch (true)
 		{
 			/*
-			 * Управление группами
-			 * Этот блок должен располагаться до блока управления изображениями из-за того что иначе
-			 * наличие аргумента id может быть ошибочно расценено как запрос на диалог изменения
-			 * изображения.
+			 * РЈРїСЂР°РІР»РµРЅРёРµ РіСЂСѓРїРїР°РјРё
+			 * Р­С‚РѕС‚ Р±Р»РѕРє РґРѕР»Р¶РµРЅ СЂР°СЃРїРѕР»Р°РіР°С‚СЊСЃСЏ РґРѕ Р±Р»РѕРєР° СѓРїСЂР°РІР»РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё РёР·-Р·Р° С‚РѕРіРѕ С‡С‚Рѕ РёРЅР°С‡Рµ
+			 * РЅР°Р»РёС‡РёРµ Р°СЂРіСѓРјРµРЅС‚Р° id РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС€РёР±РѕС‡РЅРѕ СЂР°СЃС†РµРЅРµРЅРѕ РєР°Рє Р·Р°РїСЂРѕСЃ РЅР° РґРёР°Р»РѕРі РёР·РјРµРЅРµРЅРёСЏ
+			 * РёР·РѕР±СЂР°Р¶РµРЅРёСЏ.
 			 */
 
 			case arg('action') == 'group':
 				$result = $this->adminRenderGroupsList();
-			break;
+				break;
 
 			case arg('group_id') !== null:
 				$result = $this->adminEditGroupDialog();
-			break;
+				break;
 
 			case arg('action') == 'group_create':
 				$result = $this->adminAddGroupDialog();
-			break;
+				break;
 
 			case arg('action') == 'group_insert':
 				$this->adminInsertGroup();
-			break;
+				break;
 
 			case arg('action') == 'group_update':
 				$this->adminUpdateGroup();
-			break;
+				break;
 
 			case arg('group_up') !== null:
 				$this->adminMoveUpGroup();
-			break;
+				break;
 
 			case arg('group_down') !== null:
 				$this->adminMoveDownGroup();
-			break;
+				break;
 
 			case arg('group_delete') !== null:
 				$this->adminDeleteGroup();
-			break;
+				break;
 
-			/* Управление изображениями */
+			/* РЈРїСЂР°РІР»РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё */
 
 			case arg('action') == 'create':
 				$result = $this->adminAddItem();
-			break;
-
-			case arg('action') == 'insert':
-				$this->adminInsertImage();
-			break;
+				break;
 
 			case arg('id') !== null:
 				$result = $this->adminEditItem();
-			break;
+				break;
 
 			case arg('update') !== null:
 				$this->adminUpdateImage();
-			break;
+				break;
 
 			case arg('toggle') !== null:
 				$this->adminImageToggle(arg('toggle', 'int'));
-			break;
+				break;
 
 			case arg('cover') !== null:
 				$this->coverAction();
-			break;
+				break;
 
 			case arg('delete') !== null:
 				$this->delete(arg('delete', 'int'));
-			break;
+				break;
 
 			case arg('up') !== null:
 				$this->up(arg('up', 'int'));
-			break;
+				break;
 
 			case arg('down') !== null:
 				$this->down(arg('down', 'int'));
-			break;
+				break;
 
-			/* Управление свойствами галереи */
+			/* РЈРїСЂР°РІР»РµРЅРёРµ СЃРІРѕР№СЃС‚РІР°РјРё РіР°Р»РµСЂРµРё */
 
 			case arg('action') == 'props':
 				$result = $this->adminRenderProperties();
-			break;
+				break;
 
 			case arg('action') == 'props_update':
-				$result = $this->updateProperties();
-			break;
+				$this->updateProperties();
+				break;
 
-			/* Действие по умолачнию */
+			/* Р”РµР№СЃС‚РІРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ */
 
 			default:
 				$result = $this->adminRenderImagesList();
-			break;
+				break;
 		}
 
 		/*
-		 * Кнопки-"вкладки"
+		 * РљРЅРѕРїРєРё-"РІРєР»Р°РґРєРё"
 		 */
 		$tabs = array('width' => '14em', 'items' => array());
 		$tabs['items'] []= array(
-			'caption' => 'Изображения',
-			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(null, array('action'))),
+			'caption' => 'РР·РѕР±СЂР°Р¶РµРЅРёСЏ',
+			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(null)),
 		);
 
 		if ($this->settings['useGroups'])
 		{
 			$tabs['items'] []= array(
-				'caption' => 'Группы',
+				'caption' => 'Р“СЂСѓРїРїС‹',
 				'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(array('action' => 'group'))),
 			);
 		}
 
 		$tabs['items'] []= array(
-			'caption' => 'Свойства галереи',
+			'caption' => 'РЎРІРѕР№СЃС‚РІР° РіР°Р»РµСЂРµРё',
 			'url' => preg_replace('/&(id|pg)=\d+/', '', $page->url(array('action' => 'props'))),
 		);
 
-		$result =
-			$page->renderTabs($tabs) .
-			$result;
+		$result = $page->renderTabs($tabs) . $result;
 
 		return $result;
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Обработчик XHR-запросов
+	 * РћР±СЂР°Р±РѕС‚С‡РёРє XHR-Р·Р°РїСЂРѕСЃРѕРІ
 	 *
 	 * @return void
 	 */
 	public function adminRender()
 	{
-		$ctl = new GalleryAdminXHRController;
+		$ctl = new Gallery_AdminXHR;
 		$ctl->execute(arg('args'));
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Формирование контента
+	 * Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РєРѕРЅС‚РµРЅС‚Р°
 	 *
 	 * @return string
 	 */
 	public function clientRenderContent()
 	{
-		global $page;
-
 		$this->clientCheckRequest();
 
-		$result = '';
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 
 		if ($page->topic)
 		{
@@ -523,29 +485,27 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает URL корня клиентского раздела
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ URL РєРѕСЂРЅСЏ РєР»РёРµРЅС‚СЃРєРѕРіРѕ СЂР°Р·РґРµР»Р°
 	 *
 	 * @return string
 	 */
 	public function clientURL()
 	{
-		global $page;
-
-		return $page->clientURL($page->id);
+		return Eresus_Kernel::app()->getPage()->clientURL(Eresus_Kernel::app()->getPage()->id);
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает URL текущей страницы списка
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ URL С‚РµРєСѓС‰РµР№ СЃС‚СЂР°РЅРёС†С‹ СЃРїРёСЃРєР°
 	 *
 	 * @return string
 	 */
 	public function clientListURL()
 	{
-		global $page;
-
 		$url = $this->clientURL();
 
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		if ($page->subpage)
 		{
 			$url .= 'p' . $page->subpage . '/';
@@ -553,31 +513,15 @@ class Gallery extends ContentPlugin
 
 		return $url;
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Подключает библиотеку jQuery
-	 *
-	 * @return void
-	 */
-	public function linkJQuery()
-	{
-		global $Eresus, $page;
-
-		$page->linkScripts($Eresus->root . 'core/jquery/jquery.min.js');
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Отрисовывает интерфейс списка изображений
+	 * РћС‚СЂРёСЃРѕРІС‹РІР°РµС‚ РёРЅС‚РµСЂС„РµР№СЃ СЃРїРёСЃРєР° РёР·РѕР±СЂР°Р¶РµРЅРёР№
 	 *
 	 * @return string  HTML
 	 */
 	private function adminRenderImagesList()
 	{
-		global $page;
-
-		// Определяем текущую страницу списка
+		// РћРїСЂРµРґРµР»СЏРµРј С‚РµРєСѓС‰СѓСЋ СЃС‚СЂР°РЅРёС†Сѓ СЃРїРёСЃРєР°
 		$pg = arg('pg') ? arg('pg', 'int') : 1;
 
 		$section = arg('section', 'int');
@@ -588,91 +532,132 @@ class Gallery extends ContentPlugin
 
 		$startFrom = ($pg - 1) * $maxCount;
 
+		/* @var Gallery_Entity_Table_AbstractContent $table */
 		if ($this->settings['useGroups'])
 		{
-			$items = GalleryGroup::find($section, $maxCount, $startFrom);
+			$table = ORM::getTable($this, 'Group');
 		}
 		else
 		{
-			$items = GalleryImage::find($section, $maxCount, $startFrom);
+			$table = ORM::getTable($this, 'Image');
 		}
 
-		// Данные для подстановки в шаблон
-		$data = array();
-		$data['this'] = $this;
-		$data['page'] = $page;
-		$data['Eresus'] = $GLOBALS['Eresus'];
-		$data['sectionId'] = arg('section', 'int');
-		$data['items'] = $items;
+		$items = $table->findInSection($section, $maxCount, $startFrom);
 
-		/* Шаблоны адресов действий */
-		$data['urlEdit'] = str_replace('&', '&amp;', $page->url(array('id' => '%s')));
-		$data['urlToggle'] = str_replace('&', '&amp;', $page->url(array('toggle' => '%s')));
-		$data['urlCover'] = str_replace('&', '&amp;', $page->url(array('cover' => '%s')));
-		$data['urlUp'] = str_replace('&', '&amp;', $page->url(array('up' => '%s')));
-		$data['urlDown'] = str_replace('&', '&amp;', $page->url(array('down' => '%s')));
-		$data['urlDelete'] = str_replace('&', '&amp;', $page->url(array('delete' => '%s')));
+		// Р”Р°РЅРЅС‹Рµ РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ С€Р°Р±Р»РѕРЅ
+		$vars = array();
+		$vars['this'] = $this;
+		$vars['page'] = Eresus_Kernel::app()->getPage();
+		$vars['Eresus'] = Eresus_CMS::getLegacyKernel();
+		$vars['sectionId'] = arg('section', 'int');
+		$vars['items'] = $items;
 
-		if ($this->settings['useGroups'])
-		{
-			$totalPages = ceil(GalleryGroup::count($section) / $maxCount);
-		}
-		else
-		{
-			$totalPages = ceil(GalleryImage::count($section) / $maxCount);
-		}
+		/* РЁР°Р±Р»РѕРЅС‹ Р°РґСЂРµСЃРѕРІ РґРµР№СЃС‚РІРёР№ */
+		$vars['urlEdit'] = str_replace('&', '&amp;',
+			Eresus_Kernel::app()->getPage()->url(array('id' => '%s')));
+		$vars['urlToggle'] = str_replace('&', '&amp;',
+			Eresus_Kernel::app()->getPage()->url(array('toggle' => '%s')));
+		$vars['urlCover'] = str_replace('&', '&amp;',
+			Eresus_Kernel::app()->getPage()->url(array('cover' => '%s')));
+		$vars['urlUp'] = str_replace('&', '&amp;',
+			Eresus_Kernel::app()->getPage()->url(array('up' => '%s')));
+		$vars['urlDown'] = str_replace('&', '&amp;',
+			Eresus_Kernel::app()->getPage()->url(array('down' => '%s')));
+		$vars['urlDelete'] = str_replace('&', '&amp;',
+			Eresus_Kernel::app()->getPage()->url(array('delete' => '%s')));
+
+		$totalPages = ceil($table->countInSection($section) / $maxCount);
 
 		if ($totalPages > 1)
 		{
-			$pager = new PaginationHelper($totalPages, $pg, $page->url(array('pg' => '%s')));
-			$data['pager'] = $pager->render();
+			$pager = new PaginationHelper($totalPages, $pg,
+				Eresus_Kernel::app()->getPage()->url(array('pg' => '%s')));
+			$vars['pager'] = $pager->render();
 		}
 		else
 		{
-			$data['pager'] = '';
+			$vars['pager'] = '';
 		}
 
-		$page->linkStyles($this->urlCode . 'admin.css');
-		$page->linkScripts($this->urlCode . 'admin.js');
+		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
+		Eresus_Kernel::app()->getPage()->linkScripts($this->urlCode . 'admin.js');
 
-		/* Создаём экземпляр шаблона */
+		/* РЎРѕР·РґР°С‘Рј СЌРєР·РµРјРїР»СЏСЂ С€Р°Р±Р»РѕРЅР° */
 		if ($this->settings['useGroups'])
 		{
 			$tmpl = new Template('ext/' . $this->name . '/templates/image-grouped-list.html');
-			// Изображения вне групп
-			$data['orphans'] = GalleryImage::findOrphans($section);
+			// РР·РѕР±СЂР°Р¶РµРЅРёСЏ РІРЅРµ РіСЂСѓРїРї
+			$table = ORM::getTable($this, 'Album');
+			/* @var Gallery_Entity_Album $album */
+			$album = $table->find($section);
+			$vars['orphans'] = $album->getOrphans();
 		}
 		else
 		{
 			$tmpl = new Template('ext/' . $this->name . '/templates/image-list.html');
 		}
 
-		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
+		// РљРѕРјРїРёР»РёСЂСѓРµРј С€Р°Р±Р»РѕРЅ Рё РґР°РЅРЅС‹Рµ
+		$html = $tmpl->compile($vars);
 
 		return $html;
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог добавления изображения
+	 * Р”РѕР±Р°РІР»РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	 *
 	 * @return string  HTML
+	 *
+	 * @TODO РџРµСЂРµРґРµР»Р°С‚СЊ С‡РµСЂРµР· ORM
 	 */
 	private function adminAddItem()
 	{
-		global $page;
+		$request = Eresus_CMS::getLegacyKernel()->request;
+		if ('POST' == $request['method'])
+		{
+			$image = new Gallery_Entity_Image($this);
+			$image->section = arg('section');
+			$image->groupId = arg('group') ? arg('group') : 0;
+			$_SESSION['gallery_default_group'] = arg('group');
+			$image->title = arg('title');
+			$image->cover = arg('cover') ? arg('cover') : false;
+			$image->active = arg('active');
+			$image->posted = new DateTime();
+			$image->image = 'image'; // $_FILES['image'];
 
-		$this->linkJQuery();
-		$page->linkStyles($this->urlCode . 'admin.css');
+			if ($this->isImageInputValid($image))
+			{
+				$table = ORM::getTable($this, 'Image');
+				try
+				{
+					$table->persist($image);
+				}
+				catch (Gallery_Exception_FileTooBigException $e)
+				{
+					throw new DomainException('Р Р°Р·РјРµСЂ Р·Р°РіСЂСѓР¶Р°РµРјРѕРіРѕ С„Р°Р№Р»Р° РїСЂРµРІС‹С€Р°РµС‚ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РґРѕРїСѓСЃС‚РёРјС‹Р№');
+				}
 
-		// Данные для подстановки в шаблон
+				$url = 'admin.php?mod=content&section=' . $image->section;
+				if (arg('pg'))
+				{
+					$url .= '&pg=' . arg('pg', 'int');
+				}
+				HTTP::redirect($url);
+			}
+		}
+
+		Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
+
+		// Р”Р°РЅРЅС‹Рµ РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ С€Р°Р±Р»РѕРЅ
 		$data = array();
 		$data['this'] = $this;
-		$data['page'] = $page;
+		$data['page'] = Eresus_Kernel::app()->getPage();
 		$data['sectionId'] = arg('section', 'int');
-		$data['defaultGroup'] = isset($_SESSION['gallery_default_group']) ?
-			$_SESSION['gallery_default_group'] : null;
+		$data['defaultGroup'] = isset($_SESSION['gallery_default_group'])
+			? $_SESSION['gallery_default_group']
+			: null;
+		$data['image'] = isset($image) ? $image : null;
 
 		if ($this->settings['useGroups'])
 		{
@@ -680,31 +665,32 @@ class Gallery extends ContentPlugin
 				'position');
 		}
 
-		// Создаём экземпляр шаблона
+		// РЎРѕР·РґР°С‘Рј СЌРєР·РµРјРїР»СЏСЂ С€Р°Р±Р»РѕРЅР°
 		$tmpl = new Template('ext/' . $this->name . '/templates/add-image.html');
 
-		// Компилируем шаблон и данные
+		// РљРѕРјРїРёР»РёСЂСѓРµРј С€Р°Р±Р»РѕРЅ Рё РґР°РЅРЅС‹Рµ
 		$html = $tmpl->compile($data);
 
 		return $html;
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог изменения изображения
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРёР°Р»РѕРі РёР·РјРµРЅРµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	 *
 	 * @return string  HTML
 	 */
 	private function adminEditItem()
 	{
-		global $page;
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find(arg('id', 'int'));
 
-		$image = new GalleryImage(arg('id', 'int'));
-
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		$page->linkStyles($this->urlCode . 'admin.css');
 		$page->linkScripts($this->urlCode . 'admin.js');
 
-		// Данные для подстановки в шаблон
+		// Р”Р°РЅРЅС‹Рµ РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ С€Р°Р±Р»РѕРЅ
 		$data = array();
 		$data['this'] = $this;
 		$data['page'] = $page;
@@ -714,13 +700,15 @@ class Gallery extends ContentPlugin
 
 		if ($this->settings['useGroups'])
 		{
-			$data['groups'] = $this->dbSelect('groups', "`section` = {$image->section}", 'position');
+			/* @var Gallery_Entity_Table_Group $table */
+			$table = ORM::getTable($this, 'Group');
+			$data['groups'] = $table->findInSection($image->section);
 		}
 
-		// Создаём экземпляр шаблона
+		// РЎРѕР·РґР°С‘Рј СЌРєР·РµРјРїР»СЏСЂ С€Р°Р±Р»РѕРЅР°
 		$tmpl = new Template('ext/' . $this->name . '/templates/edit-image.html');
 
-		// Компилируем шаблон и данные
+		// РљРѕРјРїРёР»РёСЂСѓРµРј С€Р°Р±Р»РѕРЅ Рё РґР°РЅРЅС‹Рµ
 		$html = $tmpl->compile($data);
 
 		return $html;
@@ -728,91 +716,48 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Добавляет изображение
-	 *
-	 * @return void
-	 */
-	private function adminInsertImage()
-	{
-		if (empty($_FILES['image']['name']))
-		{
-			ErrorMessage(isset($form['message']) ? $form['message'] : 'Поле "файл" не заполнено');
-			HTTP::goback();
-		}
-
-		$item = new GalleryImage();
-		$item->section = arg('section');
-		$item->group = arg('group');
-		$_SESSION['gallery_default_group'] = arg('group');
-		$item->title = arg('title');
-		$item->cover = arg('cover');
-		$item->active = arg('active');
-		$item->posted = gettime();
-		$item->image = 'image'; // $_FILES['image'];
-
-		try
-		{
-			$item->save();
-		}
-		catch (GalleryFileTooBigException $e)
-		{
-			throw new DomainException('Размер загружаемого файла превышает максимально допустимый');
-		}
-
-		$url = 'admin.php?mod=content&section=' . $item->section;
-		if (arg('pg'))
-		{
-			$url .= '&pg=' . arg('pg', 'int');
-		}
-		HTTP::redirect($url);
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Обновляет изображение
+	 * РћР±РЅРѕРІР»СЏРµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
 	 *
 	 * @return void
 	 * @see adminEditItem
 	 */
 	private function adminUpdateImage()
 	{
-		global $page;
-
-		$image = new GalleryImage(arg('update', 'int'));
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find(arg('update', 'int'));
 
 		$new_section = arg('section', 'int');
 		if ($new_section == $image->section)
 		{
-			$image->group = arg('group', 'int');
+			$image->groupId = arg('group', 'int');
 		}
 		else
 		{
 			$image->section = $new_section;
-			$image->group = arg('new_group', 'int');
+			$image->groupId = arg('new_group', 'int');
 		}
 		$image->title = arg('title', 'dbsafe');
-		$image->posted = arg('posted', 'dbsafe');
+		$image->posted = new DateTime(arg('posted'));
 		$image->cover = arg('cover', 'int');
 		$image->active = arg('active', 'int');
 		$image->image = 'image'; // $_FILES['image'];
 
-		$image->save();
+		$table->update($image);
 
-		HTTP::redirect($page->url());
+		HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Отрисовывает интерфейс списка групп
+	 * РћС‚СЂРёСЃРѕРІС‹РІР°РµС‚ РёРЅС‚РµСЂС„РµР№СЃ СЃРїРёСЃРєР° РіСЂСѓРїРї
 	 *
 	 * @return string  HTML
 	 */
 	private function adminRenderGroupsList()
 	{
-		global $page;
-
 		/*
-		 * Описание таблицы групп
+		 * РћРїРёСЃР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ РіСЂСѓРїРї
 		 */
 		$table = array(
 			'name' => $this->__table('groups'),
@@ -820,7 +765,7 @@ class Gallery extends ContentPlugin
 			'sortMode' => 'position',
 			'sortDesc' => false,
 			'columns' => array(
-				array('name' => 'title', 'caption' => 'Название'),
+				array('name' => 'title', 'caption' => 'РќР°Р·РІР°РЅРёРµ'),
 			),
 			'condition' => "`section`='" . arg('section', 'int') . "'",
 			'controls' => array(
@@ -831,40 +776,42 @@ class Gallery extends ContentPlugin
 			'tabs' => array(
 				'width' => '180px',
 				'items' => array(
-					array('caption' => 'Добавить группу', 'name' => 'action', 'value' => 'group_create'),
+					array('caption' => 'Р”РѕР±Р°РІРёС‚СЊ РіСЂСѓРїРїСѓ', 'name' => 'action', 'value' => 'group_create'),
 				),
 			),
 		);
 
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		$result = $page->renderTable($table, null, 'group_');
 		return $result;
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог добавления группы
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРёР°Р»РѕРі РґРѕР±Р°РІР»РµРЅРёСЏ РіСЂСѓРїРїС‹
 	 *
 	 * @return string  HTML
 	 */
 	private function adminAddGroupDialog()
 	{
-		global $page;
-
 		$form = array(
 			'name' => 'AddForm',
-			'caption' => 'Добавление группы',
+			'caption' => 'Р”РѕР±Р°РІР»РµРЅРёРµ РіСЂСѓРїРїС‹',
 			'width' => '600px',
 			'fields' => array (
 				array ('type' => 'hidden', 'name' => 'action', 'value' => 'group_insert'),
 				array ('type' => 'hidden', 'name' => 'section', 'value' => arg('section', 'int')),
-				array ('type' => 'edit', 'name' => 'title', 'label' => 'Название',
+				array ('type' => 'edit', 'name' => 'title', 'label' => 'РќР°Р·РІР°РЅРёРµ',
 					'width' => '100%', 'maxlength' => '255'),
 				array('type' => 'html', 'name' => 'description', 'height' => '400px',
-					'label' => 'Описание'),
+					'label' => 'РћРїРёСЃР°РЅРёРµ'),
 			),
 			'buttons' => array('ok', 'cancel'),
 		);
 
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		$result = $page->renderForm($form);
 
 		return $result;
@@ -872,32 +819,32 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог изменения группы
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРёР°Р»РѕРі РёР·РјРµРЅРµРЅРёСЏ РіСЂСѓРїРїС‹
 	 *
 	 * @return string  HTML
 	 */
 	private function adminEditGroupDialog()
 	{
-		global $page;
-
 		$item = $this->dbItem('groups', arg('group_id', 'int'));
 
 		$form = array(
 			'name' => 'editGroup',
-			'caption' => 'Изменение группы',
+			'caption' => 'РР·РјРµРЅРµРЅРёРµ РіСЂСѓРїРїС‹',
 			'width' => '600px',
 			'fields' => array (
 				array ('type' => 'hidden', 'name' => 'action', 'value' => 'group_update'),
 				array ('type' => 'hidden', 'name' => 'section', 'value' => arg('section', 'int')),
 				array ('type' => 'hidden', 'name' => 'id', 'value' => $item['id']),
-				array ('type' => 'edit', 'name' => 'title', 'label' => 'Название',
+				array ('type' => 'edit', 'name' => 'title', 'label' => 'РќР°Р·РІР°РЅРёРµ',
 					'width' => '100%', 'maxlength' => '255'),
 				array('type' => 'html', 'name' => 'description', 'height' => '400px',
-					'label' => 'Описание'),
+					'label' => 'РћРїРёСЃР°РЅРёРµ'),
 			),
 			'buttons' => array('ok', 'apply', 'cancel'),
 		);
 
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		$result = $page->renderForm($form, $item);
 
 		return $result;
@@ -905,30 +852,31 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Добавляет группу
+	 * Р”РѕР±Р°РІР»СЏРµС‚ РіСЂСѓРїРїСѓ
 	 *
 	 * @return void
 	 */
 	private function adminInsertGroup()
 	{
-		$item = new GalleryGroup();
-		$item->section = arg('section');
-		$item->title = arg('title');
-		$item->description = arg('description');
+		$group = new Gallery_Entity_Group($this);
+		$group->section = arg('section');
+		$group->title = arg('title');
+		$group->description = arg('description');
 
-		// Код определения позиции желательно перенести в GalleryGroup
-		$maxPosition = $this->dbSelect('groups', "`section` = '{$item->section}'", null,
+		// РљРѕРґ РѕРїСЂРµРґРµР»РµРЅРёСЏ РїРѕР·РёС†РёРё Р¶РµР»Р°С‚РµР»СЊРЅРѕ РїРµСЂРµРЅРµСЃС‚Рё РІ Gallery_Group
+		$maxPosition = $this->dbSelect('groups', "`section` = '{$group->section}'", null,
 			'MAX(`position`) AS `value`');
-		$item->position = intval($maxPosition[0]['value']) + 1;
+		$group->position = intval($maxPosition[0]['value']) + 1;
 
-		$item->save();
+		$table = ORM::getTable($this, 'Group');
+		$table->persist($group);
 
 		HTTP::redirect(arg('submitURL') . '&action=group');
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Обновляет группу
+	 * РћР±РЅРѕРІР»СЏРµС‚ РіСЂСѓРїРїСѓ
 	 *
 	 * @return void
 	 */
@@ -952,96 +900,101 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Перемещает группу вверх по списку
+	 * РџРµСЂРµРјРµС‰Р°РµС‚ РіСЂСѓРїРїСѓ РІРІРµСЂС… РїРѕ СЃРїРёСЃРєСѓ
 	 *
 	 * @return void
 	 */
 	private function adminMoveUpGroup()
 	{
-		$group = new GalleryGroup(arg('group_up', 'int'));
-		$group->moveUp();
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable($this, 'Group');
+		/* @var Gallery_Entity_Group $group */
+		$group = $table->find(arg('group_up', 'int'));
+		$table->moveUp($group);
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Перемещает группу вниз по списку
+	 * РџРµСЂРµРјРµС‰Р°РµС‚ РіСЂСѓРїРїСѓ РІРЅРёР· РїРѕ СЃРїРёСЃРєСѓ
 	 *
 	 * @return void
 	 */
 	private function adminMoveDownGroup()
 	{
-		$group = new GalleryGroup(arg('group_down', 'int'));
-		$group->moveDown();
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable($this, 'Group');
+		/* @var Gallery_Entity_Group $group */
+		$group = $table->find(arg('group_down', 'int'));
+		$table->moveDown($group);
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Удаляет группу
+	 * РЈРґР°Р»СЏРµС‚ РіСЂСѓРїРїСѓ
 	 *
 	 * @return void
 	 */
 	private function adminDeleteGroup()
 	{
 		$id = arg('group_delete', 'int');
-		$group = new GalleryGroup($id);
-		$group->delete();
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable($this, 'Group');
+		$group = $table->find($id);
+		$table->delete($group);
 
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Обновление свойств галереи
+	 * РћР±РЅРѕРІР»РµРЅРёРµ СЃРІРѕР№СЃС‚РІ РіР°Р»РµСЂРµРё
 	 */
 	private function updateProperties()
 	{
-		global $Eresus;
-
 		$id = arg('section', 'int');
-		$item = $Eresus->db->selectItem('pages', '`id` = "'.$id.'"');
-		$item = array();
+		$item = Eresus_CMS::getLegacyKernel()->db->selectItem('pages', '`id` = "'.$id.'"');
 
 		$item['title'] = arg('title', 'dbsafe');
 		$item['created'] = arg('created', 'dbsafe');
 		$item['active'] = arg('active', 'int');
 		$item['content'] = arg('content', 'dbsafe');
 
-		$Eresus->db->updateItem('pages', $item, "`id` = '".$id."'");
+		Eresus_CMS::getLegacyKernel()->db->updateItem('pages', $item, "`id` = '".$id."'");
 		HTTP::redirect(arg('submitURL'));
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Удаление записи
+	 * РЈРґР°Р»РµРЅРёРµ Р·Р°РїРёСЃРё
 	 *
-	 * @param int id Номер записи
+	 * @param int $id РќРѕРјРµСЂ Р·Р°РїРёСЃРё
 	 */
 	private function delete($id)
 	{
-		global $page;
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		$image = $table->find($id);
+		$table->delete($image);
 
-		$image = new GalleryImage($id);
-		$image->delete();
-
-		HTTP::redirect($page->url());
+		HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Проверяет правильность запроса
+	 * РџСЂРѕРІРµСЂСЏРµС‚ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°РїСЂРѕСЃР°
 	 *
-	 * В случае если запрос содержит лишние элементы, возврщает HTTP/404
+	 * Р’ СЃР»СѓС‡Р°Рµ РµСЃР»Рё Р·Р°РїСЂРѕСЃ СЃРѕРґРµСЂР¶РёС‚ Р»РёС€РЅРёРµ СЌР»РµРјРµРЅС‚С‹, РІРѕР·РІСЂР°С‰Р°РµС‚ HTTP/404
 	 *
 	 * @return void
 	 */
 	private function clientCheckRequest()
 	{
-		global $Eresus, $page;
-
-		/* Собираем вместе ожидаемые эелементы URL */
-		$acceptUrl = $Eresus->request['path'] .
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		/* РЎРѕР±РёСЂР°РµРј РІРјРµСЃС‚Рµ РѕР¶РёРґР°РµРјС‹Рµ СЌР»РµРјРµРЅС‚С‹ URL */
+		$acceptUrl = Eresus_CMS::getLegacyKernel()->request['path'] .
 			($page->subpage !== 0 ? 'p' . $page->subpage . '/' : '');
 
 		if ($page->topic)
@@ -1049,8 +1002,8 @@ class Gallery extends ContentPlugin
 			$acceptUrl .= $page->topic !== false ? $page->topic . '/' : '';
 		}
 
-		/* Сравниваем с переданным URL */
-		if ($acceptUrl != $Eresus->request['url'])
+		/* РЎСЂР°РІРЅРёРІР°РµРј СЃ РїРµСЂРµРґР°РЅРЅС‹Рј URL */
+		if ($acceptUrl != Eresus_CMS::getLegacyKernel()->request['url'])
 		{
 			$page->httpError(404);
 		}
@@ -1058,7 +1011,7 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает контент для страницы списка изображений
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕРЅС‚РµРЅС‚ РґР»СЏ СЃС‚СЂР°РЅРёС†С‹ СЃРїРёСЃРєР° РёР·РѕР±СЂР°Р¶РµРЅРёР№
 	 *
 	 * @return string  HTML
 	 */
@@ -1066,11 +1019,11 @@ class Gallery extends ContentPlugin
 	{
 		if ($this->settings['useGroups'])
 		{
-			$view = new GalleryClientGroupedListView();
+			$view = new Gallery_ClientGroupedListView();
 		}
 		else
 		{
-			$view = new GalleryClientListView();
+			$view = new Gallery_ClientListView();
 		}
 
 		$html = $view->render();
@@ -1079,14 +1032,14 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Отрисовка представления "Просмотр изображения"
+	 * РћС‚СЂРёСЃРѕРІРєР° РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ "РџСЂРѕСЃРјРѕС‚СЂ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ"
 	 *
 	 * @return string  HTML
 	 */
 	private function clientRenderItem()
 	{
-		global $page;
-
+		/* @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		$id = intval($page->topic);
 
 		if ($id != $page->topic)
@@ -1094,33 +1047,36 @@ class Gallery extends ContentPlugin
 			$page->httpError(404);
 		}
 
-		$image = new GalleryImage($id);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
 
 		if (!$image || !$image->active)
 		{
 			$page->HttpError(404);
 		}
 
-		// Данные для подстановки в шаблон
+		// Р”Р°РЅРЅС‹Рµ РґР»СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєРё РІ С€Р°Р±Р»РѕРЅ
 		$data = array();
 		$data['this'] = $this;
 		$data['page'] = $page;
-		$data['Eresus'] = $GLOBALS['Eresus'];
+		$data['Eresus'] = Eresus_CMS::getLegacyKernel();
 		$data['image'] = $image;
 		if ($this->settings['useGroups'])
 		{
-			$data['album'] = new GalleryAlbumGrouped($page->id);
+			$data['album'] = new Gallery_AlbumGrouped($page->id);
 		}
 		else
 		{
-			$data['album'] = new GalleryAlbum($page->id);
+			$data['album'] = new Gallery_Album($page->id);
 		}
 		$data['album']->setCurrent($data['image']);
 
-		// Создаём экземпляр шаблона
+		// РЎРѕР·РґР°С‘Рј СЌРєР·РµРјРїР»СЏСЂ С€Р°Р±Р»РѕРЅР°
 		$tmpl = new Template('templates/' . $this->name . '/image.html');
 
-		// Компилируем шаблон и данные
+		// РљРѕРјРїРёР»РёСЂСѓРµРј С€Р°Р±Р»РѕРЅ Рё РґР°РЅРЅС‹Рµ
 		$html = $tmpl->compile($data);
 
 		return $html;
@@ -1128,12 +1084,12 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Создаёт список разделов типа "Галерея изображений" для использования в шаблонах
+	 * РЎРѕР·РґР°С‘С‚ СЃРїРёСЃРѕРє СЂР°Р·РґРµР»РѕРІ С‚РёРїР° "Р“Р°Р»РµСЂРµСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№" РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ С€Р°Р±Р»РѕРЅР°С…
 	 *
-	 * @param int $root             Идентификатор корневого раздела
-	 * @param int $level[optional]  Уровень вложенности ветки
+	 * @param int $root             РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєРѕСЂРЅРµРІРѕРіРѕ СЂР°Р·РґРµР»Р°
+	 * @param int $level[optional]  РЈСЂРѕРІРµРЅСЊ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё РІРµС‚РєРё
 	 *
-	 * @return array  Описания разделов
+	 * @return array  РћРїРёСЃР°РЅРёСЏ СЂР°Р·РґРµР»РѕРІ
 	 */
 	private function buildGalleryList($root, $level = 0)
 	{
@@ -1142,12 +1098,12 @@ class Gallery extends ContentPlugin
 
 		$sections = $lib->children($root);
 
-		// Описания разделов выбранной ветки
+		// РћРїРёСЃР°РЅРёСЏ СЂР°Р·РґРµР»РѕРІ РІС‹Р±СЂР°РЅРЅРѕР№ РІРµС‚РєРё
 		$branch = array();
 
 		/*
-		 * Отбираем только разделы типа "Галерея изображений" или разделы,
-		 * содержащие дочерние разделы этого же типа.
+		 * РћС‚Р±РёСЂР°РµРј С‚РѕР»СЊРєРѕ СЂР°Р·РґРµР»С‹ С‚РёРїР° "Р“Р°Р»РµСЂРµСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№" РёР»Рё СЂР°Р·РґРµР»С‹,
+		 * СЃРѕРґРµСЂР¶Р°С‰РёРµ РґРѕС‡РµСЂРЅРёРµ СЂР°Р·РґРµР»С‹ СЌС‚РѕРіРѕ Р¶Рµ С‚РёРїР°.
 		 */
 		foreach ($sections as $section)
 		{
@@ -1163,14 +1119,14 @@ class Gallery extends ContentPlugin
 				$item['selectable'] = true;
 			}
 
-			$subitems = $this->buildGalleryList($section['id'], $level + 1);
+			$subItems = $this->buildGalleryList($section['id'], $level + 1);
 
-			if ($item['selectable'] || $subitems)
+			if ($item['selectable'] || $subItems)
 			{
 				$branch []= $item;
 			}
 
-			$branch = array_merge($branch, $subitems);
+			$branch = array_merge($branch, $subItems);
 		}
 
 		return $branch;
@@ -1178,88 +1134,97 @@ class Gallery extends ContentPlugin
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Возвращает диалог свойств галереи
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРёР°Р»РѕРі СЃРІРѕР№СЃС‚РІ РіР°Р»РµСЂРµРё
 	 *
 	 * @return string  HTML
 	 */
 	private function adminRenderProperties()
 	{
-		global $Eresus, $page;
-
-		$item = $Eresus->db->selectItem('pages', '`id`="' . arg('section', 'int') . '"');
+		$item = Eresus_CMS::getLegacyKernel()->db->
+			selectItem('pages', '`id`="' . arg('section', 'int') . '"');
 
 		$form = array(
 			'name' => 'contentEditor',
-			'caption' => 'Текст на странице',
+			'caption' => 'РўРµРєСЃС‚ РЅР° СЃС‚СЂР°РЅРёС†Рµ',
 			'width' => '800px',
 			'fields' => array(
 				array('type' => 'hidden', 'name' => 'action', 'value' => 'props_update'),
 				array('type' => 'hidden', 'name' => 'textupdate', 'value' => '1'),
-				array('type' => 'edit', 'name' => 'title', 'label' => 'Название', 'width' => '150px'),
-				array('type' => 'edit', 'name' => 'created', 'label' => 'Дата создания',
-					'width' => '150px', 'comment' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС'),
-				array('type' => 'checkbox', 'name' => 'active', 'label' => 'Активна'),
+				array('type' => 'edit', 'name' => 'title', 'label' => 'РќР°Р·РІР°РЅРёРµ', 'width' => '150px'),
+				array('type' => 'edit', 'name' => 'created', 'label' => 'Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ',
+					'width' => '150px', 'comment' => 'Р“Р“Р“Р“-РњРњ-Р”Р” Р§Р§:РњРњ:РЎРЎ'),
+				array('type' => 'checkbox', 'name' => 'active', 'label' => 'РђРєС‚РёРІРЅР°'),
 				array('type' => 'html', 'name' => 'content', 'height' => '400px',
-					'label' => 'Описание<div class="ui-state-warning"><em>Внимание!</em> Для того, чтобы ' .
-					'это описание показывалось посетителям, надо добавить в ' .
-					'<a href="admin.php?mod=plgmgr&id=gallery">шаблон</a> вывод текста страницы (альбома).' .
+					'label' => 'РћРїРёСЃР°РЅРёРµ<div class="ui-state-warning"><em>Р’РЅРёРјР°РЅРёРµ!</em> Р”Р»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ ' .
+					'СЌС‚Рѕ РѕРїРёСЃР°РЅРёРµ РїРѕРєР°Р·С‹РІР°Р»РѕСЃСЊ РїРѕСЃРµС‚РёС‚РµР»СЏРј, РЅР°РґРѕ РґРѕР±Р°РІРёС‚СЊ РІ ' .
+					'<a href="admin.php?mod=plgmgr&id=gallery">С€Р°Р±Р»РѕРЅ</a> РІС‹РІРѕРґ С‚РµРєСЃС‚Р° СЃС‚СЂР°РЅРёС†С‹ (Р°Р»СЊР±РѕРјР°).' .
 					'</div>'),
 			),
 			'buttons'=> array('ok', 'apply', 'cancel'),
 		);
 
+		/* @var TAdminUI $page */
+		$page = Eresus_Kernel::app()->getPage();
 		$result = $page->renderForm($form, $item);
 		return $result;
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Перемещение изображения вверх по списку
+	 * РџРµСЂРµРјРµС‰РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РІРІРµСЂС… РїРѕ СЃРїРёСЃРєСѓ
 	 *
-	 * @param int $id  Идентификатор изображения
+	 * @param int $id  РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	 *
 	 * @return void
 	 */
 	private function up($id)
 	{
-		$image = new GalleryImage($id);
-		$image->moveUp();
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
+		$table->moveUp($image);
 		HTTP::goback();
 	}
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Перемещение изображения вниз по списку
+	 * РџРµСЂРµРјРµС‰РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РІРЅРёР· РїРѕ СЃРїРёСЃРєСѓ
 	 *
-	 * @param int $id  Идентификатор изображения
+	 * @param int $id  РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	 *
 	 * @return void
 	 */
 	private function down($id)
 	{
-		$image = new GalleryImage($id);
-		$image->moveDown();
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
+		$table->moveDown($image);
 		HTTP::goback();
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Включает или отключает изображение
+	 * Р’РєР»СЋС‡Р°РµС‚ РёР»Рё РѕС‚РєР»СЋС‡Р°РµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
 	 *
-	 * @param int $id  Идентификатор изображения
+	 * @param int $id  РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	 */
 	private function adminImageToggle($id)
 	{
-		$image = new GalleryImage($id);
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
 		$image->active = ! $image->active;
-		$image->save();
+		$table->update($image);
 
 		HTTP::goback();
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Делает указанное в запросе Изображение обложкой альбома
+	 * Р”РµР»Р°РµС‚ СѓРєР°Р·Р°РЅРЅРѕРµ РІ Р·Р°РїСЂРѕСЃРµ РР·РѕР±СЂР°Р¶РµРЅРёРµ РѕР±Р»РѕР¶РєРѕР№ Р°Р»СЊР±РѕРјР°
+	 *
+	 * @throws Gallery_Exception_NotFound
 	 *
 	 * @return void
 	 */
@@ -1267,12 +1232,33 @@ class Gallery extends ContentPlugin
 	{
 		$id = arg('cover', 'int');
 
-		$image = new GalleryImage($id);
-		$image->cover = true;
-		$image->save();
+		$table = ORM::getTable($this, 'Image');
+		/* @var Gallery_Entity_Image $image */
+		$image = $table->find($id);
+		if (null === $image)
+		{
+			throw new Gallery_Exception_NotFound('Р—Р°РїСЂРѕС€РµРЅРЅРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ');
+		}
+		$image->album->setCover($image);
 
 		HTTP::goback();
 	}
-	//-----------------------------------------------------------------------------
 
+	/**
+	 * РџСЂРѕРІРµСЂСЏРµС‚ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°РїРѕР»РЅРµРЅРёСЏ СЃРІРѕР№СЃС‚РІ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+	 *
+	 * @param Gallery_Entity_Image $image
+	 *
+	 * @return bool
+	 * @since 3.00
+	 */
+	private function isImageInputValid(Gallery_Entity_Image $image)
+	{
+		if (empty($_FILES['image']['name'])) // TODO FIXME Р·Р°РјРµРЅРёС‚СЊ 'image' РЅР° Р·РЅР°С‡РµРЅРёРµ РёР· $image
+		{
+			ErrorMessage(isset($form['message']) ? $form['message'] : 'РџРѕР»Рµ "С„Р°Р№Р»" РЅРµ Р·Р°РїРѕР»РЅРµРЅРѕ');
+			return false;
+		}
+		return true;
+	}
 }

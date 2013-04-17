@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Альбом
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -42,7 +40,7 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryAlbum implements Iterator, Countable
+class Gallery_Album implements Iterator, Countable
 {
 	/**
 	 * Идентификатор раздела сайта, которому соответствует альбом
@@ -52,7 +50,7 @@ class GalleryAlbum implements Iterator, Countable
 	protected $sectionId;
 
 	/**
-	 * Массив исзображений
+	 * Массив изображений
 	 *
 	 * @var array
 	 * @see Iterator
@@ -70,21 +68,21 @@ class GalleryAlbum implements Iterator, Countable
 	/**
 	 * Текущее (просматриваемое посетителем) изображение
 	 *
-	 * @var GalleryImage
+	 * @var Gallery_Entity_Image
 	 */
 	protected $current;
 
 	/**
 	 * Следующее (относительно просматриваемого посетителем) изображение
 	 *
-	 * @var GalleryImage
+	 * @var Gallery_Entity_Image
 	 */
 	protected $next;
 
 	/**
 	 * Предыдущее (относительно просматриваемого посетителем) изображение
 	 *
-	 * @var GalleryImage
+	 * @var Gallery_Entity_Image
 	 */
 	protected $prev;
 
@@ -100,7 +98,7 @@ class GalleryAlbum implements Iterator, Countable
 	 *
 	 * @param int $sectionId  идентификатор раздела сайта
 	 *
-	 * @return GalleryAlbum
+	 * @return Gallery_Album
 	 *
 	 * @since 2.03
 	 */
@@ -197,13 +195,13 @@ class GalleryAlbum implements Iterator, Countable
 	/**
 	 * Устанавливает изображение альбома в качестве текущего
 	 *
-	 * @param GalleryImage $image
+	 * @param Gallery_Entity_Image $image
 	 *
 	 * @return void
 	 *
 	 * @since 2.03
 	 */
-	public function setCurrent(GalleryImage $image)
+	public function setCurrent(Gallery_Entity_Image $image)
 	{
 		$this->current = $image;
 		$this->next = -1;
@@ -212,7 +210,7 @@ class GalleryAlbum implements Iterator, Countable
 	//-----------------------------------------------------------------------------
 
 	/**
-	 * Загружет объекты из БД, если они не были загружены ранее
+	 * Загружает объекты из БД, если они не были загружены ранее
 	 *
 	 * @return void
 	 *
@@ -224,7 +222,9 @@ class GalleryAlbum implements Iterator, Countable
 		{
 			return;
 		}
-		$this->items = GalleryImage::find($this->sectionId, null, null, true);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$this->items = $table->find($this->sectionId, null, null, true);
 		$this->loaded = true;
 	}
 	//-----------------------------------------------------------------------------
@@ -232,7 +232,7 @@ class GalleryAlbum implements Iterator, Countable
 	/**
 	 * Возвращает следующее изображение в альбоме или null.
 	 *
-	 * @return GalleryImage|null
+	 * @return Gallery_Entity_Image|null
 	 *
 	 * @since 2.03
 	 */
@@ -266,7 +266,7 @@ class GalleryAlbum implements Iterator, Countable
 	/**
 	 * Возвращает предыдущее изображение в альбоме или null.
 	 *
-	 * @return GalleryImage|null
+	 * @return Gallery_Entity_Image|null
 	 *
 	 * @since 2.03
 	 */

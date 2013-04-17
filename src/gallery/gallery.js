@@ -1,30 +1,30 @@
 /**
- * Галерея изображений
+ * Р“Р°Р»РµСЂРµСЏ РёР·РѕР±СЂР°Р¶РµРЅРёР№
  *
- * Этот скрипт добавляет в пространство имён Eresus, вложенное пространство имён Galley, содержащее
- * все символы скрипта.
+ * Р­С‚РѕС‚ СЃРєСЂРёРїС‚ РґРѕР±Р°РІР»СЏРµС‚ РІ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ Eresus, РІР»РѕР¶РµРЅРЅРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ Galley, СЃРѕРґРµСЂР¶Р°С‰РµРµ
+ * РІСЃРµ СЃРёРјРІРѕР»С‹ СЃРєСЂРёРїС‚Р°.
  *
  * @version ${product.version}
  *
- * @copyright 2008, ООО "Два слона", http://dvaslona.ru/
+ * @copyright 2008, РћРћРћ "Р”РІР° СЃР»РѕРЅР°", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Александр Гаврилюк
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author РђР»РµРєСЃР°РЅРґСЂ Р“Р°РІСЂРёР»СЋРє
+ * @author РњРёС…Р°РёР» РљСЂР°СЃРёР»СЊРЅРёРєРѕРІ <mk@3wstyle.ru>
  *
- * Данная программа является свободным программным обеспечением. Вы
- * вправе распространять ее и/или модифицировать в соответствии с
- * условиями версии 3 либо по вашему выбору с условиями более поздней
- * версии Стандартной Общественной Лицензии GNU, опубликованной Free
+ * Р”Р°РЅРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° СЏРІР»СЏРµС‚СЃСЏ СЃРІРѕР±РѕРґРЅС‹Рј РїСЂРѕРіСЂР°РјРјРЅС‹Рј РѕР±РµСЃРїРµС‡РµРЅРёРµРј. Р’С‹
+ * РІРїСЂР°РІРµ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏС‚СЊ РµРµ Рё/РёР»Рё РјРѕРґРёС„РёС†РёСЂРѕРІР°С‚СЊ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ
+ * СѓСЃР»РѕРІРёСЏРјРё РІРµСЂСЃРёРё 3 Р»РёР±Рѕ РїРѕ РІР°С€РµРјСѓ РІС‹Р±РѕСЂСѓ СЃ СѓСЃР»РѕРІРёСЏРјРё Р±РѕР»РµРµ РїРѕР·РґРЅРµР№
+ * РІРµСЂСЃРёРё РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРё GNU, РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅРѕР№ Free
  * Software Foundation.
  *
- * Мы распространяем эту программу в надежде на то, что она будет вам
- * полезной, однако НЕ ПРЕДОСТАВЛЯЕМ НА НЕЕ НИКАКИХ ГАРАНТИЙ, в том
- * числе ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ и ПРИГОДНОСТИ ДЛЯ
- * ИСПОЛЬЗОВАНИЯ В КОНКРЕТНЫХ ЦЕЛЯХ. Для получения более подробной
- * информации ознакомьтесь со Стандартной Общественной Лицензией GNU.
+ * РњС‹ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏРµРј СЌС‚Сѓ РїСЂРѕРіСЂР°РјРјСѓ РІ РЅР°РґРµР¶РґРµ РЅР° С‚Рѕ, С‡С‚Рѕ РѕРЅР° Р±СѓРґРµС‚ РІР°Рј
+ * РїРѕР»РµР·РЅРѕР№, РѕРґРЅР°РєРѕ РќР• РџР Р•Р”РћРЎРўРђР’Р›РЇР•Рњ РќРђ РќР•Р• РќРРљРђРљРРҐ Р“РђР РђРќРўРР™, РІ С‚РѕРј
+ * С‡РёСЃР»Рµ Р“РђР РђРќРўРР РўРћР’РђР РќРћР“Рћ РЎРћРЎРўРћРЇРќРРЇ РџР Р РџР РћР”РђР–Р• Рё РџР РР“РћР”РќРћРЎРўР Р”Р›РЇ
+ * РРЎРџРћР›Р¬Р—РћР’РђРќРРЇ Р’ РљРћРќРљР Р•РўРќР«РҐ Р¦Р•Р›РЇРҐ. Р”Р»СЏ РїРѕР»СѓС‡РµРЅРёСЏ Р±РѕР»РµРµ РїРѕРґСЂРѕР±РЅРѕР№
+ * РёРЅС„РѕСЂРјР°С†РёРё РѕР·РЅР°РєРѕРјСЊС‚РµСЃСЊ СЃРѕ РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРµР№ GNU.
  *
- * Вы должны были получить копию Стандартной Общественной Лицензии
- * GNU с этой программой. Если Вы ее не получили, смотрите документ на
+ * Р’С‹ РґРѕР»Р¶РЅС‹ Р±С‹Р»Рё РїРѕР»СѓС‡РёС‚СЊ РєРѕРїРёСЋ РЎС‚Р°РЅРґР°СЂС‚РЅРѕР№ РћР±С‰РµСЃС‚РІРµРЅРЅРѕР№ Р›РёС†РµРЅР·РёРё
+ * GNU СЃ СЌС‚РѕР№ РїСЂРѕРіСЂР°РјРјРѕР№. Р•СЃР»Рё Р’С‹ РµРµ РЅРµ РїРѕР»СѓС‡РёР»Рё, СЃРјРѕС‚СЂРёС‚Рµ РґРѕРєСѓРјРµРЅС‚ РЅР°
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
@@ -33,88 +33,88 @@
  */
 
 
-/* Если пространство имён Eresus не объявлено, объявляем его. */
+/* Р•СЃР»Рё РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ Eresus РЅРµ РѕР±СЉСЏРІР»РµРЅРѕ, РѕР±СЉСЏРІР»СЏРµРј РµРіРѕ. */
 var Eresus;
 if (!Eresus)
 {
 	Eresus = {};
-	
+
 	/**
-	 * Возвращает размеры страницы
-	 * 
-	 * Массив состоит из элементов:
-	 * 
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂС‹ СЃС‚СЂР°РЅРёС†С‹
+	 *
+	 * РњР°СЃСЃРёРІ СЃРѕСЃС‚РѕРёС‚ РёР· СЌР»РµРјРµРЅС‚РѕРІ:
+	 *
 	 * - pageWidth
 	 * - pageHeight
 	 * - windowWidth
 	 * - windowHeight
-	 * 
+	 *
 	 * @type Array
-	 * 
+	 *
 	 * @author quirksmode.com
 	 */
 	Eresus.getPageSize = function()
 	{
 		var xScroll, yScroll;
-		if (window.innerHeight && window.scrollMaxY) 
-		{	
+		if (window.innerHeight && window.scrollMaxY)
+		{
 			xScroll = window.innerWidth + window.scrollMaxX;
 			yScroll = window.innerHeight + window.scrollMaxY;
-		} 
+		}
 		else if (document.body.scrollHeight > document.body.offsetHeight)
-		{ 
+		{
 			// all but Explorer Mac
 			xScroll = document.body.scrollWidth;
 			yScroll = document.body.scrollHeight;
-		} 
-		else 
-		{ 
+		}
+		else
+		{
 			// Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
 			xScroll = document.body.offsetWidth;
 			yScroll = document.body.offsetHeight;
 		}
 		var windowWidth, windowHeight;
-		if (self.innerHeight) 
-		{	
+		if (self.innerHeight)
+		{
 			// all except Explorer
 			if(document.documentElement.clientWidth)
 			{
-				windowWidth = document.documentElement.clientWidth; 
-			} 
-			else 
+				windowWidth = document.documentElement.clientWidth;
+			}
+			else
 			{
 				windowWidth = self.innerWidth;
 			}
 			windowHeight = self.innerHeight;
-		} 
-		else if (document.documentElement && document.documentElement.clientHeight) 
-		{ 
+		}
+		else if (document.documentElement && document.documentElement.clientHeight)
+		{
 			// Explorer 6 Strict Mode
 			windowWidth = document.documentElement.clientWidth;
 			windowHeight = document.documentElement.clientHeight;
-		} 
-		else if (document.body) 
-		{ 
+		}
+		else if (document.body)
+		{
 			// other Explorers
 			windowWidth = document.body.clientWidth;
 			windowHeight = document.body.clientHeight;
-		}	
-		
+		}
+
 		// for small pages with total height less then height of the viewport
 		if (yScroll < windowHeight)
 		{
 			pageHeight = windowHeight;
-		} 
-		else 
-		{ 
+		}
+		else
+		{
 			pageHeight = yScroll;
 		}
 		// for small pages with total width less then width of the viewport
 		if(xScroll < windowWidth)
-		{	
-			pageWidth = xScroll;		
-		} 
-		else 
+		{
+			pageWidth = xScroll;
+		}
+		else
 		{
 			pageWidth = windowWidth;
 		}
@@ -127,33 +127,33 @@ if (!Eresus)
 		return arrayPageSize;
 	};
 	//-----------------------------------------------------------------------------
-	
+
 	/**
-	 * Возвращает значения scroll страницы 
+	 * Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёСЏ scroll СЃС‚СЂР°РЅРёС†С‹
 	 *
 	 * @type Array
-	 * 
+	 *
 	 * @author quirksmode.com
 	 */
-	Eresus.getPageScroll = function () 
+	Eresus.getPageScroll = function ()
 	{
 		var xScroll, yScroll;
-		if (self.pageYOffset) 
+		if (self.pageYOffset)
 		{
 			yScroll = self.pageYOffset;
 			xScroll = self.pageXOffset;
-		} 
+		}
 		else if (document.documentElement && document.documentElement.scrollTop)
-		{	
+		{
 			// Explorer 6 Strict
 			yScroll = document.documentElement.scrollTop;
 			xScroll = document.documentElement.scrollLeft;
-		} 
-		else if (document.body) 
+		}
+		else if (document.body)
 		{
 			// all other Explorers
 			yScroll = document.body.scrollTop;
-			xScroll = document.body.scrollLeft;	
+			xScroll = document.body.scrollLeft;
 		}
 		arrayPageScroll = {'x': xScroll, 'y': yScroll};
 		return arrayPageScroll;
@@ -162,41 +162,41 @@ if (!Eresus)
 }
 
 /**
- * Пространство имён плагина
+ * РџСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ РїР»Р°РіРёРЅР°
  */
-Eresus.Gallery = 
+Eresus.Gallery =
 {
-		/**
-		 * Всплывающий блок
-		 * 
-		 * @type jQuery
-		 */
-		popup: null,
+	/**
+	 * Р’СЃРїР»С‹РІР°СЋС‰РёР№ Р±Р»РѕРє
+	 *
+	 * @type jQuery
+	 */
+	popup: null,
 
-		/**
-		 * Оверлей
-		 * 
-		 * @type jQuery
-		 */
-		overlay: null,
-		
-		/**
-		 * Список адресов доступных изображений раздела
-		 * 
-		 * Заполняется сервером.
-		 */
-		images: [],
-		
-		/**
-		 * Индекс текущего изображения
-		 * 
-		 * Если false, значит всплывающий блок скрыт
-		 */
-		imageIndex: false
+	/**
+	 * РћРІРµСЂР»РµР№
+	 *
+	 * @type jQuery
+	 */
+	overlay: null,
+
+	/**
+	 * РЎРїРёСЃРѕРє Р°РґСЂРµСЃРѕРІ РґРѕСЃС‚СѓРїРЅС‹С… РёР·РѕР±СЂР°Р¶РµРЅРёР№ СЂР°Р·РґРµР»Р°
+	 *
+	 * Р—Р°РїРѕР»РЅСЏРµС‚СЃСЏ СЃРµСЂРІРµСЂРѕРј.
+	 */
+	images: [],
+
+	/**
+	 * РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+	 *
+	 * Р•СЃР»Рё false, Р·РЅР°С‡РёС‚ РІСЃРїР»С‹РІР°СЋС‰РёР№ Р±Р»РѕРє СЃРєСЂС‹С‚
+	 */
+	imageIndex: false
 };
 
 /**
- * Определяет индекс указанного изображения в массиве images и сохраняет его в imageIndex
+ * РћРїСЂРµРґРµР»СЏРµС‚ РёРЅРґРµРєСЃ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РІ РјР°СЃСЃРёРІРµ images Рё СЃРѕС…СЂР°РЅСЏРµС‚ РµРіРѕ РІ imageIndex
  *
  * @param {String} url
  *
@@ -218,22 +218,22 @@ Eresus.Gallery.findImageIndex = function (url)
 //-----------------------------------------------------------------------------
 
 /**
- * Вызывает всплывающий блок
+ * Р’С‹Р·С‹РІР°РµС‚ РІСЃРїР»С‹РІР°СЋС‰РёР№ Р±Р»РѕРє
  *
  * @param {Event} e
  *
  * @type Boolean
- * @return FALSE для подавления перехода если удалось открыть блок и TRUE в случае ошибки, чтобы
- * браузер прошёл по ссылке
+ * @return FALSE РґР»СЏ РїРѕРґР°РІР»РµРЅРёСЏ РїРµСЂРµС…РѕРґР° РµСЃР»Рё СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ Р±Р»РѕРє Рё TRUE РІ СЃР»СѓС‡Р°Рµ РѕС€РёР±РєРё, С‡С‚РѕР±С‹
+ * Р±СЂР°СѓР·РµСЂ РїСЂРѕС€С‘Р» РїРѕ СЃСЃС‹Р»РєРµ
  */
 Eresus.Gallery.imageClickHandler = function (e)
 {
 	/*
-	 * Внимание! FireFox, Chrome и Opera пропускают сюда только нажатия левой кнопки. IE пропускает
-	 * ещё и нажатие колеса.
+	 * Р’РЅРёРјР°РЅРёРµ! FireFox, Chrome Рё Opera РїСЂРѕРїСѓСЃРєР°СЋС‚ СЃСЋРґР° С‚РѕР»СЊРєРѕ РЅР°Р¶Р°С‚РёСЏ Р»РµРІРѕР№ РєРЅРѕРїРєРё. IE РїСЂРѕРїСѓСЃРєР°РµС‚
+	 * РµС‰С‘ Рё РЅР°Р¶Р°С‚РёРµ РєРѕР»РµСЃР°.
 	 */
 
-	/* Если кликнули не по <a> */
+	/* Р•СЃР»Рё РєР»РёРєРЅСѓР»Рё РЅРµ РїРѕ <a> */
 	if (e.currentTarget.nodeName.toLowerCase() != 'a')
 	{
 		return true;
@@ -241,7 +241,7 @@ Eresus.Gallery.imageClickHandler = function (e)
 
 	var anchor = jQuery(e.currentTarget);
 
-	/* Если в href нет маркера */
+	/* Р•СЃР»Рё РІ href РЅРµС‚ РјР°СЂРєРµСЂР° */
 	if (!anchor.attr('href').match(/#gallery-popup$/))
 	{
 		return true;
@@ -254,14 +254,14 @@ Eresus.Gallery.imageClickHandler = function (e)
 //-----------------------------------------------------------------------------
 
 /**
- * Вычисляет и выставляет оверлея
+ * Р’С‹С‡РёСЃР»СЏРµС‚ Рё РІС‹СЃС‚Р°РІР»СЏРµС‚ РѕРІРµСЂР»РµСЏ
  *
  * @type void
  */
 Eresus.Gallery.resizeOverlay = function ()
 {
 	var pageSize = Eresus.getPageSize();
-	
+
 	Eresus.Gallery.overlay.css({
 		width: pageSize.pageWidth + 'px',
 		height: pageSize.pageHeight + 'px'
@@ -270,7 +270,7 @@ Eresus.Gallery.resizeOverlay = function ()
 //-----------------------------------------------------------------------------
 
 /**
- * Вычисляет и выставляет размер блока
+ * Р’С‹С‡РёСЃР»СЏРµС‚ Рё РІС‹СЃС‚Р°РІР»СЏРµС‚ СЂР°Р·РјРµСЂ Р±Р»РѕРєР°
  *
  * @type void
  */
@@ -278,8 +278,8 @@ Eresus.Gallery.resizePopup = function ()
 {
 	var pageSize = Eresus.getPageSize();
 	var pageScroll = Eresus.getPageScroll();
-	
-	var offsetTop = Math.round((pageSize.windowHeight - Eresus.Gallery.popup.height()) / 2, 10); 
+
+	var offsetTop = Math.round((pageSize.windowHeight - Eresus.Gallery.popup.height()) / 2, 10);
 	var popupTop = pageScroll.y + offsetTop;
 	if (popupTop < 0)
 	{
@@ -299,15 +299,15 @@ Eresus.Gallery.resizePopup = function ()
 //-----------------------------------------------------------------------------
 
 /**
- * Обновляет состояние ЭУ (Назад, Вперёд)
- * 
+ * РћР±РЅРѕРІР»СЏРµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ Р­РЈ (РќР°Р·Р°Рґ, Р’РїРµСЂС‘Рґ)
+ *
  * @type void
  */
 Eresus.Gallery.resetControls = function ()
 {
 	var uiPrev = jQuery('.js-gallery-prev', Eresus.Gallery.popup);
 	var uiNext = jQuery('.js-gallery-next', Eresus.Gallery.popup);
-	
+
 	if (Eresus.Gallery.imageIndex === false)
 	{
 		uiPrev.hide();
@@ -318,7 +318,7 @@ Eresus.Gallery.resetControls = function ()
 		uiPrev.show();
 		uiNext.show();
 	}
-	
+
 	if (Eresus.Gallery.imageIndex === 0)
 	{
 		uiPrev.hide();
@@ -331,7 +331,7 @@ Eresus.Gallery.resetControls = function ()
 //-----------------------------------------------------------------------------
 
 /**
- * Открывает изображение во всплывающем блоке
+ * РћС‚РєСЂС‹РІР°РµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РІРѕ РІСЃРїР»С‹РІР°СЋС‰РµРј Р±Р»РѕРєРµ
  *
  * @param {String} image
  *
@@ -341,11 +341,11 @@ Eresus.Gallery.showPopup = function (image)
 {
 	Eresus.Gallery.overlay.show();
 	Eresus.Gallery.resizeOverlay();
-	
+
 	Eresus.Gallery.findImageIndex(image);
-	
+
 	Eresus.Gallery.resetControls();
-	
+
 	Eresus.Gallery.popup.show();
 	Eresus.Gallery.resizePopup();
 
@@ -358,8 +358,8 @@ Eresus.Gallery.showPopup = function (image)
 //-----------------------------------------------------------------------------
 
 /**
- * Открывает предыдущее изображение
- * 
+ * РћС‚РєСЂС‹РІР°РµС‚ РїСЂРµРґС‹РґСѓС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+ *
  * @param {Event} e
  *
  * @type void
@@ -375,7 +375,7 @@ Eresus.Gallery.showPrev = function (e)
 
 	Eresus.Gallery.imageIndex--;
 	Eresus.Gallery.resetControls();
-	
+
 	jQuery('#gallery-popup-image').
 		load(Eresus.Gallery.resizePopup).
 		attr('src', Eresus.Gallery.images[Eresus.Gallery.imageIndex]);
@@ -383,8 +383,8 @@ Eresus.Gallery.showPrev = function (e)
 //-----------------------------------------------------------------------------
 
 /**
- * Открывает следующее изображение
- * 
+ * РћС‚РєСЂС‹РІР°РµС‚ СЃР»РµРґСѓСЋС‰РµРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+ *
  * @param {Event} e
  *
  * @type void
@@ -400,7 +400,7 @@ Eresus.Gallery.showNext = function (e)
 
 	Eresus.Gallery.imageIndex++;
 	Eresus.Gallery.resetControls();
-	
+
 	jQuery('#gallery-popup-image').
 		load(Eresus.Gallery.resizePopup).
 		attr('src', Eresus.Gallery.images[Eresus.Gallery.imageIndex]);
@@ -408,10 +408,10 @@ Eresus.Gallery.showNext = function (e)
 //-----------------------------------------------------------------------------
 
 /**
- * Закрывает всплывающий блок
+ * Р—Р°РєСЂС‹РІР°РµС‚ РІСЃРїР»С‹РІР°СЋС‰РёР№ Р±Р»РѕРє
  *
  * @param {Event} e
- * 
+ *
  * @type void
  */
 Eresus.Gallery.closePopup = function (e)
@@ -425,10 +425,10 @@ Eresus.Gallery.closePopup = function (e)
 //-----------------------------------------------------------------------------
 
 /**
- * Обработчик нажатий клавиш
- * 
+ * РћР±СЂР°Р±РѕС‚С‡РёРє РЅР°Р¶Р°С‚РёР№ РєР»Р°РІРёС€
+ *
  * @param {Event} e
- * 
+ *
  * @type void
  */
 Eresus.Gallery.onKeyDown = function (e)
@@ -444,29 +444,29 @@ Eresus.Gallery.onKeyDown = function (e)
 //-----------------------------------------------------------------------------
 
 /**
- * Инициализация
+ * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
  *
  * @type void
  */
 Eresus.Gallery.init = function ()
 {
 	/*
-	 * Сохраняем ссылку на всплывающий блок
-	 * Вешаем на блок нужные обработчики
+	 * РЎРѕС…СЂР°РЅСЏРµРј СЃСЃС‹Р»РєСѓ РЅР° РІСЃРїР»С‹РІР°СЋС‰РёР№ Р±Р»РѕРє
+	 * Р’РµС€Р°РµРј РЅР° Р±Р»РѕРє РЅСѓР¶РЅС‹Рµ РѕР±СЂР°Р±РѕС‚С‡РёРєРё
 	 */
 	Eresus.Gallery.popup = jQuery('#gallery-popup');
 	jQuery('.js-gallery-close', Eresus.Gallery.popup).click(Eresus.Gallery.closePopup);
 	jQuery('.js-gallery-prev', Eresus.Gallery.popup).click(Eresus.Gallery.showPrev);
 	jQuery('.js-gallery-next', Eresus.Gallery.popup).click(Eresus.Gallery.showNext);
-	
-	//Сохраняем на оверлей
+
+	//РЎРѕС…СЂР°РЅСЏРµРј РЅР° РѕРІРµСЂР»РµР№
 	Eresus.Gallery.overlay = jQuery('<div class="ui-gallery-overlay"></div>');
-	// Переносим оверлей и блок в body
+	// РџРµСЂРµРЅРѕСЃРёРј РѕРІРµСЂР»РµР№ Рё Р±Р»РѕРє РІ body
 	jQuery('body').
 		append(Eresus.Gallery.overlay).
 		append(Eresus.Gallery.popup);
 
-	// Вешаем обработчики
+	// Р’РµС€Р°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРєРё
 	jQuery('#Content a').live('click', Eresus.Gallery.imageClickHandler);
 	jQuery(document).keydown(Eresus.Gallery.onKeyDown);
 };

@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Класс представления "Просмотр во всплывающем блоке"
  *
  * @version ${product.version}
  *
  * @copyright 2011, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -38,21 +36,26 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryClientPopupView
+class Gallery_ClientPopupView
 {
 	/**
 	 * Возвращает разметку представления
 	 *
-	 * @return void
+	 * @return string
 	 *
 	 * @since 2.03
 	 */
 	public function render()
 	{
-		$plugin = $GLOBALS['Eresus']->plugins->load('gallery');
-		$plugin->linkJQuery();
-		$GLOBALS['page']->linkScripts($plugin->getCodeURL() . 'gallery.js');
-		$GLOBALS['page']->linkStyles($plugin->getCodeURL() . 'gallery.css');
+		/** @var Gallery $plugin */
+		// TODO Добавить в этот класс ссылку на плагин
+		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
+
+		/** @var TClientUI $page */
+		$page = Eresus_Kernel::app()->getPage();
+		$page->linkJsLib('jquery');
+		$page->linkScripts($plugin->getCodeURL() . 'gallery.js');
+		$page->linkStyles($plugin->getCodeURL() . 'gallery.css');
 
 		$tmpl = new Template('templates/' . $plugin->name . '/popup.html');
 		$popup = $tmpl->compile();
@@ -62,10 +65,9 @@ class GalleryClientPopupView
 
 		return $html;
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
-	 * Отрисовывает список изображений альбма для перехода к ним во всплывающем блоке.
+	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
 	 *
 	 * @return string
 	 *
@@ -73,11 +75,15 @@ class GalleryClientPopupView
 	 */
 	protected function renderImageList()
 	{
-		$items = GalleryImage::find($GLOBALS['page']->id, null, null, true);
+		/* @var Gallery_Entity_Table_Image $table */
+		// TODO Добавить в этот класс ссылку на плагин
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$items = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
 		$jsArray = array();
-		foreach ($items as $item)
+		foreach ($items as $image)
 		{
-			$jsArray []= '"' . $item->imageURL . '"';
+			/* @var Gallery_Entity_Image $image */
+			$jsArray []= '"' . $image->imageURL . '"';
 		}
 		$html = '<script type="text/javascript">Eresus.Gallery.images = ['.
 			implode(',', $jsArray) . '];</script>';

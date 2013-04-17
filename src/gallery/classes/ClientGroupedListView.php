@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Класс представления "Просмотр списка изображений (с группами)"
  *
  * @version ${product.version}
  *
  * @copyright 2011, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -38,7 +36,7 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryClientGroupedListView extends GalleryClientListView
+class Gallery_ClientGroupedListView extends Gallery_ClientListView
 {
 	/**
 	 * Возвращает список групп
@@ -53,7 +51,9 @@ class GalleryClientGroupedListView extends GalleryClientListView
 	 */
 	protected function getItems($sectionId, $limit, $offset)
 	{
-		$items = GalleryGroup::find($sectionId, $limit, $offset, true);
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+		$items = $table->findInSection($sectionId, $limit, $offset);
 		return $items;
 	}
 	//-----------------------------------------------------------------------------
@@ -85,7 +85,9 @@ class GalleryClientGroupedListView extends GalleryClientListView
 	 */
 	protected function countPageCount($sectionId, $itemsPerPage)
 	{
-		return ceil(GalleryGroup::count($sectionId) / $itemsPerPage);
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+		return ceil($table->countInSection($sectionId) / $itemsPerPage);
 	}
 	//-----------------------------------------------------------------------------
 
@@ -107,13 +109,13 @@ class GalleryClientGroupedListView extends GalleryClientListView
 	/**
 	 * Возвращает объект для отрисовки всплывающего блока
 	 *
-	 * @return GalleryClientPopupGroupedView
+	 * @return Gallery_ClientPopupGroupedView
 	 *
 	 * @since 2.03
 	 */
 	protected function getPopupView()
 	{
-		return new GalleryClientPopupGroupedView();
+		return new Gallery_ClientPopupGroupedView();
 	}
 	//-----------------------------------------------------------------------------
 }

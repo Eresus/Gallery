@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Класс представления "Просмотр во всплывающем блоке (с группами)"
  *
  * @version ${product.version}
  *
  * @copyright 2011, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -38,10 +36,10 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryClientPopupGroupedView extends GalleryClientPopupView
+class Gallery_ClientPopupGroupedView extends Gallery_ClientPopupView
 {
 	/**
-	 * Отрисовывает список изображений альбма для перехода к ним во всплывающем блоке.
+	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
 	 *
 	 * @return string
 	 *
@@ -49,12 +47,15 @@ class GalleryClientPopupGroupedView extends GalleryClientPopupView
 	 */
 	protected function renderImageList()
 	{
-		$groups = GalleryGroup::find($GLOBALS['page']->id, null, null, true);
+		/* @var Gallery_Entity_Table_Group $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+		$groups = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
 		$jsArray = array();
 		foreach ($groups as $group)
 		{
 			foreach ($group->images as $image)
 			{
+				/* @var Gallery_Entity_Image $image */
 				$jsArray []= '"' . $image->imageURL . '"';
 			}
 		}

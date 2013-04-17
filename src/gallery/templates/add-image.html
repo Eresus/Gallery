@@ -1,6 +1,6 @@
 <div class="box ui-widget-content" style="float: left;">
 
-	<div class="header">Добавление картинки</div>
+	<div class="header">Р”РѕР±Р°РІР»РµРЅРёРµ РєР°СЂС‚РёРЅРєРё</div>
 
 	<div class="content">
 		<form name="addImage" id="addImage" action="admin.php" method="post" enctype="multipart/form-data">
@@ -9,26 +9,27 @@
 				<input type="hidden" name="mod" value="content" />
 				<input type="hidden" name="section" value="{$sectionId}" />
 				{if arg('pg')}<input type="hidden" name="pg" value="{arg('pg')}" />{/if}
-				<input type="hidden" name="action" value="insert" />
+				<input type="hidden" name="action" value="create" />
 			</div>
 
 			<div class="input-pair">
-				<label>Файл изображения:</label><br />
+				<label for="gallery-image-input">Р¤Р°Р№Р» РёР·РѕР±СЂР°Р¶РµРЅРёСЏ:</label><br />
 				<input type="file" name="image" id="gallery-image-input" />
-				<div class="ui-minor">Формат JPEG, PNG или GIF. Размер файла не более {ini_get('upload_max_filesize')}</div>
+				<div class="ui-minor">Р¤РѕСЂРјР°С‚ JPEG, PNG РёР»Рё GIF. Р Р°Р·РјРµСЂ С„Р°Р№Р»Р° РЅРµ Р±РѕР»РµРµ {ini_get('upload_max_filesize')}</div>
 			</div>
 
 			<div class="input-pair">
-				<label>Название:</label><br />
-				<input type="text" name="title" id="gallery-caption-input" value="" maxlength="255" style="width: 99%" />
+				<label for="gallery-caption-input">РќР°Р·РІР°РЅРёРµ:</label><br />
+				<input type="text" name="title" id="gallery-caption-input"
+					value="{if $image}{$image->title}{/if}" maxlength="255" style="width: 99%" />
 			</div>
 
 			{if $this->settings.useGroups}
 			<div class="input-pair">
-				<label>Группа:</label><br />
-				<select name="group">
+				<label for="gallery-group-input">Р“СЂСѓРїРїР°:</label><br />
+				<select name="group" id="gallery-group-input">
 					{foreach $groups group}
-					<option value="{$group.id}"{if $group.id == $defaultGroup} selected="selected"{/if}>{$group.title}</option>
+					<option value="{$group.id}"{if ($image && $image->group->id == $group.id) || $group.id == $defaultGroup} selected="selected"{/if}>{$group.title}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -36,22 +37,22 @@
 
 			<div class="input-pair">
 				<label>
-					<input type="checkbox" name="cover" value="1" />
-					Сделать обложкой альбома
+					<input type="checkbox" name="cover" value="1"{if $image && $image->cover} checked="checked"{/if}>
+					РЎРґРµР»Р°С‚СЊ РѕР±Р»РѕР¶РєРѕР№ Р°Р»СЊР±РѕРјР°
 				</label>
 			</div>
 
 			<div class="input-pair">
 				<label>
-					<input type="checkbox" name="active" value="1" checked="checked" />
-					Показывать это изображение посетителям
+					<input type="checkbox" name="active" value="1"{if !$image || $image->active} checked="checked"{/if} />
+					РџРѕРєР°Р·С‹РІР°С‚СЊ СЌС‚Рѕ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РїРѕСЃРµС‚РёС‚РµР»СЏРј
 				</label>
 			</div>
 
 			<div class="ui-button-box">
 				<br />
-				<button type="submit" >Добавить</button>
-				<button type="button" class="cancel" onclick="history.back();">Отменить</button>
+				<button type="submit">Р”РѕР±Р°РІРёС‚СЊ</button>
+				<button type="button" class="cancel" onclick="history.back();">РћС‚РјРµРЅРёС‚СЊ</button>
 			</div>
 
 		</form>

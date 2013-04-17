@@ -1,14 +1,12 @@
 <?php
 /**
- * Галерея изображений
- *
  * Класс представления "Просмотр списка изображений"
  *
  * @version ${product.version}
  *
  * @copyright 2011, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -38,12 +36,12 @@
  * @package Gallery
  * @since 2.03
  */
-class GalleryClientListView
+class Gallery_ClientListView
 {
 	/**
 	 * Возвращает разметку представления
 	 *
-	 * @return void
+	 * @return string
 	 *
 	 * @since 2.03
 	 */
@@ -51,7 +49,7 @@ class GalleryClientListView
 	{
 		global $page;
 
-		$plugin = $GLOBALS['Eresus']->plugins->load('gallery');
+		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
 
 		if ($page->subpage == 0)
 		{
@@ -66,11 +64,13 @@ class GalleryClientListView
 		$data = array();
 		$data['this'] = $plugin;
 		$data['page'] = $page;
-		$data['Eresus'] = $GLOBALS['Eresus'];
+		$data['Eresus'] = Eresus_CMS::getLegacyKernel();
 		$data['items'] = $items;
 
 		/* Ищем обложку альбома */
-		$data['cover'] = GalleryImage::findCover($page->id);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$data['cover'] = $table->findCover($page->id);
 		$totalPages = $this->countPageCount($page->id, $maxCount);
 
 		if ($totalPages > 1)
@@ -112,7 +112,10 @@ class GalleryClientListView
 	 */
 	protected function getItems($sectionId, $limit, $offset)
 	{
-		$items = GalleryImage::find($sectionId, $limit, $offset, true);
+		/* @var Gallery_Entity_Table_Image $table */
+		// TODO Добавить в этот класс ссылку на плагин
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		$items = $table->findInSection($sectionId, $limit, $offset);
 		return $items;
 	}
 	//-----------------------------------------------------------------------------
@@ -144,7 +147,9 @@ class GalleryClientListView
 	 */
 	protected function countPageCount($sectionId, $itemsPerPage)
 	{
-		return ceil(GalleryImage::count($sectionId, true) / $itemsPerPage);
+		/* @var Gallery_Entity_Table_Image $table */
+		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+		return ceil($table->countInSection($sectionId) / $itemsPerPage);
 	}
 	//-----------------------------------------------------------------------------
 
@@ -166,13 +171,13 @@ class GalleryClientListView
 	/**
 	 * Возвращает объект для отрисовки всплывающего блока
 	 *
-	 * @return GalleryClientPopupView
+	 * @return Gallery_ClientPopupView
 	 *
 	 * @since 2.03
 	 */
 	protected function getPopupView()
 	{
-		return new GalleryClientPopupView();
+		return new Gallery_ClientPopupView();
 	}
 	//-----------------------------------------------------------------------------
 }
