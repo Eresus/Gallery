@@ -51,7 +51,7 @@ abstract class Gallery_Entity_Table_AbstractContent extends ORM_Table
 	 *
 	 * @return ORM_Entity[]
 	 */
-	public function findInSection($id, $limit = null, $offset = 0, $activeOnly = true)
+	public function findInSection($id, $limit = null, $offset = 0, $activeOnly = false)
 	{
 		$q = $this->createSelectQuery();
 		$where = array($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_INT)));
