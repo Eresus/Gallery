@@ -542,7 +542,7 @@ class Gallery extends ContentPlugin
 			$table = ORM::getTable($this, 'Image');
 		}
 
-		$items = $table->findInSection($section, $maxCount, $startFrom);
+		$items = $table->findInSection($section, $maxCount, $startFrom, false);
 
 		// Данные для подстановки в шаблон
 		$vars = array();
