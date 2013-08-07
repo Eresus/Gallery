@@ -120,15 +120,15 @@ class Gallery_ClientListView
 	}
 	//-----------------------------------------------------------------------------
 
-    /**
-     * Возвращает максимальное количество изображений на странице
-     *
-     * @param Eresus_Plugin $plugin
-     *
-     * @return int
-     *
-     * @since 2.03
-     */
+	/**
+	 * Возвращает максимальное количество изображений на странице
+	 *
+	 * @param Eresus_Plugin $plugin
+	 *
+	 * @return int
+	 *
+	 * @since 2.03
+	 */
 	protected function getMaxCount(Eresus_Plugin $plugin)
 	{
 		return $plugin->settings['itemsPerPage'];
