@@ -9,7 +9,7 @@
  * @copyright 2008, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
  * @author Александр Гаврилюк
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -28,8 +28,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: fgallery.php 267 2010-06-22 14:54:37Z mk $
  */
 
 

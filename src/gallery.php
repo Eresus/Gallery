@@ -339,81 +339,60 @@ class Gallery extends ContentPlugin
             case arg('action') == 'group':
                 $result = $this->adminRenderGroupsList();
                 break;
-
             case arg('group_id') !== null:
                 $result = $this->adminEditGroupDialog();
                 break;
-
             case arg('action') == 'group_create':
                 $result = $this->adminAddGroupDialog();
                 break;
-
             case arg('action') == 'group_insert':
                 $this->adminInsertGroup();
                 break;
-
             case arg('action') == 'group_update':
                 $this->adminUpdateGroup();
                 break;
-
             case arg('group_up') !== null:
                 $this->adminMoveUpGroup();
                 break;
-
             case arg('group_down') !== null:
                 $this->adminMoveDownGroup();
                 break;
-
             case arg('group_delete') !== null:
                 $this->adminDeleteGroup();
                 break;
-
             /* Управление изображениями */
-
             case arg('action') == 'create':
                 $result = $this->adminAddItem();
                 break;
-
             case arg('id') !== null:
                 $result = $this->adminEditItem();
                 break;
-
             case arg('update') !== null:
                 $this->adminUpdateImage();
                 break;
-
             case arg('toggle') !== null:
                 $this->adminImageToggle(arg('toggle', 'int'));
                 break;
-
             case arg('cover') !== null:
                 $this->coverAction();
                 break;
-
             case arg('delete') !== null:
                 $this->delete(arg('delete', 'int'));
                 break;
-
             case arg('up') !== null:
                 $this->up(arg('up', 'int'));
                 break;
-
             case arg('down') !== null:
                 $this->down(arg('down', 'int'));
                 break;
-
             /* Управление свойствами галереи */
-
             case arg('action') == 'props':
                 $result = $this->adminRenderProperties();
                 break;
-
             case arg('action') == 'props_update':
                 $this->updateProperties();
                 break;
-
             /* Действие по умолчанию */
-
             default:
                 $result = $this->adminRenderImagesList();
                 break;
@@ -607,6 +586,8 @@ class Gallery extends ContentPlugin
 
     /**
      * Добавление изображения
+     *
+     * @throws DomainException
      *
      * @return string  HTML
      *
@@ -1254,7 +1235,8 @@ class Gallery extends ContentPlugin
      */
     private function isImageInputValid(Gallery_Entity_Image $image)
     {
-        if (empty($_FILES['image']['name'])) // TODO FIXME заменить 'image' на значение из $image
+        // TODO FIXME заменить 'image' на значение из $image
+        if (empty($_FILES['image']['name']))
         {
             ErrorMessage(isset($form['message']) ? $form['message'] : 'Поле "файл" не заполнено');
             return false;

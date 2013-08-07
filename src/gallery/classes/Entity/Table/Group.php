@@ -74,9 +74,10 @@ class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
     /**
      * Возвращает включенные группы в указанном разделе
      *
-     * @param int $id      ID раздела сайта
-     * @param int $limit   максимальное количество возвращаемых групп
-     * @param int $offset  позиция с которой начать выборку
+     * @param int  $id      ID раздела сайта
+     * @param int  $limit   максимальное количество возвращаемых групп
+     * @param int  $offset  позиция с которой начать выборку
+     * @param bool $all
      *
      * @return Gallery_Entity_Group[]
      */
@@ -104,7 +105,7 @@ class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
         $q->select('*');
         $e = $q->expr;
         $q->where($e->lAnd(
-            $e->eq('section',$q->bindValue($group->section, null, PDO::PARAM_INT)),
+            $e->eq('section', $q->bindValue($group->section, null, PDO::PARAM_INT)),
             $e->lt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
         ));
 
@@ -134,7 +135,7 @@ class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
         $q = $this->createSelectQuery();
         $e = $q->expr;
         $q->where($e->lAnd(
-            $e->eq('section',$q->bindValue($group->section, null, PDO::PARAM_INT)),
+            $e->eq('section', $q->bindValue($group->section, null, PDO::PARAM_INT)),
             $e->gt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
         ));
 
