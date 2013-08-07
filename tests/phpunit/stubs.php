@@ -122,36 +122,12 @@ abstract class ORM_Entity
 	 */
 	private $gettersCache = array();
 
-	/**
-	 * Конструктор
-	 *
-	 * @param Plugin $plugin  модуль
-	 * @param array  $attrs   исходные значения полей
-	 *
-	 * @return ORM_Entity
-	 *
-	 * @since 1.00
-	 */
-	public function __construct(Plugin $plugin, array $attrs = array())
+	public function __construct(Eresus_Plugin $plugin, array $attrs = array())
 	{
 		$this->plugin = $plugin;
 		$this->attrs = $attrs;
 	}
-	//-----------------------------------------------------------------------------
 
-	/**
-	 * "Магический" метод для доступа к свойствам объекта
-	 *
-	 * Если есть метод, имя которого состоит из префикса "get" и имени свойства, вызывает этот
-	 * метод для полчения значения. В противном случае вызывает {@link getProperty}.
-	 *
-	 * @param string $key  Имя поля
-	 *
-	 * @return mixed  Значение поля
-	 *
-	 * @uses getProperty
-	 * @since 1.00
-	 */
 	public function __get($key)
 	{
 		$getter = 'get' . $key;
@@ -166,22 +142,7 @@ abstract class ORM_Entity
 
 		return $this->getProperty($key);
 	}
-	//-----------------------------------------------------------------------------
 
-	/**
-	 * "Магический" метод для установки свойств объекта
-	 *
-	 * Если есть метод, имя которого состоит из префикса "set" и имени свойства, вызывает этот
-	 * метод для установки значения. В противном случае вызывает {@link setProperty()}.
-	 *
-	 * @param string $key    Имя поля
-	 * @param mixed  $value  Значение поля
-	 *
-	 * @return void
-	 *
-	 * @uses setProperty()
-	 * @since 1.00
-	 */
 	public function __set($key, $value)
 	{
 		$setter = 'set' . $key;
@@ -194,7 +155,6 @@ abstract class ORM_Entity
 			$this->setProperty($key, $value);
 		}
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Возвращает таблицу этой сущности
@@ -324,3 +284,8 @@ class ORM_Table
 	}
 }
 
+class HTTP extends MockFacade {}
+
+function arg()
+{
+}
