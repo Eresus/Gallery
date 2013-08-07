@@ -31,9 +31,10 @@ require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Image.php';
 
 class Gallery_Entity_ImageTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 */
-	public function test_stub()
-	{
-	}
+    /**
+     */
+    public function test_stub()
+    {
+    }
 }
+

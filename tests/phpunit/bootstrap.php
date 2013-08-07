@@ -44,40 +44,40 @@ require_once TESTS_SRC_ROOT . '/gallery/classes/Exception/UploadException.php';
  */
 class UniversalStub implements ArrayAccess
 {
-	public function __get($a)
-	{
-		return $this;
-	}
+    public function __get($a)
+    {
+        return $this;
+    }
 
-	public function __call($a, $b)
-	{
-		return $this;
-	}
+    public function __call($a, $b)
+    {
+        return $this;
+    }
 
-	public function offsetExists($offset)
-	{
-		return true;
-	}
+    public function offsetExists($offset)
+    {
+        return true;
+    }
 
-	public function offsetGet($offset)
-	{
-		return $this;
-	}
+    public function offsetGet($offset)
+    {
+        return $this;
+    }
 
-	public function offsetSet($offset, $value)
-	{
-		;
-	}
+    public function offsetSet($offset, $value)
+    {
+        ;
+    }
 
-	public function offsetUnset($offset)
-	{
-		;
-	}
+    public function offsetUnset($offset)
+    {
+        ;
+    }
 
-	public function __toString()
-	{
-		return '';
-	}
+    public function __toString()
+    {
+        return '';
+    }
 }
 
 
@@ -87,44 +87,44 @@ class UniversalStub implements ArrayAccess
  */
 class MockFacade
 {
-	/**
-	 * Мок
-	 *
-	 * @var object
-	 */
-	private static $mock;
+    /**
+     * Мок
+     *
+     * @var object
+     */
+    private static $mock;
 
-	/**
-	 * Устанавливает мок
-	 *
-	 * @param object $mock
-	 *
-	 * @return void
-	 */
-	public static function setMock($mock)
-	{
-		self::$mock = $mock;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Устанавливает мок
+     *
+     * @param object $mock
+     *
+     * @return void
+     */
+    public static function setMock($mock)
+    {
+        self::$mock = $mock;
+    }
+    //-----------------------------------------------------------------------------
 
-	/**
-	 * Вызывает метод мока
-	 *
-	 * @param string $method
-	 * @param array  $args
-	 *
-	 * @return mixed
-	 */
-	public static function __callstatic($method, $args)
-	{
-		if (self::$mock && method_exists(self::$mock, $method))
-		{
-			return call_user_func_array(array(self::$mock, $method), $args);
-		}
+    /**
+     * Вызывает метод мока
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public static function __callstatic($method, $args)
+    {
+        if (self::$mock && method_exists(self::$mock, $method))
+        {
+            return call_user_func_array(array(self::$mock, $method), $args);
+        }
 
-		return new UniversalStub();
-	}
-	//-----------------------------------------------------------------------------
+        return new UniversalStub();
+    }
+    //-----------------------------------------------------------------------------
 }
 
 
@@ -134,23 +134,24 @@ class MockFacade
  */
 class PluginsStub
 {
-	public $plugin;
+    public $plugin;
 
-	public function __construct()
-	{
-		$this->plugin = new Gallery();
-	}
-	//-----------------------------------------------------------------------------
+    public function __construct()
+    {
+        $this->plugin = new Gallery();
+    }
+    //-----------------------------------------------------------------------------
 
-	public function __destruct()
-	{
-		unset($this->plugin);
-	}
-	//-----------------------------------------------------------------------------
+    public function __destruct()
+    {
+        unset($this->plugin);
+    }
+    //-----------------------------------------------------------------------------
 
-	public function load($name)
-	{
-		return $this->plugin;
-	}
-	//-----------------------------------------------------------------------------
+    public function load($name)
+    {
+        return $this->plugin;
+    }
+    //-----------------------------------------------------------------------------
 }
+
