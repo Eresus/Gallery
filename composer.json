@@ -1,0 +1,15 @@
+{
+    "name": "eresus/gallery",
+    "description": "Модуль «Галерея изображений» для Eresus CMS",
+    "authors":
+    [
+        {
+            "name": "Михаил Красильников",
+            "email": "mk@dvaslona.ru"
+        }
+    ],
+    "require":
+    {
+        "mekras/test-doubles": "dev-master"
+    }
+}
