@@ -286,6 +286,7 @@ class ORM_Table
 
 class HTTP extends MockFacade {}
 
-function arg()
+function arg($arg)
 {
+    return @$GLOBALS['args'][$arg];
 }

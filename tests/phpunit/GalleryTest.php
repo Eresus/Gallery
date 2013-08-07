@@ -64,7 +64,7 @@ class GalleryTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Gallery::coverAction
      */
-    public function test_coverAction()
+    public function testCoverAction()
     {
         $gallery = new Gallery();
 
@@ -83,7 +83,6 @@ class GalleryTest extends PHPUnit_Framework_TestCase
                         $table->expects(PHPUnit_Framework_TestCase::once())->method('find')->with(1)->
                             will(PHPUnit_Framework_TestCase::returnValue($image));
                         break;
-
                     case 'Album':
                         $album = PHPUnit_Framework_MockObject_Generator::getMock('Gallery_Entity_Album',
                             array('setCover'), array($plugin));
@@ -94,7 +93,6 @@ class GalleryTest extends PHPUnit_Framework_TestCase
                         $table->expects(PHPUnit_Framework_TestCase::once())->method('find')->with(123)->
                             will(PHPUnit_Framework_TestCase::returnValue($album));
                         break;
-
                     default:
                         $table = null;
                 }
