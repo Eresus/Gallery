@@ -140,19 +140,6 @@ class Gallery extends ContentPlugin
     }
 
     /**
-     * Возвращает свойство $dirCode
-     *
-     * @return string
-     *
-     * @since 2.03
-     */
-    public function getCodeDir()
-    {
-        return $this->dirCode;
-    }
-    //-----------------------------------------------------------------------------
-
-    /**
      * Возвращает диалог настроек
      *
      * @return string  HTML
