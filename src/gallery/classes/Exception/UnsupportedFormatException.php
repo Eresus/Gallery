@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
 

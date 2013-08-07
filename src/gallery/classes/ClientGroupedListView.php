@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
 
@@ -38,84 +36,80 @@
  */
 class Gallery_ClientGroupedListView extends Gallery_ClientListView
 {
-	/**
-	 * Возвращает список групп
-	 *
-	 * @param int $sectionId  идентификатор раздела
-	 * @param int $limit      максимальное количество групп
-	 * @param int $offset     номер первой группы
-	 *
-	 * @return array
-	 *
-	 * @since 2.03
-	 */
-	protected function getItems($sectionId, $limit, $offset)
-	{
-		/* @var Gallery_Entity_Table_Group $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
-		$items = $table->findInSection($sectionId, $limit, $offset);
-		return $items;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает список групп
+     *
+     * @param int $sectionId  идентификатор раздела
+     * @param int $limit      максимальное количество групп
+     * @param int $offset     номер первой группы
+     *
+     * @return array
+     *
+     * @since 2.03
+     */
+    protected function getItems($sectionId, $limit, $offset)
+    {
+        /* @var Gallery_Entity_Table_Group $table */
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        $items = $table->findInSection($sectionId, $limit, $offset);
+        return $items;
+    }
 
-	/**
-	 * Возвращает максимальное количество групп на странице
-	 *
-	 * @param Eresus_Plugin $plugin
-	 *
-	 * @return int
-	 *
-	 * @since 2.03
-	 */
-	protected function getMaxCount(Eresus_Plugin $plugin)
-	{
-		return $plugin->settings['groupsPerPage'];
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает максимальное количество групп на странице
+     *
+     * @param Eresus_Plugin $plugin
+     *
+     * @return int
+     *
+     * @since 2.03
+     */
+    protected function getMaxCount(Eresus_Plugin $plugin)
+    {
+        return $plugin->settings['groupsPerPage'];
+    }
 
-	/**
-	 * Возвращает количество страниц в списке
-	 *
-	 * @param int $sectionId     идентификатор раздела
-	 * @param int $itemsPerPage  количество изображений на странице
-	 *
-	 * @return int
-	 *
-	 * @since 2.03
-	 */
-	protected function countPageCount($sectionId, $itemsPerPage)
-	{
-		/* @var Gallery_Entity_Table_Group $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
-		return ceil($table->countInSection($sectionId) / $itemsPerPage);
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает количество страниц в списке
+     *
+     * @param int $sectionId     идентификатор раздела
+     * @param int $itemsPerPage  количество изображений на странице
+     *
+     * @return int
+     *
+     * @since 2.03
+     */
+    protected function countPageCount($sectionId, $itemsPerPage)
+    {
+        /* @var Gallery_Entity_Table_Group $table */
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        return ceil($table->countInSection($sectionId) / $itemsPerPage);
+    }
 
-	/**
-	 * Возвращает шаблон
-	 *
-	 * @param Eresus_Plugin $plugin  объект плагина
-	 *
-	 * @return Template
-	 *
-	 * @since 2.03
-	 */
-	protected function getTemplate(Eresus_Plugin $plugin)
-	{
-		return new Template('templates/' . $plugin->name . '/image-grouped-list.html');
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает шаблон
+     *
+     * @param Eresus_Plugin $plugin  объект плагина
+     *
+     * @return Template
+     *
+     * @since 2.03
+     */
+    protected function getTemplate(Eresus_Plugin $plugin)
+    {
+        return new Template('templates/' . $plugin->name . '/image-grouped-list.html');
+    }
 
-	/**
-	 * Возвращает объект для отрисовки всплывающего блока
-	 *
-	 * @return Gallery_ClientPopupGroupedView
-	 *
-	 * @since 2.03
-	 */
-	protected function getPopupView()
-	{
-		return new Gallery_ClientPopupGroupedView();
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает объект для отрисовки всплывающего блока
+     *
+     * @return Gallery_ClientPopupGroupedView
+     *
+     * @since 2.03
+     */
+    protected function getPopupView()
+    {
+        return new Gallery_ClientPopupGroupedView();
+    }
 }
+

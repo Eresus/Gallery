@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: AbstractActiveRecord.php 356 2010-09-08 08:08:15Z mk $
  */
 
 
@@ -37,141 +35,139 @@
  */
 class Gallery_AdminXHR
 {
-	/**
-	 * Выполняет действия контроллера
-	 *
-	 * @param string $args  Аргументы запроса
-	 *
-	 * @throws BadMethodCallException
-	 *
-	 * @return void
-	 */
-	public function execute($args)
-	{
-		$args = explode('/', urldecode($args));
+    /**
+     * Выполняет действия контроллера
+     *
+     * @param string $args  Аргументы запроса
+     *
+     * @throws BadMethodCallException
+     *
+     * @return void
+     */
+    public function execute($args)
+    {
+        $args = explode('/', urldecode($args));
 
-		/* Отбрасываем пустые элементы с концов */
-		array_shift($args);
-		array_pop($args);
+        /* Отбрасываем пустые элементы с концов */
+        array_shift($args);
+        array_pop($args);
 
-		// Получаем имя действия
-		$method = 'action' . array_shift($args);
+        // Получаем имя действия
+        $method = 'action' . array_shift($args);
 
-		if (!method_exists($this, $method))
-		{
-			throw new BadMethodCallException("Method $method does not exists in class " .
-				get_class($this));
-		}
+        if (!method_exists($this, $method))
+        {
+            throw new BadMethodCallException("Method $method does not exists in class " .
+            get_class($this));
+        }
 
-		$result = call_user_func_array(array($this, $method), $args);
+        $result = call_user_func_array(array($this, $method), $args);
 
-		$result = $this->prepareResponseData($result);
+        $result = $this->prepareResponseData($result);
 
-		$json = json_encode($result);
-		die($json);
-	}
+        $json = json_encode($result);
+        die($json);
+    }
 
-	/**
-	 * Возвращает список групп в указанном разделе
-	 *
-	 * @param int $sectionId
-	 * @return array
-	 *
-	 * @since 2.00
-	 */
-	protected function actionGetGroups($sectionId)
-	{
-		$sectionId = intval($sectionId);
-		/* @var Gallery_Entity_Table_Group $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
-		$groups = $table->findInSection($sectionId);
-		return $groups;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает список групп в указанном разделе
+     *
+     * @param int $sectionId
+     * @return array
+     *
+     * @since 2.00
+     */
+    protected function actionGetGroups($sectionId)
+    {
+        $sectionId = intval($sectionId);
+        /* @var Gallery_Entity_Table_Group $table */
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        $groups = $table->findInSection($sectionId);
+        return $groups;
+    }
 
-	/**
-	 * Запускает процесс перестройки миниатюр
-	 *
-	 * @param int $newWidth   новая ширина миниатюр
-	 * @param int $newHeight  новая высота миниатюр
-	 *
-	 * @return array
-	 *
-	 * @since 2.01
-	 */
-	protected function actionThumbsRebuildStart($newWidth, $newHeight)
-	{
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$images = $table->findAll();
+    /**
+     * Запускает процесс перестройки миниатюр
+     *
+     * @param int $newWidth   новая ширина миниатюр
+     * @param int $newHeight  новая высота миниатюр
+     *
+     * @return array
+     *
+     * @since 2.01
+     */
+    protected function actionThumbsRebuildStart($newWidth, $newHeight)
+    {
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $images = $table->findAll();
 
-		$ids = array();
-		foreach ($images as $image)
-		{
-			$ids []= $image->id;
-		}
-		return array('action' => 'start', 'ids' => $ids, 'width' => $newWidth, 'height' => $newHeight);
-	}
-	//-----------------------------------------------------------------------------
+        $ids = array();
+        foreach ($images as $image)
+        {
+            $ids []= $image->id;
+        }
+        return array('action' => 'start', 'ids' => $ids, 'width' => $newWidth, 'height' => $newHeight);
+    }
 
-	/**
-	 * Пересоздаёт миниатюру
-	 *
-	 * @param int $imageId
-	 * @param int $width
-	 * @param int $height
-	 * @return array
-	 *
-	 * @since 2.01
-	 */
-	protected function actionThumbsRebuildNext($imageId, $width, $height)
-	{
-		$response = array('action' => 'build', 'id' => $imageId, 'status' => 'success',
-			'width' => $width, 'height' => $height);
+    /**
+     * Пересоздаёт миниатюру
+     *
+     * @param int $imageId
+     * @param int $width
+     * @param int $height
+     * @return array
+     *
+     * @since 2.01
+     */
+    protected function actionThumbsRebuildNext($imageId, $width, $height)
+    {
+        $response = array('action' => 'build', 'id' => $imageId, 'status' => 'success',
+            'width' => $width, 'height' => $height);
 
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		try
-		{
-			/* @var Gallery_Entity_Image $image */
-			$image = $table->find($imageId);
-			$image->buildThumb($width, $height);
-		}
-		catch (Exception $e)
-		{
-			$response['status'] = $e->getMessage();
-		}
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        try
+        {
+            /* @var Gallery_Entity_Image $image */
+            $image = $table->find($imageId);
+            $image->buildThumb($width, $height);
+        }
+        catch (Exception $e)
+        {
+            $response['status'] = $e->getMessage();
+        }
 
-		return $response;
-	}
+        return $response;
+    }
 
-	/**
-	 * Подготавливает данные для передачи json_encode
-	 *
-	 * @param mixed $data
-	 * @return mixed
-	 */
-	private function prepareResponseData($data)
-	{
-		switch (true)
-		{
-			case is_object($data):
-				if (method_exists($data, 'toArray'))
-				{
-					$data = $data->toArray();
-				}
-				else
-				{
-					$data = get_object_vars($data);
-				}
-				$data = $this->prepareResponseData($data);
-				break;
-
-			case is_array($data):
-				foreach ($data as $key => $value)
-				{
-					$data[$key] = $this->prepareResponseData($value);
-				}
-				break;
-		}
-		return $data;
-	}
+    /**
+     * Подготавливает данные для передачи json_encode
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    private function prepareResponseData($data)
+    {
+        switch (true)
+        {
+            case is_object($data):
+                if (method_exists($data, 'toArray'))
+                {
+                    $data = $data->toArray();
+                }
+                else
+                {
+                    $data = get_object_vars($data);
+                }
+                $data = $this->prepareResponseData($data);
+                break;
+            case is_array($data):
+                foreach ($data as $key => $value)
+                {
+                    $data[$key] = $this->prepareResponseData($value);
+                }
+                break;
+        }
+        return $data;
+    }
 }
+

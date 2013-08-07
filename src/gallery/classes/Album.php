@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id$
  */
 
 
@@ -42,258 +40,246 @@
  */
 class Gallery_Album implements Iterator, Countable
 {
-	/**
-	 * Идентификатор раздела сайта, которому соответствует альбом
-	 *
-	 * @var int
-	 */
-	protected $sectionId;
+    /**
+     * Идентификатор раздела сайта, которому соответствует альбом
+     *
+     * @var int
+     */
+    protected $sectionId;
 
-	/**
-	 * Массив изображений
-	 *
-	 * @var array
-	 * @see Iterator
-	 */
-	protected $items = array();
+    /**
+     * Массив изображений
+     *
+     * @var array
+     * @see Iterator
+     */
+    protected $items = array();
 
-	/**
-	 * Указатель на текущее изображение
-	 *
-	 * @var int
-	 * @see Iterator
-	 */
-	protected $position = 0;
+    /**
+     * Указатель на текущее изображение
+     *
+     * @var int
+     * @see Iterator
+     */
+    protected $position = 0;
 
-	/**
-	 * Текущее (просматриваемое посетителем) изображение
-	 *
-	 * @var Gallery_Entity_Image
-	 */
-	protected $current;
+    /**
+     * Текущее (просматриваемое посетителем) изображение
+     *
+     * @var Gallery_Entity_Image
+     */
+    protected $current;
 
-	/**
-	 * Следующее (относительно просматриваемого посетителем) изображение
-	 *
-	 * @var Gallery_Entity_Image
-	 */
-	protected $next;
+    /**
+     * Следующее (относительно просматриваемого посетителем) изображение
+     *
+     * @var Gallery_Entity_Image
+     */
+    protected $next;
 
-	/**
-	 * Предыдущее (относительно просматриваемого посетителем) изображение
-	 *
-	 * @var Gallery_Entity_Image
-	 */
-	protected $prev;
+    /**
+     * Предыдущее (относительно просматриваемого посетителем) изображение
+     *
+     * @var Gallery_Entity_Image
+     */
+    protected $prev;
 
-	/**
-	 * Показывает, загружены ли объекты из БД
-	 *
-	 * @var bool
-	 */
-	protected $loaded = false;
+    /**
+     * Показывает, загружены ли объекты из БД
+     *
+     * @var bool
+     */
+    protected $loaded = false;
 
-	/**
-	 * Создаёт новый альбом на основе заданного раздела сайта
-	 *
-	 * @param int $sectionId  идентификатор раздела сайта
-	 *
-	 * @return Gallery_Album
-	 *
-	 * @since 2.03
-	 */
-	public function __construct($sectionId)
-	{
-		$this->sectionId = $sectionId;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Создаёт новый альбом на основе заданного раздела сайта
+     *
+     * @param int $sectionId  идентификатор раздела сайта
+     *
+     * @return Gallery_Album
+     *
+     * @since 2.03
+     */
+    public function __construct($sectionId)
+    {
+        $this->sectionId = $sectionId;
+    }
 
-	/**
-	 * Возвращает "магические" свойства
-	 *
-	 * @param string $property
-	 *
-	 * @return mixed
-	 *
-	 * @since 2.03
-	 */
-	public function __get($property)
-	{
-		switch ($property)
-		{
-			case 'next':
-				return $this->getNext();
-			break;
+    /**
+     * Возвращает "магические" свойства
+     *
+     * @param string $property
+     *
+     * @return mixed
+     *
+     * @since 2.03
+     */
+    public function __get($property)
+    {
+        switch ($property)
+        {
+            case 'next':
+                return $this->getNext();
+                break;
+            case 'prev':
+                return $this->getPrev();
+                break;
+        }
 
-			case 'prev':
-				return $this->getPrev();
-			break;
-		}
+        return null;
+    }
 
-		return null;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @see Iterator::rewind()
+     */
+    public function rewind()
+    {
+        $this->load();
+        $this->position = 0;
+    }
 
-	/**
-	 * @see Iterator::rewind()
-	 */
-	public function rewind()
-	{
-		$this->load();
-		$this->position = 0;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @see Iterator::current()
+     */
+    public function current()
+    {
+        $this->load();
+        return $this->items[$this->position];
+    }
 
-	/**
-	 * @see Iterator::current()
-	 */
-	public function current()
-	{
-		$this->load();
-		return $this->items[$this->position];
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @see Iterator::key()
+     */
+    public function key()
+    {
+        return $this->position;
+    }
 
-	/**
-	 * @see Iterator::key()
-	 */
-	public function key()
-	{
-		return $this->position;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @see Iterator::next()
+     */
+    public function next()
+    {
+        ++$this->position;
+    }
 
-	/**
-	 * @see Iterator::next()
-	 */
-	public function next()
-	{
-		++$this->position;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @see Iterator::valid()
+     */
+    public function valid()
+    {
+        $this->load();
+        return isset($this->items[$this->position]);
+    }
 
-	/**
-	 * @see Iterator::valid()
-	 */
-	public function valid()
-	{
-		$this->load();
-		return isset($this->items[$this->position]);
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @see Countable::count()
+     */
+    public function count()
+    {
+        $this->load();
+        return count($this->items);
+    }
 
-	/**
-	 * @see Countable::count()
-	 */
-	public function count()
-	{
-		$this->load();
-		return count($this->items);
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Устанавливает изображение альбома в качестве текущего
+     *
+     * @param Gallery_Entity_Image $image
+     *
+     * @return void
+     *
+     * @since 2.03
+     */
+    public function setCurrent(Gallery_Entity_Image $image)
+    {
+        $this->current = $image;
+        $this->next = -1;
+        $this->prev = -1;
+    }
 
-	/**
-	 * Устанавливает изображение альбома в качестве текущего
-	 *
-	 * @param Gallery_Entity_Image $image
-	 *
-	 * @return void
-	 *
-	 * @since 2.03
-	 */
-	public function setCurrent(Gallery_Entity_Image $image)
-	{
-		$this->current = $image;
-		$this->next = -1;
-		$this->prev = -1;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Загружает объекты из БД, если они не были загружены ранее
+     *
+     * @return void
+     *
+     * @since 2.03
+     */
+    protected function load()
+    {
+        if ($this->loaded)
+        {
+            return;
+        }
+        /* @var Gallery_Entity_Table_Image $table */
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $this->items = $table->find($this->sectionId, null, null, true);
+        $this->loaded = true;
+    }
 
-	/**
-	 * Загружает объекты из БД, если они не были загружены ранее
-	 *
-	 * @return void
-	 *
-	 * @since 2.03
-	 */
-	protected function load()
-	{
-		if ($this->loaded)
-		{
-			return;
-		}
-		/* @var Gallery_Entity_Table_Image $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$this->items = $table->find($this->sectionId, null, null, true);
-		$this->loaded = true;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает следующее изображение в альбоме или null.
+     *
+     * @return Gallery_Entity_Image|null
+     *
+     * @since 2.03
+     */
+    protected function getNext()
+    {
+        if (!$this->current)
+        {
+            return null;
+        }
+        if ($this->next !== -1)
+        {
+            return $this->next;
+        }
+        $this->load();
+        for ($i = 0; $i < count($this->items); $i++)
+        {
+            if ($this->items[$i]->id == $this->current->id)
+            {
+                if ($i + 1 < count($this->items))
+                {
+                    $this->next = $this->items[$i + 1];
+                    return $this->next;
+                }
+                break;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Возвращает следующее изображение в альбоме или null.
-	 *
-	 * @return Gallery_Entity_Image|null
-	 *
-	 * @since 2.03
-	 */
-	protected function getNext()
-	{
-		if (!$this->current)
-		{
-			return null;
-		}
-		if ($this->next !== -1)
-		{
-			return $this->next;
-		}
-		$this->load();
-		for ($i = 0; $i < count($this->items); $i++)
-		{
-			if ($this->items[$i]->id == $this->current->id)
-			{
-				if ($i + 1 < count($this->items))
-				{
-					$this->next = $this->items[$i + 1];
-					return $this->next;
-				}
-				break;
-			}
-		}
-		return null;
-	}
-	//-----------------------------------------------------------------------------
-
-	/**
-	 * Возвращает предыдущее изображение в альбоме или null.
-	 *
-	 * @return Gallery_Entity_Image|null
-	 *
-	 * @since 2.03
-	 */
-	protected function getPrev()
-	{
-		if (!$this->current)
-		{
-			return null;
-		}
-		if ($this->prev !== -1)
-		{
-			return $this->prev;
-		}
-		$this->load();
-		for ($i = 0; $i < count($this->items); $i++)
-		{
-			if ($this->items[$i]->id == $this->current->id)
-			{
-				if ($i > 0)
-				{
-					$this->prev = $this->items[$i - 1];
-					return $this->prev;
-				}
-				break;
-			}
-		}
-		return null;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает предыдущее изображение в альбоме или null.
+     *
+     * @return Gallery_Entity_Image|null
+     *
+     * @since 2.03
+     */
+    protected function getPrev()
+    {
+        if (!$this->current)
+        {
+            return null;
+        }
+        if ($this->prev !== -1)
+        {
+            return $this->prev;
+        }
+        $this->load();
+        for ($i = 0; $i < count($this->items); $i++)
+        {
+            if ($this->items[$i]->id == $this->current->id)
+            {
+                if ($i > 0)
+                {
+                    $this->prev = $this->items[$i - 1];
+                    return $this->prev;
+                }
+                break;
+            }
+        }
+        return null;
+    }
 }
+

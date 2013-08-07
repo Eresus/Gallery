@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Image.php 1708 2012-11-02 19:34:55Z mk $
  */
 
 /**
@@ -37,278 +35,277 @@
  */
 class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 {
-	/**
-	 * Структура таблицы
-	 */
-	public function setTableDefinition()
-	{
-		$this->setTableName('gallery_images');
-		$this->hasColumns(array(
-			'id' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'autoincrement' => true,
-			),
-			'section' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'default' => null,
-			),
-			'title' => array(
-				'type' => 'string',
-				'length' => 255,
-				'default' => null,
-			),
-			'image' => array(
-				'type' => 'string',
-				'length' => 128,
-				'default' => null,
-			),
-			'thumb' => array(
-				'type' => 'string',
-				'length' => 128,
-				'default' => null,
-			),
-			'posted' => array(
-				'type' => 'timestamp'
-			),
-			'groupId' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'default' => 0,
-			),
-			'cover' => array(
-				'type' => 'boolean',
-				'default' => 0,
-			),
-			'active' => array(
-				'type' => 'boolean',
-				'default' => 0,
-			),
-			'position' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'default' => 0,
-			),
-		));
-		// TODO Проверить индексы
-		$this->index('section', array('fields' => array('section')));
-		$this->index('position', array('fields' => array('position')));
-		$this->index('active', array('fields' => array('active')));
-		$this->index('posted', array('fields' => array('posted')));
-		$this->index('find_covers', array('fields' => array('section', 'active', 'cover')));
-		$this->index('images_by_time', array('fields' => array('section', 'active', 'posted')));
-		$this->index('images_by_position', array('fields' => array('section', 'active', 'position')));
-		/* Проверенные индексы */
-		$this->index('images_by_group_idx', array('fields' => array('groupId', 'active', 'position')));
-	}
+    /**
+     * Структура таблицы
+     */
+    public function setTableDefinition()
+    {
+        $this->setTableName('gallery_images');
+        $this->hasColumns(array(
+            'id' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'autoincrement' => true,
+            ),
+            'section' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => null,
+            ),
+            'title' => array(
+                'type' => 'string',
+                'length' => 255,
+                'default' => null,
+            ),
+            'image' => array(
+                'type' => 'string',
+                'length' => 128,
+                'default' => null,
+            ),
+            'thumb' => array(
+                'type' => 'string',
+                'length' => 128,
+                'default' => null,
+            ),
+            'posted' => array(
+                'type' => 'timestamp'
+            ),
+            'groupId' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => 0,
+            ),
+            'cover' => array(
+                'type' => 'boolean',
+                'default' => 0,
+            ),
+            'active' => array(
+                'type' => 'boolean',
+                'default' => 0,
+            ),
+            'position' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => 0,
+            ),
+        ));
+        // TODO Проверить индексы
+        $this->index('section', array('fields' => array('section')));
+        $this->index('position', array('fields' => array('position')));
+        $this->index('active', array('fields' => array('active')));
+        $this->index('posted', array('fields' => array('posted')));
+        $this->index('find_covers', array('fields' => array('section', 'active', 'cover')));
+        $this->index('images_by_time', array('fields' => array('section', 'active', 'posted')));
+        $this->index('images_by_position', array('fields' => array('section', 'active', 'position')));
+        /* Проверенные индексы */
+        $this->index('images_by_group_idx', array('fields' => array('groupId', 'active', 'position')));
+    }
 
-	/**
-	 * Сбрасывает флаг "Обложка альбома" у всех изображений в указанном разделе
-	 *
-	 * @param int $section
-	 */
-	public function clearCovers($section)
-	{
-		$q = DB::getHandler()->createUpdateQuery();
-		$q->update($this->getTableName())->
-			set('cover', $q->bindValue(false, null, PDO::PARAM_BOOL))->
-			where($q->expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)));
-		DB::execute($q);
-	}
+    /**
+     * Сбрасывает флаг "Обложка альбома" у всех изображений в указанном разделе
+     *
+     * @param int $section
+     */
+    public function clearCovers($section)
+    {
+        $q = DB::getHandler()->createUpdateQuery();
+        $q->update($this->getTableName())->
+            set('cover', $q->bindValue(false, null, PDO::PARAM_BOOL))->
+            where($q->expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)));
+        DB::execute($q);
+    }
 
-	/**
-	 * Автоматически выбирает изображение для обложки в указанном разделе
-	 *
-	 * @param int  $section  Идентификатор раздела
-	 *
-	 * @return void
-	 *
-	 * @since 2.00
-	 */
-	public function autoSetCover($section)
-	{
-		/*
-		 * eZ Components не поддерживает LIMIT в запросах UPDATE, так что делаем два запроса
-		 */
-		$q = DB::getHandler()->createSelectQuery();
-		/** @var ezcQueryExpression $expr */
-		$expr = $q->expr;
-		$q->select('id');
-		$q->from($this->getTableName());
-		$q->where($expr->lAnd(
-			$expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
-			$expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
-			$expr->neq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
-		));
-		$q->limit(1);
+    /**
+     * Автоматически выбирает изображение для обложки в указанном разделе
+     *
+     * @param int  $section  Идентификатор раздела
+     *
+     * @return void
+     *
+     * @since 2.00
+     */
+    public function autoSetCover($section)
+    {
+        /*
+         * eZ Components не поддерживает LIMIT в запросах UPDATE, так что делаем два запроса
+         */
+        $q = DB::getHandler()->createSelectQuery();
+        /** @var ezcQueryExpression $expr */
+        $expr = $q->expr;
+        $q->select('id');
+        $q->from($this->getTableName());
+        $q->where($expr->lAnd(
+            $expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
+            $expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+            $expr->neq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
+        ));
+        $q->limit(1);
 
-		switch ($this->plugin->settings['sort'])
-		{
-			case 'date_asc':
-				$q->orderBy('posted', ezcQuerySelect::DESC);
-				break;
+        switch ($this->plugin->settings['sort'])
+        {
+            case 'date_asc':
+                $q->orderBy('posted', ezcQuerySelect::DESC);
+                break;
+            case 'date_desc':
+                $q->orderBy('posted', ezcQuerySelect::ASC);
+                break;
+            case 'manual':
+                $q->orderBy('position');
+                break;
+        }
 
-			case 'date_desc':
-				$q->orderBy('posted', ezcQuerySelect::ASC);
-				break;
+        try
+        {
+            $tmp = DB::fetch($q);
+        }
+        catch (Eresus_DB_Exception_QueryFailed $e)
+        {
+            // Нет такой записи. Ничего делать не надо
+            return;
+        }
 
-			case 'manual':
-				$q->orderBy('position');
-				break;
-		}
+        $q = DB::getHandler()->createUpdateQuery();
+        $expr = $q->expr;
+        $q->update($this->getTableName());
+        $q->set('cover', true);
+        $q->where($expr->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
 
-		try
-		{
-			$tmp = DB::fetch($q);
-		}
-		catch (DBQueryException $e)
-		{
-			// Нет такой записи. Ничего делать не надо
-			return;
-		}
+        DB::execute($q);
+    }
 
-		$q = DB::getHandler()->createUpdateQuery();
-		$expr = $q->expr;
-		$q->update($this->getTableName());
-		$q->set('cover', true);
-		$q->where($expr->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
+    /**
+     * Ищет обложку для указанного раздела
+     *
+     * @param int $section
+     *
+     * @return Gallery_Entity_Image|bool  Возвращает изображение или FALSE, если обложка отсутствует
+     */
+    public function findCover($section)
+    {
+        $q = DB::getHandler()->createSelectQuery();
+        $e = $q->expr;
+        $q->select('*');
+        $q->from($this->getTableName());
+        $q->where($e->lAnd(
+            $e->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
+            $e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+            $e->eq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
+        ));
 
-		DB::execute($q);
-	}
+        $image = $this->loadOneFromQuery($q);
+        if (!$image)
+        {
+            return false;
+        }
+        return $image;
+    }
 
-	/**
-	 * Ищет обложку для указанного раздела
-	 *
-	 * @param int $section
-	 *
-	 * @return Gallery_Entity_Image|bool  Возвращает изображение или FALSE, если обложка отсутствует
-	 */
-	public function findCover($section)
-	{
-		$q = DB::getHandler()->createSelectQuery();
-		$e = $q->expr;
-		$q->select('*');
-		$q->from($this->getTableName());
-		$q->where($e->lAnd(
-			$e->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
-			$e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
-			$e->eq('cover', $q->bindValue(true, null, PDO::PARAM_BOOL))
-		));
+    /**
+     * @param ORM_Entity $entity
+     *
+     * @throws Gallery_Exception_UploadException
+     */
+    public function persist(ORM_Entity $entity)
+    {
+        /* @var Gallery_Entity_Image $entity */
+        /* Вычисляем порядковый номер */
+        $q = DB::getHandler()->createSelectQuery();
+        $e = $q->expr;
+        $q->select($q->alias($e->max('position'), 'maxval'));
+        $q->from($this->getTableName());
+        $q->where($e->eq('section', $q->bindValue($entity->section, null, PDO::PARAM_INT)));
+        $result = DB::fetch($q);
+        $entity->position = $result['maxval'] + 1;
 
-		$image = $this->loadOneFromQuery($q);
-		if (!$image)
-		{
-			return false;
-		}
-		return $image;
-	}
+        try
+        {
+            parent::persist($entity);
+        }
+        catch (Gallery_Exception_UploadException $e)
+        {
+            $this->delete($entity);
+            throw $e;
+        }
+    }
 
-	/**
-	 * @param ORM_Entity $entity
-	 *
-	 * @throws Gallery_Exception_UploadException
-	 */
-	public function persist(ORM_Entity $entity)
-	{
-		/* @var Gallery_Entity_Image $entity */
-		/* Вычисляем порядковый номер */
-		$q = DB::getHandler()->createSelectQuery();
-		$e = $q->expr;
-		$q->select($q->alias($e->max('position'), 'maxval'));
-		$q->from($this->getTableName());
-		$q->where($e->eq('section', $q->bindValue($entity->section, null, PDO::PARAM_INT)));
-		$result = DB::fetch($q);
-		$entity->position = $result['maxval'] + 1;
+    /**
+     * Перемещает изображение выше по списку
+     *
+     * @param Gallery_Entity_Image $image
+     */
+    public function moveUp(Gallery_Entity_Image $image)
+    {
+        if (0 == $image->position)
+        {
+            return;
+        }
 
-		try
-		{
-			parent::persist($entity);
-		}
-		catch (Gallery_Exception_UploadException $e)
-		{
-			$this->delete($entity);
-			throw $e;
-		}
-	}
+        $q = $this->createSelectQuery(false);
+        $q->select('*');
+        $e = $q->expr;
+        $expr = $e->lt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
+        if ($this->plugin->settings['useGroups'])
+        {
+            $q->where($e->lAnd($e->eq('groupId',
+                $q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
+        }
+        else
+        {
+            $q->where($e->lAnd($e->eq('section',
+                $q->bindValue($image->id, null, PDO::PARAM_INT)), $expr));
+        }
 
-	/**
-	 * Перемещает изображение выше по списку
-	 *
-	 * @param Gallery_Entity_Image $image
-	 */
-	public function moveUp(Gallery_Entity_Image $image)
-	{
-		if (0 == $image->position)
-		{
-			return;
-		}
+        $q->orderBy('position', ezcQuerySelect::DESC);
+        $q->limit(1);
 
-		$q = $this->createSelectQuery(false);
-		$q->select('*');
-		$e = $q->expr;
-		$expr = $e->lt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
-		if ($this->plugin->settings['useGroups'])
-		{
-			$q->where($e->lAnd($e->eq('groupId',
-				$q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
-		}
-		else
-		{
-			$q->where($e->lAnd($e->eq('section',
-				$q->bindValue($image->id, null, PDO::PARAM_INT)), $expr));
-		}
+        /* @var Gallery_Entity_Image $swap */
+        $swap = $this->loadOneFromQuery($q);
 
-		$q->orderBy('position', ezcQuerySelect::DESC);
-		$q->limit(1);
+        if ($swap)
+        {
+            $pos = $image->position;
+            $image->position = $swap->position;
+            $swap->position = $pos;
+            $this->update($swap);
+            $this->update($image);
+        }
+    }
 
-		/* @var Gallery_Entity_Image $swap */
-		$swap = $this->loadOneFromQuery($q);
+    /**
+     * Перемещает изображение ниже по списку
+     *
+     * @param Gallery_Entity_Image $image
+     */
+    public function moveDown(Gallery_Entity_Image $image)
+    {
+        $q = $this->createSelectQuery();
+        $e = $q->expr;
+        $expr = $e->gt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
+        if ($this->plugin->settings['useGroups'])
+        {
+            $q->where($e->lAnd($e->eq('groupId',
+                $q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
+        }
+        else
+        {
+            $q->where($e->lAnd($e->eq('section',
+                $q->bindValue($image->id, null, PDO::PARAM_INT)), $expr));
+        }
 
-		if ($swap)
-		{
-			$pos = $image->position;
-			$image->position = $swap->position;
-			$swap->position = $pos;
-			$this->update($swap);
-			$this->update($image);
-		}
-	}
+        $q->orderBy('position', ezcQuerySelect::DESC);
+        $q->limit(1);
 
-	/**
-	 * Перемещает изображение ниже по списку
-	 *
-	 * @param Gallery_Entity_Image $image
-	 */
-	public function moveDown(Gallery_Entity_Image $image)
-	{
-		$q = $this->createSelectQuery();
-		$e = $q->expr;
-		$expr = $e->gt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
-		if ($this->plugin->settings['useGroups'])
-		{
-			$q->where($e->lAnd($e->eq('groupId',
-				$q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
-		}
-		else
-		{
-			$q->where($e->lAnd($e->eq('section',
-				$q->bindValue($image->id, null, PDO::PARAM_INT)), $expr));
-		}
+        /* @var Gallery_Entity_Image $swap */
+        $swap = $this->loadOneFromQuery($q);
 
-		$q->orderBy('position', ezcQuerySelect::DESC);
-		$q->limit(1);
-
-		/* @var Gallery_Entity_Image $swap */
-		$swap = $this->loadOneFromQuery($q);
-
-		if ($swap)
-		{
-			$pos = $image->position;
-			$image->position = $swap->position;
-			$swap->position = $pos;
-			$this->update($swap);
-			$this->update($image);
-		}
-	}
+        if ($swap)
+        {
+            $pos = $image->position;
+            $image->position = $swap->position;
+            $swap->position = $pos;
+            $this->update($swap);
+            $this->update($image);
+        }
+    }
 }
+

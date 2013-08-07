@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id$
  */
 
 
@@ -42,44 +40,41 @@
  */
 class Gallery_NullObject
 {
-	/**
-	 * @param mixed $name
-	 *
-	 * @return null
-	 *
-	 * @since 2.01
-	 */
-	public function __get($name)
-	{
-		return null;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @param mixed $name
+     *
+     * @return null
+     *
+     * @since 2.01
+     */
+    public function __get($name)
+    {
+        return null;
+    }
 
-	/**
-	 * @param mixed $name
-	 * @param mixed $value
-	 *
-	 * @return void
-	 *
-	 * @since 2.01
-	 */
-	public function __set($name, $value)
-	{
-		;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @param mixed $name
+     * @param mixed $value
+     *
+     * @return void
+     *
+     * @since 2.01
+     */
+    public function __set($name, $value)
+    {
+    }
 
-	/**
-	 * @param string $method
-	 * @param array  $args
-	 *
-	 * @return null
-	 *
-	 * @since 2.01
-	 */
-	public function __call($method, $args)
-	{
-		return null;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * @param string $method
+     * @param array  $args
+     *
+     * @return null
+     *
+     * @since 2.01
+     */
+    public function __call($method, $args)
+    {
+        return null;
+    }
 }
+

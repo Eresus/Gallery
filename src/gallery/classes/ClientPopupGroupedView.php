@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
 
@@ -38,30 +36,30 @@
  */
 class Gallery_ClientPopupGroupedView extends Gallery_ClientPopupView
 {
-	/**
-	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
-	 *
-	 * @return string
-	 *
-	 * @since 2.03
-	 */
-	protected function renderImageList()
-	{
-		/* @var Gallery_Entity_Table_Group $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
-		$groups = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
-		$jsArray = array();
-		foreach ($groups as $group)
-		{
-			foreach ($group->images as $image)
-			{
-				/* @var Gallery_Entity_Image $image */
-				$jsArray []= '"' . $image->imageURL . '"';
-			}
-		}
-		$html = '<script type="text/javascript">Eresus.Gallery.images = ['.
-			implode(',', $jsArray) . '];</script>';
-		return $html;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
+     *
+     * @return string
+     *
+     * @since 2.03
+     */
+    protected function renderImageList()
+    {
+        /* @var Gallery_Entity_Table_Group $table */
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        $groups = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
+        $jsArray = array();
+        foreach ($groups as $group)
+        {
+            foreach ($group->images as $image)
+            {
+                /* @var Gallery_Entity_Image $image */
+                $jsArray []= '"' . $image->imageURL . '"';
+            }
+        }
+        $html = '<script type="text/javascript">Eresus.Gallery.images = ['.
+            implode(',', $jsArray) . '];</script>';
+        return $html;
+    }
 }
+

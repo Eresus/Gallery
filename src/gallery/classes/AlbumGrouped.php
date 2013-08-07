@@ -27,8 +27,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id$
  */
 
 
@@ -44,35 +42,35 @@
  */
 class Gallery_AlbumGrouped extends Gallery_Album
 {
-	/**
-	 * Загружает объекты из БД, если они не были загружены ранее
-	 *
-	 * @return void
-	 *
-	 * @since 2.03
-	 */
-	protected function load()
-	{
-		if ($this->loaded)
-		{
-			return;
-		}
+    /**
+     * Загружает объекты из БД, если они не были загружены ранее
+     *
+     * @return void
+     *
+     * @since 2.03
+     */
+    protected function load()
+    {
+        if ($this->loaded)
+        {
+            return;
+        }
 
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$q = $table->createSelectQuery();
-		$e = $q->expr;
+        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $q = $table->createSelectQuery();
+        $e = $q->expr;
 
-		$q->where(
-			$e->lAnd(
-				$e->eq('section', $q->bindValue($this->sectionId, null, PDO::PARAM_INT)),
-				$e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
-				$e->neq('groupId', 0)
-			))->
-			orderBy('groupId');
+        $q->where(
+            $e->lAnd(
+                $e->eq('section', $q->bindValue($this->sectionId, null, PDO::PARAM_INT)),
+                $e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
+                $e->neq('groupId', 0)
+            ))->
+            orderBy('groupId');
 
-		$this->items = $table->loadFromQuery($q);
+        $this->items = $table->loadFromQuery($q);
 
-		$this->loaded = true;
-	}
-	//-----------------------------------------------------------------------------
+        $this->loaded = true;
+    }
 }
+

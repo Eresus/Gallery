@@ -39,31 +39,32 @@
  */
 class Gallery_Entity_Album extends ORM_Entity
 {
-	/**
-	 * Делает изображение обложкой альбома
-	 *
-	 * @param Gallery_Entity_Image $image
-	 */
-	public function setCover(Gallery_Entity_Image $image)
-	{
-		$image->cover = true;
-		$image->getTable()->update($image);
-	}
+    /**
+     * Делает изображение обложкой альбома
+     *
+     * @param Gallery_Entity_Image $image
+     */
+    public function setCover(Gallery_Entity_Image $image)
+    {
+        $image->cover = true;
+        $image->getTable()->update($image);
+    }
 
-	/**
-	 * Возвращает список изображений не привязанных к какой-либо группе
-	 *
-	 * @return Gallery_Entity_Image[]
-	 */
-	public function getOrphans()
-	{
-		$table = ORM::getTable($this->plugin, 'Image');
-		$q = $table->createSelectQuery();
-		$e = $q->expr;
-		$q->where($e->lAnd(
-			$e->eq('section', $q->bindValue($this->id, null, PDO::PARAM_INT)),
-			$e->eq('groupId', $q->bindValue(0, null, PDO::PARAM_INT))
-		));
-		return $table->loadFromQuery($q);
-	}
+    /**
+     * Возвращает список изображений не привязанных к какой-либо группе
+     *
+     * @return Gallery_Entity_Image[]
+     */
+    public function getOrphans()
+    {
+        $table = ORM::getTable($this->plugin, 'Image');
+        $q = $table->createSelectQuery();
+        $e = $q->expr;
+        $q->where($e->lAnd(
+            $e->eq('section', $q->bindValue($this->id, null, PDO::PARAM_INT)),
+            $e->eq('groupId', $q->bindValue(0, null, PDO::PARAM_INT))
+        ));
+        return $table->loadFromQuery($q);
+    }
 }
+
