@@ -61,13 +61,13 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
 	/**
 	 * Возвращает максимальное количество групп на странице
 	 *
-	 * @param Plugin $plugin
+	 * @param Eresus_Plugin $plugin
 	 *
 	 * @return int
 	 *
 	 * @since 2.03
 	 */
-	protected function getMaxCount(Plugin $plugin)
+	protected function getMaxCount(Eresus_Plugin $plugin)
 	{
 		return $plugin->settings['groupsPerPage'];
 	}
@@ -94,13 +94,13 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
 	/**
 	 * Возвращает шаблон
 	 *
-	 * @param Plugin $plugin  объект плагина
+	 * @param Eresus_Plugin $plugin  объект плагина
 	 *
 	 * @return Template
 	 *
 	 * @since 2.03
 	 */
-	protected function getTemplate(Plugin $plugin)
+	protected function getTemplate(Eresus_Plugin $plugin)
 	{
 		return new Template('templates/' . $plugin->name . '/image-grouped-list.html');
 	}

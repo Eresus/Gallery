@@ -120,16 +120,16 @@ class Gallery_ClientListView
 	}
 	//-----------------------------------------------------------------------------
 
-	/**
-	 * Возвращает максимальное количество изображений на странице
-	 *
-	 * @param Plugin $plugin
-	 *
-	 * @return int
-	 *
-	 * @since 2.03
-	 */
-	protected function getMaxCount(Plugin $plugin)
+    /**
+     * Возвращает максимальное количество изображений на странице
+     *
+     * @param Eresus_Plugin $plugin
+     *
+     * @return int
+     *
+     * @since 2.03
+     */
+	protected function getMaxCount(Eresus_Plugin $plugin)
 	{
 		return $plugin->settings['itemsPerPage'];
 	}
@@ -156,13 +156,13 @@ class Gallery_ClientListView
 	/**
 	 * Возвращает шаблон
 	 *
-	 * @param Plugin $plugin  объект плагина
+	 * @param Eresus_Plugin $plugin  объект плагина
 	 *
 	 * @return Template
 	 *
 	 * @since 2.03
 	 */
-	protected function getTemplate(Plugin $plugin)
+	protected function getTemplate(Eresus_Plugin $plugin)
 	{
 		return new Template('templates/' . $plugin->name . '/image-list.html');
 	}
