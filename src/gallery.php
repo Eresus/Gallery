@@ -140,19 +140,6 @@ class Gallery extends ContentPlugin
     }
 
     /**
-     * Возвращает свойство $dirData
-     *
-     * @return string
-     *
-     * @since 2.00
-     */
-    public function getDataDir()
-    {
-        return $this->dirData;
-    }
-    //-----------------------------------------------------------------------------
-
-    /**
      * Возвращает свойство $dirCode
      *
      * @return string

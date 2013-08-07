@@ -99,12 +99,12 @@ class Gallery_Entity_Image extends ORM_Entity
         $plugin = $this->plugin;
 
         $filename = $this->getProperty('image');
-        $thumb = PhpThumbFactory::create($plugin->getDataDir() . $filename);
+        $thumb = PhpThumbFactory::create($plugin->getDataDir() . '/' . $filename);
 
         $thumb->resize(
             $width ? $width : $plugin->settings['thumbWidth'],
             $height ? $height : $plugin->settings['thumbHeight']);
-        $thumb->save($plugin->getDataDir() . $this->getProperty('thumb'));
+        $thumb->save($plugin->getDataDir() . '/' . $this->getProperty('thumb'));
     }
 
     /**
@@ -211,7 +211,7 @@ class Gallery_Entity_Image extends ORM_Entity
 
         /* @var Gallery $plugin */
         $plugin = $this->plugin;
-        $imageFileName = $plugin->getDataDir() . $this->id . '.' . $ext;
+        $imageFileName = $plugin->getDataDir() . '/' . $this->id . '.' . $ext;
         if (!upload($this->upload, $imageFileName))
         {
             throw new Gallery_Exception_UploadException();
@@ -237,7 +237,7 @@ class Gallery_Entity_Image extends ORM_Entity
 
         if ($plugin->settings['logoEnable'])
         {
-            $this->overlayLogo($plugin->getDataDir() . $this->getProperty('image'));
+            $this->overlayLogo($plugin->getDataDir() . '/' . $this->getProperty('image'));
         }
 
         $this->buildThumb();
@@ -367,7 +367,7 @@ class Gallery_Entity_Image extends ORM_Entity
         /* @var Gallery $plugin */
         $plugin = $this->plugin;
 
-        $logoFile = $plugin->getDataDir() . 'logo.png';
+        $logoFile = $plugin->getDataDir() . '/logo.png';
         if (!is_file($logoFile))
         {
             eresus_log(__METHOD__, LOG_WARNING, 'No file %s', $logoFile);
