@@ -5,7 +5,7 @@
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
- * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
+ * @license http://www.gnu.org/licenses/gpl.txt    GPL License 3
  * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
@@ -35,17 +35,16 @@
  *
  * @package Gallery
  */
-class Gallery_Exception_UnsupportedFormatException extends EresusRuntimeException
+class Gallery_Exception_UnsupportedFormatException extends Eresus_CMS_Exception
 {
-	/**
-	 * Конструктор
-	 *
-	 * @param string $type  Неподдерживаемый тип файла
-	 * @return Gallery_Exception_UnsupportedFormatException
-	 */
-	public function __construct($type)
-	{
-		parent::__construct("Unsupported format: $type");
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Конструктор
+     *
+     * @param string $type  Неподдерживаемый тип файла
+     */
+    public function __construct($type)
+    {
+        parent::__construct("Unsupported format: $type");
+    }
 }
+

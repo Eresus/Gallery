@@ -35,6 +35,6 @@
  *
  * @package Gallery
  */
-class Gallery_Exception_UploadException extends EresusRuntimeException
+class Gallery_Exception_UploadException extends Eresus_CMS_Exception
 {
 }

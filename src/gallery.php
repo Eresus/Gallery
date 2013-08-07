@@ -207,7 +207,7 @@ class Gallery extends ContentPlugin
     /**
      * Обновление настроек
      *
-     * @throws EresusRuntimeException
+     * @throws RuntimeException
      *
      * @return void
      */
@@ -240,8 +240,9 @@ class Gallery extends ContentPlugin
         }
         catch (Exception $e)
         {
-            throw new EresusRuntimeException('Fail to save templates',
+            throw new RuntimeException(
                 'Не удалось изменить один или несколько шаблонов. Подробная информация доступна в журнале.',
+                0,
                 $e);
         }
 
@@ -254,7 +255,7 @@ class Gallery extends ContentPlugin
      *
      * Метод создаёт необходимые таблицы в БД и директорию данных.
      *
-     * @throws EresusRuntimeException
+     * @throws Eresus_CMS_Exception
      *
      * @return void
      */
@@ -279,18 +280,19 @@ class Gallery extends ContentPlugin
         catch (Exception $e)
         {
             $this->uninstall();
-            throw new EresusRuntimeException('Fail to install templates',
-                'Не удалось установить шаблоны плагина. Подробная информация доступна в журнале.', $e);
+            throw new Eresus_CMS_Exception(
+                'Не удалось установить шаблоны плагина. Подробная информация доступна в журнале.',
+                0,
+                $e);
         }
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Действия при удалении плагина
      *
      * Метод удаляет файлы данных плагина.
      *
-     * @throws EresusRuntimeException
+     * @throws Eresus_CMS_Exception
      *
      * @return void
      */
@@ -306,13 +308,14 @@ class Gallery extends ContentPlugin
         }
         catch (Exception $e)
         {
-            throw new EresusRuntimeException('Fail to uninstall templates',
-                'Не удалось удалить шаблоны плагина. Подробная информация доступна в журнале.', $e);
+            throw new Eresus_CMS_Exception(
+                'Не удалось удалить шаблоны плагина. Подробная информация доступна в журнале.',
+                0,
+                $e);
         }
 
         parent::uninstall();
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Формирование HTML-кода АИ
@@ -1091,8 +1094,7 @@ class Gallery extends ContentPlugin
      */
     private function buildGalleryList($root, $level = 0)
     {
-        useLib('sections');
-        $lib = new Sections();
+        $lib = Eresus_Kernel::app()->getLegacyKernel()->sections;
 
         $sections = $lib->children($root);
 
@@ -1222,7 +1224,7 @@ class Gallery extends ContentPlugin
     /**
      * Делает указанное в запросе Изображение обложкой альбома
      *
-     * @throws Gallery_Exception_NotFound
+     * @throws Eresus_CMS_Exception_NotFound
      *
      * @return void
      */
@@ -1235,7 +1237,7 @@ class Gallery extends ContentPlugin
         $image = $table->find($id);
         if (null === $image)
         {
-            throw new Gallery_Exception_NotFound('Запрошенное изображение не найдено');
+            throw new Eresus_CMS_Exception_NotFound('Запрошенное изображение не найдено');
         }
         $image->album->setCover($image);
 
