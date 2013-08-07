@@ -158,7 +158,7 @@ class Gallery_ClientListView
      */
     protected function getTemplate(Eresus_Plugin $plugin)
     {
-        return new Template('templates/' . $plugin->name . '/image-list.html');
+        return $plugin->templates()->client('image-list.html');
     }
 
     /**

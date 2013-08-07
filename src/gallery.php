@@ -157,15 +157,14 @@ class Gallery extends ContentPlugin
         $data['page'] = $page;
         $data['logo_exists'] = file_exists($this->dirData . 'logo.png');
 
-        $tmplDir = Eresus_CMS::getLegacyKernel()->froot . 'templates/' . $this->name;
-        $this->settings['tmplImageList'] = file_get_contents($tmplDir . '/image-list.html');
+        $this->settings['tmplImageList'] = $this->templates()->clientRead('image-list.html');
         $this->settings['tmplImageGroupedList'] =
-            file_get_contents($tmplDir . '/image-grouped-list.html');
-        $this->settings['tmplImage'] = file_get_contents($tmplDir . '/image.html');
-        $this->settings['tmplPopup'] = file_get_contents($tmplDir . '/popup.html');
+            $this->templates()->clientRead('image-grouped-list.html');
+        $this->settings['tmplImage'] = $this->templates()->clientRead('image.html');
+        $this->settings['tmplPopup'] = $this->templates()->clientRead('popup.html');
 
         // Создаём экземпляр шаблона
-        $form = new EresusForm('ext/' . $this->name . '/templates/settings.html');
+        $form = new EresusForm('ext/' . $this->getName() . '/templates/admin/settings.html');
         foreach ($data as $key => $value)
         {
             $form->setValue($key, $value);
@@ -176,7 +175,6 @@ class Gallery extends ContentPlugin
 
         return $html;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Обновление настроек
@@ -199,18 +197,18 @@ class Gallery extends ContentPlugin
             }
             else
             {
-                ErrorMessage('Логотип должен быть в формате PNG');
+                Eresus_Kernel::app()->getPage()
+                    ->addErrorMessage('Логотип должен быть в формате PNG');
             }
         }
 
-        $ts = TemplateService::getInstance();
         try
         {
-            $ts->setContents(arg('tmplImageList'), 'image-list.html', $this->name);
-            $ts->setContents(arg('tmplImageList'), 'image-list.html', $this->name);
-            $ts->setContents(arg('tmplImageGroupedList'), 'image-grouped-list.html', $this->name);
-            $ts->setContents(arg('tmplImage'), 'image.html', $this->name);
-            $ts->setContents(arg('tmplPopup'), 'popup.html', $this->name);
+            $this->templates()->clientWrite('image-list.html', arg('tmplImageList'));
+            $this->templates()->clientWrite('image-list.html', arg('tmplImageList'));
+            $this->templates()->clientWrite('image-grouped-list.html', arg('tmplImageGroupedList'));
+            $this->templates()->clientWrite('image.html', arg('tmplImage'));
+            $this->templates()->clientWrite('popup.html', arg('tmplPopup'));
         }
         catch (Exception $e)
         {
@@ -222,7 +220,6 @@ class Gallery extends ContentPlugin
 
         parent::updateSettings();
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Действия при установке
@@ -245,20 +242,6 @@ class Gallery extends ContentPlugin
 
         // Создаём директорию данных
         $this->mkdir();
-
-        $ts = TemplateService::getInstance();
-        try
-        {
-            $ts->installTemplates($this->dirCode . 'distrib', $this->name);
-        }
-        catch (Exception $e)
-        {
-            $this->uninstall();
-            throw new Eresus_CMS_Exception(
-                'Не удалось установить шаблоны плагина. Подробная информация доступна в журнале.',
-                0,
-                $e);
-        }
     }
 
     /**
@@ -274,19 +257,6 @@ class Gallery extends ContentPlugin
     {
         // Удаляем директорию данных
         $this->rmdir();
-
-        $ts = TemplateService::getInstance();
-        try
-        {
-            $ts->uninstallTemplates($this->name);
-        }
-        catch (Exception $e)
-        {
-            throw new Eresus_CMS_Exception(
-                'Не удалось удалить шаблоны плагина. Подробная информация доступна в журнале.',
-                0,
-                $e);
-        }
 
         parent::uninstall();
     }
@@ -398,7 +368,6 @@ class Gallery extends ContentPlugin
 
         return $result;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Обработчик XHR-запросов
@@ -410,7 +379,6 @@ class Gallery extends ContentPlugin
         $ctl = new Gallery_AdminXHR;
         $ctl->execute(arg('args'));
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Формирование контента
@@ -436,7 +404,6 @@ class Gallery extends ContentPlugin
         return $result;
 
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Возвращает URL корня клиентского раздела
@@ -447,7 +414,6 @@ class Gallery extends ContentPlugin
     {
         return Eresus_Kernel::app()->getPage()->clientURL(Eresus_Kernel::app()->getPage()->id);
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Возвращает URL текущей страницы списка
@@ -539,7 +505,7 @@ class Gallery extends ContentPlugin
         /* Создаём экземпляр шаблона */
         if ($this->settings['useGroups'])
         {
-            $tmpl = new Template('ext/' . $this->name . '/templates/image-grouped-list.html');
+            $tmpl = $this->templates()->admin('image-grouped-list.html');
             // Изображения вне групп
             $table = ORM::getTable($this, 'Album');
             /* @var Gallery_Entity_Album $album */
@@ -548,7 +514,7 @@ class Gallery extends ContentPlugin
         }
         else
         {
-            $tmpl = new Template('ext/' . $this->name . '/templates/image-list.html');
+            $tmpl = $this->templates()->admin('image-list.html');
         }
 
         // Компилируем шаблон и данные
@@ -556,7 +522,6 @@ class Gallery extends ContentPlugin
 
         return $html;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Добавление изображения
@@ -622,7 +587,7 @@ class Gallery extends ContentPlugin
         }
 
         // Создаём экземпляр шаблона
-        $tmpl = new Template('ext/' . $this->name . '/templates/add-image.html');
+        $tmpl = $this->templates()->admin('add-image.html');
 
         // Компилируем шаблон и данные
         $html = $tmpl->compile($data);
@@ -662,14 +627,13 @@ class Gallery extends ContentPlugin
         }
 
         // Создаём экземпляр шаблона
-        $tmpl = new Template('ext/' . $this->name . '/templates/edit-image.html');
+        $tmpl = $this->templates()->admin('edit-image.html');
 
         // Компилируем шаблон и данные
         $html = $tmpl->compile($data);
 
         return $html;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Обновляет изображение
@@ -742,7 +706,6 @@ class Gallery extends ContentPlugin
         $result = $page->renderTable($table, null, 'group_');
         return $result;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Возвращает диалог добавления группы
@@ -772,7 +735,6 @@ class Gallery extends ContentPlugin
 
         return $result;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Возвращает диалог изменения группы
@@ -805,7 +767,6 @@ class Gallery extends ContentPlugin
 
         return $result;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Добавляет группу
@@ -829,7 +790,6 @@ class Gallery extends ContentPlugin
 
         HTTP::redirect(arg('submitURL') . '&action=group');
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Обновляет группу
@@ -853,7 +813,6 @@ class Gallery extends ContentPlugin
 
         HTTP::redirect($url);
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Перемещает группу вверх по списку
@@ -869,7 +828,6 @@ class Gallery extends ContentPlugin
         $table->moveUp($group);
         HTTP::goback();
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Перемещает группу вниз по списку
@@ -885,7 +843,6 @@ class Gallery extends ContentPlugin
         $table->moveDown($group);
         HTTP::goback();
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Удаляет группу
@@ -902,7 +859,6 @@ class Gallery extends ContentPlugin
 
         HTTP::goback();
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Обновление свойств галереи
@@ -920,7 +876,6 @@ class Gallery extends ContentPlugin
         Eresus_CMS::getLegacyKernel()->db->updateItem('pages', $item, "`id` = '".$id."'");
         HTTP::redirect(arg('submitURL'));
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Удаление записи
@@ -936,7 +891,6 @@ class Gallery extends ContentPlugin
 
         HTTP::redirect(Eresus_Kernel::app()->getPage()->url());
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Проверяет правильность запроса
@@ -964,7 +918,6 @@ class Gallery extends ContentPlugin
             $page->httpError(404);
         }
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Возвращает контент для страницы списка изображений
@@ -985,7 +938,6 @@ class Gallery extends ContentPlugin
         $html = $view->render();
         return $html;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Отрисовка представления "Просмотр изображения"
@@ -1030,14 +982,13 @@ class Gallery extends ContentPlugin
         $data['album']->setCurrent($data['image']);
 
         // Создаём экземпляр шаблона
-        $tmpl = new Template('templates/' . $this->name . '/image.html');
+        $tmpl = $this->templates()->client('image.html');
 
         // Компилируем шаблон и данные
         $html = $tmpl->compile($data);
 
         return $html;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Создаёт список разделов типа "Галерея изображений" для использования в шаблонах
@@ -1086,7 +1037,6 @@ class Gallery extends ContentPlugin
 
         return $branch;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Возвращает диалог свойств галереи
@@ -1123,7 +1073,6 @@ class Gallery extends ContentPlugin
         $result = $page->renderForm($form, $item);
         return $result;
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Перемещение изображения вверх по списку
@@ -1141,7 +1090,6 @@ class Gallery extends ContentPlugin
         $table->moveUp($image);
         HTTP::goback();
     }
-    //-----------------------------------------------------------------------------
 
     /**
      * Перемещение изображения вниз по списку

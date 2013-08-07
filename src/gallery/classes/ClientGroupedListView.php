@@ -97,7 +97,7 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
      */
     protected function getTemplate(Eresus_Plugin $plugin)
     {
-        return new Template('templates/' . $plugin->name . '/image-grouped-list.html');
+        return $plugin->templates()->client('image-grouped-list.html');
     }
 
     /**

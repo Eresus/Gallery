@@ -2,7 +2,6 @@
 <declaration uid="ru.eresus.plugins.gallery" format="1.00">
 
 	<requires>
-		<plugin name="templateservice" min="1.00a" max="1.99" />
 		<plugin name="orm" min="2.00a" max="2.99" />
 	</requires>
 
