@@ -55,7 +55,7 @@ class Gallery extends ContentPlugin
      *
      * @var string
      */
-    public $kernel = '3.00b';
+    public $kernel = '3.01a';
 
     /**
      * Описание плагина
