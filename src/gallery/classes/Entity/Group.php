@@ -54,7 +54,7 @@ class Gallery_Entity_Group extends ORM_Entity
      */
     public function beforeDelete(ezcQuery $query)
     {
-        $table = ORM::getTable($this->plugin, 'Image');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
         foreach ($this->allImages as $image)
         {
             $table->delete($image);
@@ -84,7 +84,7 @@ class Gallery_Entity_Group extends ORM_Entity
      */
     protected function getAllImages()
     {
-        $table = ORM::getTable($this->plugin, 'Image');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
         $q = $table->createSelectQuery();
         $q->where($q->expr->eq('groupId', $q->bindValue($this->id, null, PDO::PARAM_INT)));
         $q->orderBy('position');
@@ -98,7 +98,7 @@ class Gallery_Entity_Group extends ORM_Entity
      */
     protected function getImages()
     {
-        $table = ORM::getTable($this->plugin, 'Image');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
         $q = $table->createSelectQuery();
         $q->where(
             $q->expr->lAnd(

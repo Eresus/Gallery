@@ -234,11 +234,9 @@ class Gallery extends ContentPlugin
     {
         parent::install();
 
-        $table = ORM::getTable($this, 'Image');
-        $table->create();
-
-        $table = ORM::getTable($this, 'Group');
-        $table->create();
+        $driver = ORM::getManager()->getDriver();
+        $driver->createTable(ORM::getTable($this, 'Image'));
+        $driver->createTable(ORM::getTable($this, 'Group'));
 
         // Создаём директорию данных
         $this->mkdir();
@@ -537,7 +535,7 @@ class Gallery extends ContentPlugin
         $request = Eresus_CMS::getLegacyKernel()->request;
         if ('POST' == $request['method'])
         {
-            $image = new Gallery_Entity_Image($this);
+            $image = new Gallery_Entity_Image();
             $image->section = arg('section');
             $image->groupId = arg('group') ? arg('group') : 0;
             $_SESSION['gallery_default_group'] = arg('group');
@@ -775,7 +773,7 @@ class Gallery extends ContentPlugin
      */
     private function adminInsertGroup()
     {
-        $group = new Gallery_Entity_Group($this);
+        $group = new Gallery_Entity_Group();
         $group->section = arg('section');
         $group->title = arg('title');
         $group->description = arg('description');

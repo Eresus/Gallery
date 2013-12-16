@@ -57,7 +57,7 @@ class Gallery_Entity_Album extends ORM_Entity
      */
     public function getOrphans()
     {
-        $table = ORM::getTable($this->plugin, 'Image');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
         $q = $table->createSelectQuery();
         $e = $q->expr;
         $q->where($e->lAnd(

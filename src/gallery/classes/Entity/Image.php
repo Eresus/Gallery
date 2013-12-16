@@ -96,15 +96,15 @@ class Gallery_Entity_Image extends ORM_Entity
     public function buildThumb($width = null, $height = null)
     {
         /* @var Gallery $plugin */
-        $plugin = $this->plugin;
+        $plugin = $this->getTable()->getPlugin();
 
-        $filename = $this->getProperty('image');
+        $filename = $this->getPdoValue('image');
         $thumb = PhpThumbFactory::create($plugin->getDataDir() . '/' . $filename);
 
         $thumb->resize(
             $width ? $width : $plugin->settings['thumbWidth'],
             $height ? $height : $plugin->settings['thumbHeight']);
-        $thumb->save($plugin->getDataDir() . '/' . $this->getProperty('thumb'));
+        $thumb->save($plugin->getDataDir() . '/' . $this->getPdoValue('thumb'));
     }
 
     /**
@@ -112,13 +112,17 @@ class Gallery_Entity_Image extends ORM_Entity
      *
      * @param ezcQuery $query
      *
+     * @return ezcQuery
+     *
      * @throws Gallery_Exception_FileTooBigException
      * @throws Gallery_Exception_UnsupportedFormatException
      */
     public function beforeSave(ezcQuery $query)
     {
+        $query = parent::beforeSave($query);
+
         /* @var Gallery_Entity_Table_Image $table */
-        $table = ORM::getTable($this->plugin, 'Image');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
 
         /* При смене раздела флаг "Обложка" должен быть сброшен */
         if (!$this->id && $this->section != $this->origSection && $this->cover)
@@ -170,19 +174,20 @@ class Gallery_Entity_Image extends ORM_Entity
 
         if (null === $this->upload)
         {
-            return;
+            return $query;
         }
 
         $fileInfo = $_FILES[$this->upload];
         if ($fileInfo['error'] == UPLOAD_ERR_NO_FILE)
         {
-            return;
+            return $query;
         }
 
         if ($fileInfo['error'] == UPLOAD_ERR_INI_SIZE)
         {
             throw new Gallery_Exception_FileTooBigException();
         }
+        return $query;
     }
 
     /**
@@ -210,15 +215,15 @@ class Gallery_Entity_Image extends ORM_Entity
         }
 
         /* @var Gallery $plugin */
-        $plugin = $this->plugin;
+        $plugin = $this->getTable()->getPlugin();
         $imageFileName = $plugin->getDataDir() . '/' . $this->id . '.' . $ext;
         if (!upload($this->upload, $imageFileName))
         {
             throw new Gallery_Exception_UploadException();
         }
 
-        $this->setProperty('image', $this->id . '.' . $ext);
-        $this->setProperty('thumb', $this->id . '-thmb.' . $ext);
+        $this->setPdoValue('image', $this->id . '.' . $ext);
+        $this->setPdoValue('thumb', $this->id . '-thmb.' . $ext);
 
         /*
          * Если изображение слишком больше - уменьшаем
@@ -237,14 +242,14 @@ class Gallery_Entity_Image extends ORM_Entity
 
         if ($plugin->settings['logoEnable'])
         {
-            $this->overlayLogo($plugin->getDataDir() . '/' . $this->getProperty('image'));
+            $this->overlayLogo($plugin->getDataDir() . '/' . $this->getPdoValue('image'));
         }
 
         $this->buildThumb();
 
         $this->upload = null;
 
-        $table = ORM::getTable($this->plugin, 'Image');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
         $table->update($this);
     }
 
@@ -268,10 +273,10 @@ class Gallery_Entity_Image extends ORM_Entity
      */
     protected function getGroup()
     {
-        $table = ORM::getTable($this->plugin, 'Group');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Group');
         try
         {
-            return $table->find($this->getProperty('groupId'));
+            return $table->find($this->getPdoValue('groupId'));
         }
         catch (DomainException $e)
         {
@@ -286,7 +291,7 @@ class Gallery_Entity_Image extends ORM_Entity
      */
     protected function getImageURL()
     {
-        return $this->plugin->getDataURL() . $this->getProperty('image');
+        return $this->getTable()->getPlugin()->getDataURL() . $this->getPdoValue('image');
     }
 
     /**
@@ -296,7 +301,7 @@ class Gallery_Entity_Image extends ORM_Entity
      */
     protected function getThumbURL()
     {
-        return $this->plugin->getDataURL() . $this->getProperty('thumb');
+        return $this->getTable()->getPlugin()->getDataURL() . $this->getPdoValue('thumb');
     }
 
     /**
@@ -306,7 +311,7 @@ class Gallery_Entity_Image extends ORM_Entity
      */
     protected function getAlbum()
     {
-        $table = ORM::getTable($this->plugin, 'Album');
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Album');
         return $table->find($this->section);
     }
 
@@ -327,7 +332,7 @@ class Gallery_Entity_Image extends ORM_Entity
      */
     protected function setCover($value)
     {
-        $this->setProperty('cover', $value);
+        $this->setPdoValue('cover', $value);
         $this->setAsCover = $value;
     }
 
@@ -339,7 +344,7 @@ class Gallery_Entity_Image extends ORM_Entity
     protected function getShowURL()
     {
         /** @var Gallery $plugin */
-        $plugin = $this->plugin;
+        $plugin = $this->getTable()->getPlugin();
         if ('popup' == $plugin->settings['showItemMode'])
         {
             $url = $this->imageURL . '#gallery-popup';
@@ -365,7 +370,7 @@ class Gallery_Entity_Image extends ORM_Entity
     private function overlayLogo($file)
     {
         /* @var Gallery $plugin */
-        $plugin = $this->plugin;
+        $plugin = $this->getTable()->getPlugin();
 
         $logoFile = $plugin->getDataDir() . '/logo.png';
         if (!is_file($logoFile))
@@ -439,8 +444,9 @@ class Gallery_Entity_Image extends ORM_Entity
                     filedelete($file);
                     $file = preg_replace('/gif$/', 'png', $file);
                     imagePNG($src, $file);
-                    $this->setProperty('image', basename($file));
-                    $this->setProperty('thumb', preg_replace('/gif$/', 'png', $this->getProperty('thumb')));
+                    $this->setPdoValue('image', basename($file));
+                    $this->setPdoValue('thumb', preg_replace('/gif$/', 'png',
+                        $this->getPdoValue('thumb')));
                     break;
             }
             imageDestroy($logo);

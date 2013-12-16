@@ -70,7 +70,7 @@ class GalleryTest extends PHPUnit_Framework_TestCase
 
         $orm = $this->getMock('stdClass', array('getTable'));
         $orm->expects($this->any())->method('getTable')->will($this->returnCallback(
-            function ($plugin, $name)
+            function ($plugin, $name) use ($gallery)
             {
                 PHPUnit_Framework_Assert::assertInstanceOf('Gallery', $plugin);
                 switch ($name)
@@ -79,9 +79,11 @@ class GalleryTest extends PHPUnit_Framework_TestCase
                         $image = new Gallery_Entity_Image($plugin);
                         $image->section = 123;
                         $table = PHPUnit_Framework_MockObject_Generator::getMock('Gallery_Entity_Table_Image',
-                            array('find'));
-                        $table->expects(PHPUnit_Framework_TestCase::once())->method('find')->with(1)->
-                            will(PHPUnit_Framework_TestCase::returnValue($image));
+                            array('find', 'getPlugin'));
+                        $table->expects(PHPUnit_Framework_TestCase::once())->method('find')->with(1)
+                            ->will(PHPUnit_Framework_TestCase::returnValue($image));
+                        $table->expects(PHPUnit_Framework_TestCase::any())->method('getPlugin')
+                            ->will(PHPUnit_Framework_TestCase::returnValue($gallery));
                         break;
                     case 'Album':
                         $album = PHPUnit_Framework_MockObject_Generator::getMock('Gallery_Entity_Album',
