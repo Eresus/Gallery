@@ -50,7 +50,7 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
     protected function getItems($sectionId, $limit, $offset)
     {
         /* @var Gallery_Entity_Table_Group $table */
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Group');
         $items = $table->findInSection($sectionId, $limit, $offset);
         return $items;
     }
@@ -82,7 +82,7 @@ class Gallery_ClientGroupedListView extends Gallery_ClientListView
     protected function countPageCount($sectionId, $itemsPerPage)
     {
         /* @var Gallery_Entity_Table_Group $table */
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Group');
         return ceil($table->countInSection($sectionId) / $itemsPerPage);
     }
 

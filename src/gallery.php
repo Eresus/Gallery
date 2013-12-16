@@ -1018,7 +1018,7 @@ class Gallery extends ContentPlugin
                 'level' => $level
             );
 
-            if ($section['type'] == $this->name)
+            if ($section['type'] == $this->getName())
             {
                 $item['selectable'] = true;
             }
@@ -1158,7 +1158,10 @@ class Gallery extends ContentPlugin
         // TODO FIXME заменить 'image' на значение из $image
         if (empty($_FILES['image']['name']))
         {
-            ErrorMessage(isset($form['message']) ? $form['message'] : 'Поле "файл" не заполнено');
+            Eresus_Kernel::app()->getPage()->addErrorMessage(
+                isset($form['message'])
+                    ? $form['message']
+                    : 'Поле "файл" не заполнено');
             return false;
         }
         return true;

@@ -56,7 +56,7 @@ class Gallery_AlbumGrouped extends Gallery_Album
             return;
         }
 
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
         $q = $table->createSelectQuery();
         $e = $q->expr;
 

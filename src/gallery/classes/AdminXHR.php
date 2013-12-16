@@ -81,7 +81,7 @@ class Gallery_AdminXHR
     {
         $sectionId = intval($sectionId);
         /* @var Gallery_Entity_Table_Group $table */
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Group');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Group');
         $groups = $table->findInSection($sectionId);
         return $groups;
     }
@@ -98,7 +98,7 @@ class Gallery_AdminXHR
      */
     protected function actionThumbsRebuildStart($newWidth, $newHeight)
     {
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
         $images = $table->findAll();
 
         $ids = array();
@@ -124,7 +124,7 @@ class Gallery_AdminXHR
         $response = array('action' => 'build', 'id' => $imageId, 'status' => 'success',
             'width' => $width, 'height' => $height);
 
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
         try
         {
             /* @var Gallery_Entity_Image $image */

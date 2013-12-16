@@ -375,7 +375,7 @@ class Gallery_Entity_Image extends ORM_Entity
         $logoFile = $plugin->getDataDir() . '/logo.png';
         if (!is_file($logoFile))
         {
-            eresus_log(__METHOD__, LOG_WARNING, 'No file %s', $logoFile);
+            Eresus_Kernel::log(__METHOD__, LOG_WARNING, 'No file %s', $logoFile);
             return;
         }
 

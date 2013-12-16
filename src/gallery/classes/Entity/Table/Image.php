@@ -108,11 +108,11 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
      */
     public function clearCovers($section)
     {
-        $q = DB::getHandler()->createUpdateQuery();
+        $q = Eresus_DB::getHandler()->createUpdateQuery();
         $q->update($this->getName())->
             set('cover', $q->bindValue(false, null, PDO::PARAM_BOOL))->
             where($q->expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)));
-        DB::execute($q);
+        $q->execute();
     }
 
     /**
@@ -129,7 +129,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         /*
          * eZ Components не поддерживает LIMIT в запросах UPDATE, так что делаем два запроса
          */
-        $q = DB::getHandler()->createSelectQuery();
+        $q = Eresus_DB::getHandler()->createSelectQuery();
         /** @var ezcQueryExpression $expr */
         $expr = $q->expr;
         $q->select('id');
@@ -156,7 +156,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 
         try
         {
-            $tmp = DB::fetch($q);
+            $tmp = $q->fetch();
         }
         catch (Eresus_DB_Exception_QueryFailed $e)
         {
@@ -164,13 +164,13 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
             return;
         }
 
-        $q = DB::getHandler()->createUpdateQuery();
+        $q = Eresus_DB::getHandler()->createUpdateQuery();
         $expr = $q->expr;
         $q->update($this->getName());
         $q->set('cover', true);
         $q->where($expr->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
 
-        DB::execute($q);
+        $q->execute();
     }
 
     /**
@@ -182,7 +182,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
      */
     public function findCover($section)
     {
-        $q = DB::getHandler()->createSelectQuery();
+        $q = Eresus_DB::getHandler()->createSelectQuery();
         $e = $q->expr;
         $q->select('*');
         $q->from($this->getName());
@@ -209,12 +209,12 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
     {
         /* @var Gallery_Entity_Image $entity */
         /* Вычисляем порядковый номер */
-        $q = DB::getHandler()->createSelectQuery();
+        $q = Eresus_DB::getHandler()->createSelectQuery();
         $e = $q->expr;
         $q->select($q->alias($e->max('position'), 'maxval'));
         $q->from($this->getName());
         $q->where($e->eq('section', $q->bindValue($entity->section, null, PDO::PARAM_INT)));
-        $result = DB::fetch($q);
+        $result = $q->fetch();
         $entity->position = $result['maxval'] + 1;
 
         try

@@ -47,7 +47,7 @@ class Gallery_ClientListView
     {
         global $page;
 
-        $plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
 
         if ($page->subpage == 0)
         {
@@ -67,7 +67,7 @@ class Gallery_ClientListView
 
         /* Ищем обложку альбома */
         /* @var Gallery_Entity_Table_Image $table */
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
         $data['cover'] = $table->findCover($page->id);
         $totalPages = $this->countPageCount($page->id, $maxCount);
 
@@ -143,7 +143,7 @@ class Gallery_ClientListView
     protected function countPageCount($sectionId, $itemsPerPage)
     {
         /* @var Gallery_Entity_Table_Image $table */
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
         return ceil($table->countInSection($sectionId) / $itemsPerPage);
     }
 

@@ -47,7 +47,7 @@ class Gallery_ClientPopupView
     {
         /** @var Gallery $plugin */
         // TODO Добавить в этот класс ссылку на плагин
-        $plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
 
         /** @var TClientUI $page */
         $page = Eresus_Kernel::app()->getPage();
@@ -75,7 +75,7 @@ class Gallery_ClientPopupView
     {
         /* @var Gallery_Entity_Table_Image $table */
         // TODO Добавить в этот класс ссылку на плагин
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
         $items = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
         $jsArray = array();
         foreach ($items as $image)
