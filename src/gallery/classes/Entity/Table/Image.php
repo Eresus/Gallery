@@ -68,7 +68,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
                 'default' => null,
             ),
             'posted' => array(
-                'type' => 'timestamp'
+                'type' => 'datetime'
             ),
             'groupId' => array(
                 'type' => 'integer',
@@ -109,7 +109,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
     public function clearCovers($section)
     {
         $q = DB::getHandler()->createUpdateQuery();
-        $q->update($this->getTableName())->
+        $q->update($this->getName())->
             set('cover', $q->bindValue(false, null, PDO::PARAM_BOOL))->
             where($q->expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)));
         DB::execute($q);
@@ -133,7 +133,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         /** @var ezcQueryExpression $expr */
         $expr = $q->expr;
         $q->select('id');
-        $q->from($this->getTableName());
+        $q->from($this->getName());
         $q->where($expr->lAnd(
             $expr->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
             $expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
@@ -141,7 +141,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         ));
         $q->limit(1);
 
-        switch ($this->plugin->settings['sort'])
+        switch ($this->getPlugin()->settings['sort'])
         {
             case 'date_asc':
                 $q->orderBy('posted', ezcQuerySelect::DESC);
@@ -166,7 +166,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
 
         $q = DB::getHandler()->createUpdateQuery();
         $expr = $q->expr;
-        $q->update($this->getTableName());
+        $q->update($this->getName());
         $q->set('cover', true);
         $q->where($expr->eq('id', $q->bindValue($tmp['id'], null, PDO::PARAM_INT)));
 
@@ -185,7 +185,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         $q = DB::getHandler()->createSelectQuery();
         $e = $q->expr;
         $q->select('*');
-        $q->from($this->getTableName());
+        $q->from($this->getName());
         $q->where($e->lAnd(
             $e->eq('section', $q->bindValue($section, null, PDO::PARAM_INT)),
             $e->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL)),
@@ -212,7 +212,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         $q = DB::getHandler()->createSelectQuery();
         $e = $q->expr;
         $q->select($q->alias($e->max('position'), 'maxval'));
-        $q->from($this->getTableName());
+        $q->from($this->getName());
         $q->where($e->eq('section', $q->bindValue($entity->section, null, PDO::PARAM_INT)));
         $result = DB::fetch($q);
         $entity->position = $result['maxval'] + 1;
@@ -244,7 +244,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         $q->select('*');
         $e = $q->expr;
         $expr = $e->lt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
-        if ($this->plugin->settings['useGroups'])
+        if ($this->getPlugin()->settings['useGroups'])
         {
             $q->where($e->lAnd($e->eq('groupId',
                 $q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
@@ -281,7 +281,7 @@ class Gallery_Entity_Table_Image extends Gallery_Entity_Table_AbstractContent
         $q = $this->createSelectQuery();
         $e = $q->expr;
         $expr = $e->gt('position', $q->bindValue($image->position, null, PDO::PARAM_INT));
-        if ($this->plugin->settings['useGroups'])
+        if ($this->getPlugin()->settings['useGroups'])
         {
             $q->where($e->lAnd($e->eq('groupId',
                 $q->bindValue($image->group->id, null, PDO::PARAM_INT)), $expr));
