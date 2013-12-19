@@ -197,6 +197,7 @@ class Gallery_Entity_Image extends ORM_Entity
      */
     public function afterSave()
     {
+        parent::afterSave();
         if (null === $this->upload)
         {
             return;
