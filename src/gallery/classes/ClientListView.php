@@ -109,9 +109,10 @@ class Gallery_ClientListView
      */
     protected function getItems($sectionId, $limit, $offset)
     {
-        /* @var Gallery_Entity_Table_Image $table */
         // TODO Добавить в этот класс ссылку на плагин
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
+        /* @var Gallery_Entity_Table_Image $table */
+        $table = ORM::getTable($plugin, 'Image');
         $items = $table->findInSection($sectionId, $limit, $offset);
         return $items;
     }

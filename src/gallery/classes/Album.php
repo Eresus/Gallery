@@ -210,8 +210,9 @@ class Gallery_Album implements Iterator, Countable
         {
             return;
         }
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
         /* @var Gallery_Entity_Table_Image $table */
-        $table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
+        $table = ORM::getTable($plugin, 'Image');
         $this->items = $table->findInSection($this->sectionId, null, null, true);
         $this->loaded = true;
     }

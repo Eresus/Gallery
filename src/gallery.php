@@ -859,15 +859,16 @@ class Gallery extends ContentPlugin
      */
     private function updateProperties()
     {
+        $sections = Eresus_Kernel::app()->getLegacyKernel()->sections;
         $id = arg('section', 'int');
-        $item = Eresus_CMS::getLegacyKernel()->db->selectItem('pages', '`id` = "'.$id.'"');
+        $item = $sections->get($id);
 
         $item['title'] = arg('title', 'dbsafe');
         $item['created'] = arg('created', 'dbsafe');
         $item['active'] = arg('active', 'int');
         $item['content'] = arg('content', 'dbsafe');
 
-        Eresus_CMS::getLegacyKernel()->db->updateItem('pages', $item, "`id` = '".$id."'");
+        $sections->update($item);
         HTTP::redirect(arg('submitURL'));
     }
 
@@ -892,6 +893,8 @@ class Gallery extends ContentPlugin
      * В случае если запрос содержит лишние элементы, возвращает HTTP/404
      *
      * @return void
+     *
+     * @throws Eresus_CMS_Exception_NotFound
      */
     private function clientCheckRequest()
     {
@@ -909,7 +912,7 @@ class Gallery extends ContentPlugin
         /* Сравниваем с переданным URL */
         if ($acceptUrl != Eresus_CMS::getLegacyKernel()->request['url'])
         {
-            $page->httpError(404);
+            throw new Eresus_CMS_Exception_NotFound;
         }
     }
 
@@ -937,6 +940,8 @@ class Gallery extends ContentPlugin
      * Отрисовка представления "Просмотр изображения"
      *
      * @return string  HTML
+     *
+     * @throws Eresus_CMS_Exception_NotFound
      */
     private function clientRenderItem()
     {
@@ -946,7 +951,7 @@ class Gallery extends ContentPlugin
 
         if ($id != $page->topic)
         {
-            $page->httpError(404);
+            throw new Eresus_CMS_Exception_NotFound;
         }
 
         /* @var Gallery_Entity_Table_Image $table */
@@ -956,7 +961,7 @@ class Gallery extends ContentPlugin
 
         if (!$image || !$image->active)
         {
-            $page->HttpError(404);
+            throw new Eresus_CMS_Exception_NotFound;
         }
 
         // Данные для подстановки в шаблон
@@ -1039,8 +1044,8 @@ class Gallery extends ContentPlugin
      */
     private function adminRenderProperties()
     {
-        $item = Eresus_CMS::getLegacyKernel()->db->
-            selectItem('pages', '`id`="' . arg('section', 'int') . '"');
+        $sections = Eresus_Kernel::app()->getLegacyKernel()->sections;
+        $item = $sections->get(arg('section', 'int'));
 
         $form = array(
             'name' => 'contentEditor',
