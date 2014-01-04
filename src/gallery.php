@@ -147,9 +147,6 @@ class Gallery extends ContentPlugin
     public function settings()
     {
         $page = Eresus_Kernel::app()->getPage();
-        $page->linkStyles($this->urlCode . 'admin.css');
-        $page->linkScripts($this->urlCode . 'admin.js');
-        $page->linkJsLib('webshim');
 
         // Данные для подстановки в шаблон
         $data = array();
@@ -164,7 +161,7 @@ class Gallery extends ContentPlugin
         $this->settings['tmplPopup'] = $this->templates()->clientRead('popup.html');
 
         // Создаём экземпляр шаблона
-        $form = new EresusForm('ext/' . $this->getName() . '/templates/admin/settings.html');
+        $form = new EresusForm('ext/' . $this->getName() . '/admin/templates/settings.html');
         foreach ($data as $key => $value)
         {
             $form->setValue($key, $value);
@@ -277,7 +274,6 @@ class Gallery extends ContentPlugin
              * наличие аргумента id может быть ошибочно расценено как запрос на диалог изменения
              * изображения.
              */
-
             case arg('action') == 'group':
                 $result = $this->adminRenderGroupsList();
                 break;

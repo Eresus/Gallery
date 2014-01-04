@@ -1,7 +1,5 @@
 @CHARSET "UTF-8";
 /**
- * Галерея изображений
- *
  * Файл стилей для административного интерфейса
  *
  * @version ${product.version}
@@ -11,8 +9,6 @@
  * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * @package Gallery
- *
- * $Id$
  */
 
 /**

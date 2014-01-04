@@ -1,6 +1,4 @@
 /**
- * Галерея изображений
- *
  * Клиентские скрипты АИ
  *
  * @version ${product.version}
@@ -26,8 +24,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package gallery
- *
- * $Id$
  */
 
 /**

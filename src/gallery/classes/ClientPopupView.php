@@ -52,8 +52,8 @@ class Gallery_ClientPopupView
         /** @var TClientUI $page */
         $page = Eresus_Kernel::app()->getPage();
         $page->linkJsLib('jquery');
-        $page->linkScripts($plugin->getCodeURL() . '/gallery.js');
-        $page->linkStyles($plugin->getCodeURL() . '/gallery.css');
+        $page->linkScripts($plugin->getCodeUrl() . '/client/gallery.js');
+        $page->linkStyles($plugin->getCodeUrl() . '/client/gallery.css');
 
         $tmpl = $plugin->templates()->client('popup.html');
         $popup = $tmpl->compile();
