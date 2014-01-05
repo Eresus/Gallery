@@ -190,7 +190,7 @@ class Gallery extends ContentPlugin
         {
             if (substr($_FILES['logoImage']['name'], -3) == 'png')
             {
-                upload('logoImage', $this->dirData .'logo.png');
+                upload('logoImage', $this->getDataDir() .'/logo.png');
             }
             else
             {
@@ -492,9 +492,6 @@ class Gallery extends ContentPlugin
         {
             $vars['pager'] = '';
         }
-
-        Eresus_Kernel::app()->getPage()->linkStyles($this->urlCode . 'admin.css');
-        Eresus_Kernel::app()->getPage()->linkScripts($this->urlCode . 'admin.js');
 
         /* Создаём экземпляр шаблона */
         if ($this->settings['useGroups'])
