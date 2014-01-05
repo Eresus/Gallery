@@ -161,7 +161,7 @@ class Gallery extends ContentPlugin
         $this->settings['tmplPopup'] = $this->templates()->clientRead('popup.html');
 
         // Создаём экземпляр шаблона
-        $form = new EresusForm($this->templates()->adminPath('settings.html'));
+        $form = new EresusForm($this->templates()->adminPath('settings.html', false));
         foreach ($data as $key => $value)
         {
             $form->setValue($key, $value);
