@@ -31,10 +31,11 @@ require_once TESTS_SRC_ROOT . '/gallery/classes/Entity/Table/Album.php';
 
 class Gallery_Entity_Table_Album_Test extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @ covers Gallery_Entity_Table_Album::
-	 */
-	public function test_foo()
-	{
-	}
+    /**
+     * @ covers Gallery_Entity_Table_Album::
+     */
+    public function test_foo()
+    {
+    }
 }
+

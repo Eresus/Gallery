@@ -35,65 +35,66 @@
  */
 abstract class Gallery_Entity_Table_AbstractContent extends ORM_Table
 {
-	/**
-	 * Есть ли в этой таблице поле «active»?
-	 * @var bool
-	 */
-	protected $hasActiveField = false;
+    /**
+     * Есть ли в этой таблице поле «active»?
+     * @var bool
+     */
+    protected $hasActiveField = false;
 
-	/**
-	 * Возвращает включенные элементы в указанном разделе
-	 *
-	 * @param int  $id          ID раздела сайта
-	 * @param int  $limit       максимальное количество возвращаемых элементов
-	 * @param int  $offset      позиция с которой начать выборку
-	 * @param bool $activeOnly  возвращать только включенные элементы
-	 *
-	 * @return ORM_Entity[]
-	 */
-	public function findInSection($id, $limit = null, $offset = 0, $activeOnly = true)
-	{
-		$q = $this->createSelectQuery();
-		$where = array($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_INT)));
-		if ($this->hasActiveField && $activeOnly)
-		{
-			$where []= $q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL));
-		}
-		$q->where(call_user_func_array(array($q->expr, 'lAnd'), $where));
-		$q->orderBy('position');
-		return $this->loadFromQuery($q, $limit, $offset);
-	}
+    /**
+     * Возвращает включенные элементы в указанном разделе
+     *
+     * @param int  $id          ID раздела сайта
+     * @param int  $limit       максимальное количество возвращаемых элементов
+     * @param int  $offset      позиция с которой начать выборку
+     * @param bool $activeOnly  возвращать только включенные элементы
+     *
+     * @return ORM_Entity[]
+     */
+    public function findInSection($id, $limit = null, $offset = 0, $activeOnly = true)
+    {
+        $q = $this->createSelectQuery();
+        $where = array($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_INT)));
+        if ($this->hasActiveField && $activeOnly)
+        {
+            $where []= $q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL));
+        }
+        $q->where(call_user_func_array(array($q->expr, 'lAnd'), $where));
+        $q->orderBy('position');
+        return $this->loadFromQuery($q, $limit, $offset);
+    }
 
-	/**
-	 * Возвращает количество элементов в указанном разделе
-	 *
-	 * @param int  $id          ID раздела сайта
-	 * @param bool $activeOnly  считать только включенные элементы
-	 *
-	 * @return int
-	 */
-	public function countInSection($id, $activeOnly = true)
-	{
-		$q = $this->createCountQuery();
-		$where = array($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_INT)));
-		if ($this->hasActiveField && $activeOnly)
-		{
-			$where []= $q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL));
-		}
-		$q->where(call_user_func_array(array($q->expr, 'lAnd'), $where));
-		return $this->count($q);
-	}
+    /**
+     * Возвращает количество элементов в указанном разделе
+     *
+     * @param int  $id          ID раздела сайта
+     * @param bool $activeOnly  считать только включенные элементы
+     *
+     * @return int
+     */
+    public function countInSection($id, $activeOnly = true)
+    {
+        $q = $this->createCountQuery();
+        $where = array($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_INT)));
+        if ($this->hasActiveField && $activeOnly)
+        {
+            $where []= $q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL));
+        }
+        $q->where(call_user_func_array(array($q->expr, 'lAnd'), $where));
+        return $this->count($q);
+    }
 
-	/**
-	 * Устанавливает описания столбцов
-	 *
-	 * @param array $columns
-	 *
-	 * @return void
-	 */
-	protected function hasColumns(array $columns)
-	{
-		$this->hasActiveField = array_key_exists('active', $columns);
-		parent::hasColumns($columns);
-	}
+    /**
+     * Устанавливает описания столбцов
+     *
+     * @param array $columns
+     *
+     * @return void
+     */
+    protected function hasColumns(array $columns)
+    {
+        $this->hasActiveField = array_key_exists('active', $columns);
+        parent::hasColumns($columns);
+    }
 }
+

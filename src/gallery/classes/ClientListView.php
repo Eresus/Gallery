@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
 
@@ -38,146 +36,142 @@
  */
 class Gallery_ClientListView
 {
-	/**
-	 * Возвращает разметку представления
-	 *
-	 * @return string
-	 *
-	 * @since 2.03
-	 */
-	public function render()
-	{
-		global $page;
+    /**
+     * Возвращает разметку представления
+     *
+     * @return string
+     *
+     * @since 2.03
+     */
+    public function render()
+    {
+        global $page;
 
-		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
 
-		if ($page->subpage == 0)
-		{
-			$page->subpage = 1;
-		}
+        if ($page->subpage == 0)
+        {
+            $page->subpage = 1;
+        }
 
-		$maxCount = $this->getMaxCount($plugin);
-		$startFrom = ($page->subpage - 1) * $maxCount;
-		$items = $this->getItems($page->id, $maxCount, $startFrom);
+        $maxCount = $this->getMaxCount($plugin);
+        $startFrom = ($page->subpage - 1) * $maxCount;
+        $items = $this->getItems($page->id, $maxCount, $startFrom);
 
-		// Данные для подстановки в шаблон
-		$data = array();
-		$data['this'] = $plugin;
-		$data['page'] = $page;
-		$data['Eresus'] = Eresus_CMS::getLegacyKernel();
-		$data['items'] = $items;
+        // Данные для подстановки в шаблон
+        $data = array();
+        $data['this'] = $plugin;
+        $data['page'] = $page;
+        $data['Eresus'] = Eresus_CMS::getLegacyKernel();
+        $data['items'] = $items;
 
-		/* Ищем обложку альбома */
-		/* @var Gallery_Entity_Table_Image $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$data['cover'] = $table->findCover($page->id);
-		$totalPages = $this->countPageCount($page->id, $maxCount);
+        /* Ищем обложку альбома */
+        /* @var Gallery_Entity_Table_Image $table */
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
+        $data['cover'] = $table->findCover($page->id);
+        $totalPages = $this->countPageCount($page->id, $maxCount);
 
-		if ($totalPages > 1)
-		{
-			$pager = new PaginationHelper($totalPages, $page->subpage);
-			$data['pager'] = $pager->render();
-		}
-		else
-		{
-			$data['pager'] = '';
-		}
+        if ($totalPages > 1)
+        {
+            $pager = new PaginationHelper($totalPages, $page->subpage);
+            $data['pager'] = $pager->render();
+        }
+        else
+        {
+            $data['pager'] = '';
+        }
 
-		/* Создаём экземпляр шаблона */
-		$tmpl = $this->getTemplate($plugin);
+        /* Создаём экземпляр шаблона */
+        $tmpl = $this->getTemplate($plugin);
 
-		// Компилируем шаблон и данные
-		$html = $tmpl->compile($data);
+        // Компилируем шаблон и данные
+        $html = $tmpl->compile($data);
 
-		if ($plugin->settings['showItemMode'] == 'popup')
-		{
-			$view = $this->getPopupView();
-			$html .= $view->render();
-		}
+        if ($plugin->settings['showItemMode'] == 'popup')
+        {
+            $view = $this->getPopupView();
+            $html .= $view->render();
+        }
 
-		return $html;
-	}
-	//-----------------------------------------------------------------------------
+        return $html;
+    }
 
-	/**
-	 * Возвращает список изображений
-	 *
-	 * @param int $sectionId  идентификатор раздела
-	 * @param int $limit      максимальное количество изображений
-	 * @param int $offset     номер первого изображения
-	 *
-	 * @return array
-	 *
-	 * @since 2.03
-	 */
-	protected function getItems($sectionId, $limit, $offset)
-	{
-		/* @var Gallery_Entity_Table_Image $table */
-		// TODO Добавить в этот класс ссылку на плагин
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$items = $table->findInSection($sectionId, $limit, $offset);
-		return $items;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает список изображений
+     *
+     * @param int $sectionId  идентификатор раздела
+     * @param int $limit      максимальное количество изображений
+     * @param int $offset     номер первого изображения
+     *
+     * @return array
+     *
+     * @since 2.03
+     */
+    protected function getItems($sectionId, $limit, $offset)
+    {
+        // TODO Добавить в этот класс ссылку на плагин
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
+        /* @var Gallery_Entity_Table_Image $table */
+        $table = ORM::getTable($plugin, 'Image');
+        $items = $table->findInSection($sectionId, $limit, $offset);
+        return $items;
+    }
 
-	/**
-	 * Возвращает максимальное количество изображений на странице
-	 *
-	 * @param Plugin $plugin
-	 *
-	 * @return int
-	 *
-	 * @since 2.03
-	 */
-	protected function getMaxCount(Plugin $plugin)
-	{
-		return $plugin->settings['itemsPerPage'];
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает максимальное количество изображений на странице
+     *
+     * @param Eresus_Plugin $plugin
+     *
+     * @return int
+     *
+     * @since 2.03
+     */
+    protected function getMaxCount(Eresus_Plugin $plugin)
+    {
+        return $plugin->settings['itemsPerPage'];
+    }
 
-	/**
-	 * Возвращает количество страниц в списке
-	 *
-	 * @param int $sectionId     идентификатор раздела
-	 * @param int $itemsPerPage  количество изображений на странице
-	 *
-	 * @return int
-	 *
-	 * @since 2.03
-	 */
-	protected function countPageCount($sectionId, $itemsPerPage)
-	{
-		/* @var Gallery_Entity_Table_Image $table */
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		return ceil($table->countInSection($sectionId) / $itemsPerPage);
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает количество страниц в списке
+     *
+     * @param int $sectionId     идентификатор раздела
+     * @param int $itemsPerPage  количество изображений на странице
+     *
+     * @return int
+     *
+     * @since 2.03
+     */
+    protected function countPageCount($sectionId, $itemsPerPage)
+    {
+        /* @var Gallery_Entity_Table_Image $table */
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
+        return ceil($table->countInSection($sectionId) / $itemsPerPage);
+    }
 
-	/**
-	 * Возвращает шаблон
-	 *
-	 * @param Plugin $plugin  объект плагина
-	 *
-	 * @return Template
-	 *
-	 * @since 2.03
-	 */
-	protected function getTemplate(Plugin $plugin)
-	{
-		return new Template('templates/' . $plugin->name . '/image-list.html');
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает шаблон
+     *
+     * @param Eresus_Plugin $plugin  объект плагина
+     *
+     * @return Template
+     *
+     * @since 2.03
+     */
+    protected function getTemplate(Eresus_Plugin $plugin)
+    {
+        return $plugin->templates()->client('image-list.html');
+    }
 
-	/**
-	 * Возвращает объект для отрисовки всплывающего блока
-	 *
-	 * @return Gallery_ClientPopupView
-	 *
-	 * @since 2.03
-	 */
-	protected function getPopupView()
-	{
-		return new Gallery_ClientPopupView();
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Возвращает объект для отрисовки всплывающего блока
+     *
+     * @return Gallery_ClientPopupView
+     *
+     * @since 2.03
+     */
+    protected function getPopupView()
+    {
+        return new Gallery_ClientPopupView();
+    }
 }
+

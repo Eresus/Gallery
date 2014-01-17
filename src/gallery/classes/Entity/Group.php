@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Group.php 1649 2012-07-23 18:31:25Z mk $
  */
 
 /**
@@ -45,70 +43,71 @@
  */
 class Gallery_Entity_Group extends ORM_Entity
 {
-	/**
-	 * Вызывается перед удалением записи из БД
-	 *
-	 * @param ezcQuery $query  запрос, который будет выполнен для удаления записи
-	 *
-	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public function beforeDelete(ezcQuery $query)
-	{
-		$table = ORM::getTable($this->plugin, 'Image');
-		foreach ($this->allImages as $image)
-		{
-			$table->delete($image);
-		}
-	}
+    /**
+     * Вызывается перед удалением записи из БД
+     *
+     * @param ezcQuery $query  запрос, который будет выполнен для удаления записи
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function beforeDelete(ezcQuery $query)
+    {
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
+        foreach ($this->allImages as $image)
+        {
+            $table->delete($image);
+        }
+    }
 
-	/**
-	 * Возвращает объект как массив свойств
-	 *
-	 * @return array
-	 */
-	public function toArray()
-	{
-		return array(
-			'id' => $this->id,
-			'section' => $this->section,
-			'title' => $this->title,
-			'description' => $this->description,
-			'position' => $this->position
-		);
-	}
+    /**
+     * Возвращает объект как массив свойств
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array(
+            'id' => $this->id,
+            'section' => $this->section,
+            'title' => $this->title,
+            'description' => $this->description,
+            'position' => $this->position
+        );
+    }
 
-	/**
-	 * Список изображений группы
-	 *
-	 * @return Gallery_Entity_Image[]
-	 */
-	protected function getAllImages()
-	{
-		$table = ORM::getTable($this->plugin, 'Image');
-		$q = $table->createSelectQuery();
-		$q->where($q->expr->eq('groupId', $q->bindValue($this->id, null, PDO::PARAM_INT)));
-		$q->orderBy('position');
-		return $table->loadFromQuery($q);
-	}
+    /**
+     * Список изображений группы
+     *
+     * @return Gallery_Entity_Image[]
+     */
+    protected function getAllImages()
+    {
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
+        $q = $table->createSelectQuery();
+        $q->where($q->expr->eq('groupId', $q->bindValue($this->id, null, PDO::PARAM_INT)));
+        $q->orderBy('position');
+        return $table->loadFromQuery($q);
+    }
 
-	/**
-	 * Список изображений группы
-	 *
-	 * @return Gallery_Entity_Image[]
-	 */
-	protected function getImages()
-	{
-		$table = ORM::getTable($this->plugin, 'Image');
-		$q = $table->createSelectQuery();
-		$q->where(
-			$q->expr->lAnd(
-				$q->expr->eq('groupId', $q->bindValue($this->id, null, PDO::PARAM_INT)),
-				$q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL))
-			)
-		);
-		$q->orderBy('position');
-		return $table->loadFromQuery($q);
-	}
+    /**
+     * Список изображений группы
+     *
+     * @return Gallery_Entity_Image[]
+     */
+    protected function getImages()
+    {
+        $table = ORM::getTable($this->getTable()->getPlugin(), 'Image');
+        $q = $table->createSelectQuery();
+        $q->where(
+            $q->expr->lAnd(
+                $q->expr->eq('groupId', $q->bindValue($this->id, null, PDO::PARAM_INT)),
+                $q->expr->eq('active', $q->bindValue(true, null, PDO::PARAM_BOOL))
+            )
+        );
+        $q->orderBy('position');
+        return $table->loadFromQuery($q);
+    }
 }
+

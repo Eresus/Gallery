@@ -1,13 +1,11 @@
 /**
- * Галерея изображений
- *
  * Клиентские скрипты АИ
  *
  * @version ${product.version}
  *
  * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
  * @license http://www.gnu.org/licenses/gpl.txt  GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
+ * @author Михаил Красильников <mk@dvaslona.ru>
  *
  * Данная программа является свободным программным обеспечением. Вы
  * вправе распространять ее и/или модифицировать в соответствии с
@@ -26,8 +24,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package gallery
- *
- * $Id$
  */
 
 /**
@@ -46,7 +42,7 @@ jQuery('#content div.image a.delete').live('click', function (e)
 
 
 /**
- * Заправшивает список групп в указанном разделе в диалоге изменения изображения
+ * Запрашивает список групп в указанном разделе в диалоге изменения изображения
  *
  * @param {Event} e
  * @type void

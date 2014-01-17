@@ -1,60 +1,96 @@
 <?php
 /**
- * Галерея изображений
+ * Заглушки встроенных классов Eresus
  *
- * Модульные тесты
- *
- * @version ${product.version}
- *
- * @copyright 2010, ООО "Два слона", http://dvaslona.ru/
- * @license http://www.gnu.org/licenses/gpl.txt	GPL License 3
- * @author Михаил Красильников <mk@3wstyle.ru>
- *
- * Данная программа является свободным программным обеспечением. Вы
- * вправе распространять ее и/или модифицировать в соответствии с
- * условиями версии 3 либо (по вашему выбору) с условиями более поздней
- * версии Стандартной Общественной Лицензии GNU, опубликованной Free
- * Software Foundation.
- *
- * Мы распространяем эту программу в надежде на то, что она будет вам
- * полезной, однако НЕ ПРЕДОСТАВЛЯЕМ НА НЕЕ НИКАКИХ ГАРАНТИЙ, в том
- * числе ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ и ПРИГОДНОСТИ ДЛЯ
- * ИСПОЛЬЗОВАНИЯ В КОНКРЕТНЫХ ЦЕЛЯХ. Для получения более подробной
- * информации ознакомьтесь со Стандартной Общественной Лицензией GNU.
- *
- * Вы должны были получить копию Стандартной Общественной Лицензии
- * GNU с этой программой. Если Вы ее не получили, смотрите документ на
- * <http://www.gnu.org/licenses/>
- *
- * @package Gallery
+ * @package Eresus
  * @subpackage Tests
- *
- * $Id$
  */
 
-class EresusPropertyNotExistsException extends Exception
-{
-	function __construct($property = null, $class = null, $description = null, $previous = null)
-	{
-	}
-}
+use Mekras\TestDoubles\UniversalStub;
+use Mekras\TestDoubles\MockFacade;
 
-class EresusTypeException extends Exception
-{
-	function __construct($var = null, $expectedType = null, $description = null, $previous = null)
-	{
-	}
-}
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-class EresusRuntimeException extends Exception
+/**
+ * Заглушка для класса Eresus_Plugin
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class Eresus_Plugin extends UniversalStub
 {
 }
 
-class ORM_Table
+/**
+ * Заглушка для класса ContentPlugin
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class ContentPlugin extends Eresus_Plugin
 {
-	protected function hasColumns(array $columns)
-	{
-	}
+}
+
+/**
+ * Заглушка для класса Eresus_Kernel
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class Eresus_Kernel extends MockFacade
+{
+}
+
+/**
+ * Заглушка для класса Eresus_CMS
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class Eresus_CMS extends MockFacade
+{
+}
+
+/**
+ * Заглушка для класса Eresus_CMS_Exception
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class Eresus_CMS_Exception extends Exception
+{
+}
+
+/**
+ * Заглушка для класса Eresus_DB
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class Eresus_DB extends MockFacade
+{
+}
+
+/**
+ * Заглушка для класса ezcQuery
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class ezcQuery extends UniversalStub
+{
+}
+
+/**
+ * Заглушка для класса ezcQuerySelect
+ *
+ * @package Eresus
+ * @subpackage Tests
+ */
+class ezcQuerySelect extends ezcQuery
+{
+    const ASC = 'ASC';
+    const DESC = 'DESC';
 }
 
 /**
@@ -86,36 +122,12 @@ abstract class ORM_Entity
 	 */
 	private $gettersCache = array();
 
-	/**
-	 * Конструктор
-	 *
-	 * @param Plugin $plugin  модуль
-	 * @param array  $attrs   исходные значения полей
-	 *
-	 * @return ORM_Entity
-	 *
-	 * @since 1.00
-	 */
-	public function __construct(Plugin $plugin, array $attrs = array())
+	public function __construct(Eresus_Plugin $plugin, array $attrs = array())
 	{
 		$this->plugin = $plugin;
 		$this->attrs = $attrs;
 	}
-	//-----------------------------------------------------------------------------
 
-	/**
-	 * "Магический" метод для доступа к свойствам объекта
-	 *
-	 * Если есть метод, имя которого состоит из префикса "get" и имени свойства, вызывает этот
-	 * метод для полчения значения. В противном случае вызывает {@link getProperty}.
-	 *
-	 * @param string $key  Имя поля
-	 *
-	 * @return mixed  Значение поля
-	 *
-	 * @uses getProperty
-	 * @since 1.00
-	 */
 	public function __get($key)
 	{
 		$getter = 'get' . $key;
@@ -130,22 +142,7 @@ abstract class ORM_Entity
 
 		return $this->getProperty($key);
 	}
-	//-----------------------------------------------------------------------------
 
-	/**
-	 * "Магический" метод для установки свойств объекта
-	 *
-	 * Если есть метод, имя которого состоит из префикса "set" и имени свойства, вызывает этот
-	 * метод для установки значения. В противном случае вызывает {@link setProperty()}.
-	 *
-	 * @param string $key    Имя поля
-	 * @param mixed  $value  Значение поля
-	 *
-	 * @return void
-	 *
-	 * @uses setProperty()
-	 * @since 1.00
-	 */
 	public function __set($key, $value)
 	{
 		$setter = 'set' . $key;
@@ -158,7 +155,6 @@ abstract class ORM_Entity
 			$this->setProperty($key, $value);
 		}
 	}
-	//-----------------------------------------------------------------------------
 
 	/**
 	 * Возвращает таблицу этой сущности
@@ -279,19 +275,18 @@ abstract class ORM_Entity
 	//-----------------------------------------------------------------------------
 }
 
-
-class Plugin {}
-
-class ContentPlugin extends Plugin
-{
-	public function __construct() {}
-}
-
-function arg($key)
-{
-	return isset($GLOBALS['args'][$key]) ? $GLOBALS['args'][$key] : null;
-}
-
 class ORM extends MockFacade {}
 
+class ORM_Table
+{
+	protected function hasColumns(array $columns)
+	{
+	}
+}
+
 class HTTP extends MockFacade {}
+
+function arg($arg)
+{
+    return @$GLOBALS['args'][$arg];
+}

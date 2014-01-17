@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Group.php 1658 2012-07-27 17:05:05Z mk $
  */
 
 /**
@@ -37,122 +35,124 @@
  */
 class Gallery_Entity_Table_Group extends Gallery_Entity_Table_AbstractContent
 {
-	/**
-	 * Структура таблицы
-	 */
-	public function setTableDefinition()
-	{
-		$this->setTableName('gallery_groups');
-		$this->hasColumns(array(
-			'id' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'autoincrement' => true,
-			),
-			'section' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'default' => null,
-			),
-			'title' => array(
-				'type' => 'string',
-				'length' => 255,
-				'default' => null,
-			),
-			'description' => array(
-				'type' => 'string',
-				'length' => 65535,
-				'default' => null,
-			),
-			'position' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'default' => 0,
-			),
-		));
-		$this->index('list_idx', array('fields' => array('section', 'position')));
-	}
+    /**
+     * Структура таблицы
+     */
+    public function setTableDefinition()
+    {
+        $this->setTableName('gallery_groups');
+        $this->hasColumns(array(
+            'id' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'autoincrement' => true,
+            ),
+            'section' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => null,
+            ),
+            'title' => array(
+                'type' => 'string',
+                'length' => 255,
+                'default' => null,
+            ),
+            'description' => array(
+                'type' => 'string',
+                'length' => 65535,
+                'default' => null,
+            ),
+            'position' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => 0,
+            ),
+        ));
+        $this->index('list_idx', array('fields' => array('section', 'position')));
+    }
 
-	/**
-	 * Возвращает включенные группы в указанном разделе
-	 *
-	 * @param int $id      ID раздела сайта
-	 * @param int $limit   максимальное количество возвращаемых групп
-	 * @param int $offset  позиция с которой начать выборку
-	 *
-	 * @return Gallery_Entity_Group[]
-	 */
-	public function findInSection($id, $limit = null, $offset = 0, $all = false)
-	{
-		$q = $this->createSelectQuery();
-		$q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
-		$q->orderBy('position');
-		return $this->loadFromQuery($q, $limit, $offset);
-	}
+    /**
+     * Возвращает включенные группы в указанном разделе
+     *
+     * @param int  $id      ID раздела сайта
+     * @param int  $limit   максимальное количество возвращаемых групп
+     * @param int  $offset  позиция с которой начать выборку
+     * @param bool $all
+     *
+     * @return Gallery_Entity_Group[]
+     */
+    public function findInSection($id, $limit = null, $offset = 0, $all = false)
+    {
+        $q = $this->createSelectQuery();
+        $q->where($q->expr->eq('section', $q->bindValue($id, null, PDO::PARAM_STR)));
+        $q->orderBy('position');
+        return $this->loadFromQuery($q, $limit, $offset);
+    }
 
-	/**
-	 * Перемещает группу выше по списку
-	 *
-	 * @param Gallery_Entity_Group $group
-	 */
-	public function moveUp(Gallery_Entity_Group $group)
-	{
-		if (0 == $group->position)
-		{
-			return;
-		}
+    /**
+     * Перемещает группу выше по списку
+     *
+     * @param Gallery_Entity_Group $group
+     */
+    public function moveUp(Gallery_Entity_Group $group)
+    {
+        if (0 == $group->position)
+        {
+            return;
+        }
 
-		$q = $this->createSelectQuery(false);
-		$q->select('*');
-		$e = $q->expr;
-		$q->where($e->lAnd(
-			$e->eq('section',$q->bindValue($group->section, null, PDO::PARAM_INT)),
-			$e->lt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
-		));
+        $q = $this->createSelectQuery(false);
+        $q->select('*');
+        $e = $q->expr;
+        $q->where($e->lAnd(
+            $e->eq('section', $q->bindValue($group->section, null, PDO::PARAM_INT)),
+            $e->lt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
+        ));
 
-		$q->orderBy('position', ezcQuerySelect::DESC);
-		$q->limit(1);
+        $q->orderBy('position', ezcQuerySelect::DESC);
+        $q->limit(1);
 
-		/* @var Gallery_Entity_Group $swap */
-		$swap = $this->loadOneFromQuery($q);
+        /* @var Gallery_Entity_Group $swap */
+        $swap = $this->loadOneFromQuery($q);
 
-		if ($swap)
-		{
-			$pos = $group->position;
-			$group->position = $swap->position;
-			$swap->position = $pos;
-			$this->update($swap);
-			$this->update($group);
-		}
-	}
+        if ($swap)
+        {
+            $pos = $group->position;
+            $group->position = $swap->position;
+            $swap->position = $pos;
+            $this->update($swap);
+            $this->update($group);
+        }
+    }
 
-	/**
-	 * Перемещает группу ниже по списку
-	 *
-	 * @param Gallery_Entity_Group $group
-	 */
-	public function moveDown(Gallery_Entity_Group $group)
-	{
-		$q = $this->createSelectQuery();
-		$e = $q->expr;
-		$q->where($e->lAnd(
-			$e->eq('section',$q->bindValue($group->section, null, PDO::PARAM_INT)),
-			$e->gt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
-		));
+    /**
+     * Перемещает группу ниже по списку
+     *
+     * @param Gallery_Entity_Group $group
+     */
+    public function moveDown(Gallery_Entity_Group $group)
+    {
+        $q = $this->createSelectQuery();
+        $e = $q->expr;
+        $q->where($e->lAnd(
+            $e->eq('section', $q->bindValue($group->section, null, PDO::PARAM_INT)),
+            $e->gt('position', $q->bindValue($group->position, null, PDO::PARAM_INT))
+        ));
 
-		$q->orderBy('position', ezcQuerySelect::DESC);
-		$q->limit(1);
+        $q->orderBy('position', ezcQuerySelect::DESC);
+        $q->limit(1);
 
-		/* @var Gallery_Entity_Group $swap */
-		$swap = $this->loadOneFromQuery($q);
+        /* @var Gallery_Entity_Group $swap */
+        $swap = $this->loadOneFromQuery($q);
 
-		if ($swap)
-		{
-			$pos = $group->position;
-			$group->position = $swap->position;
-			$swap->position = $pos;
-			$this->update($swap);
-			$this->update($group);
-		}
-	}
+        if ($swap)
+        {
+            $pos = $group->position;
+            $group->position = $swap->position;
+            $swap->position = $pos;
+            $this->update($swap);
+            $this->update($group);
+        }
+    }
 }
+

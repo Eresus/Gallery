@@ -25,8 +25,6 @@
  * <http://www.gnu.org/licenses/>
  *
  * @package Gallery
- *
- * $Id: Exceptions.php 1004 2010-10-19 14:05:08Z mk $
  */
 
 
@@ -38,56 +36,56 @@
  */
 class Gallery_ClientPopupView
 {
-	/**
-	 * Возвращает разметку представления
-	 *
-	 * @return string
-	 *
-	 * @since 2.03
-	 */
-	public function render()
-	{
-		/** @var Gallery $plugin */
-		// TODO Добавить в этот класс ссылку на плагин
-		$plugin = Eresus_CMS::getLegacyKernel()->plugins->load('gallery');
+    /**
+     * Возвращает разметку представления
+     *
+     * @return string
+     *
+     * @since 2.03
+     */
+    public function render()
+    {
+        /** @var Gallery $plugin */
+        // TODO Добавить в этот класс ссылку на плагин
+        $plugin = Eresus_Plugin_Registry::getInstance()->load('gallery');
 
-		/** @var TClientUI $page */
-		$page = Eresus_Kernel::app()->getPage();
-		$page->linkJsLib('jquery');
-		$page->linkScripts($plugin->getCodeURL() . 'gallery.js');
-		$page->linkStyles($plugin->getCodeURL() . 'gallery.css');
+        /** @var TClientUI $page */
+        $page = Eresus_Kernel::app()->getPage();
+        $page->linkJsLib('jquery');
+        $page->linkScripts($plugin->getCodeUrl() . '/client/gallery.js');
+        $page->linkStyles($plugin->getCodeUrl() . '/client/gallery.css');
 
-		$tmpl = new Template('templates/' . $plugin->name . '/popup.html');
-		$popup = $tmpl->compile();
-		$html = '<div id="gallery-popup">' . $popup . '</div>';
+        $tmpl = $plugin->templates()->client('popup.html');
+        $popup = $tmpl->compile();
+        $html = '<div id="gallery-popup">' . $popup . '</div>';
 
-		$html .= $this->renderImageList();
+        $html .= $this->renderImageList();
 
-		return $html;
-	}
+        return $html;
+    }
 
-	/**
-	 * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
-	 *
-	 * @return string
-	 *
-	 * @since 2.03
-	 */
-	protected function renderImageList()
-	{
-		/* @var Gallery_Entity_Table_Image $table */
-		// TODO Добавить в этот класс ссылку на плагин
-		$table = ORM::getTable(Eresus_CMS::getLegacyKernel()->plugins->load('gallery'), 'Image');
-		$items = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
-		$jsArray = array();
-		foreach ($items as $image)
-		{
-			/* @var Gallery_Entity_Image $image */
-			$jsArray []= '"' . $image->imageURL . '"';
-		}
-		$html = '<script type="text/javascript">Eresus.Gallery.images = ['.
-			implode(',', $jsArray) . '];</script>';
-		return $html;
-	}
-	//-----------------------------------------------------------------------------
+    /**
+     * Отрисовывает список изображений альбома для перехода к ним во всплывающем блоке.
+     *
+     * @return string
+     *
+     * @since 2.03
+     */
+    protected function renderImageList()
+    {
+        /* @var Gallery_Entity_Table_Image $table */
+        // TODO Добавить в этот класс ссылку на плагин
+        $table = ORM::getTable(Eresus_Plugin_Registry::getInstance()->load('gallery'), 'Image');
+        $items = $table->findInSection(Eresus_Kernel::app()->getPage()->id);
+        $jsArray = array();
+        foreach ($items as $image)
+        {
+            /* @var Gallery_Entity_Image $image */
+            $jsArray []= '"' . $image->imageURL . '"';
+        }
+        $html = '<script type="text/javascript">Eresus.Gallery.images = ['.
+            implode(',', $jsArray) . '];</script>';
+        return $html;
+    }
 }
+

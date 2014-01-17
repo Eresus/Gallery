@@ -35,33 +35,34 @@
  */
 class Gallery_Entity_Table_Album extends ORM_Table
 {
-	/**
-	 * Структура таблицы
-	 */
-	public function setTableDefinition()
-	{
-		$this->setTableName('pages');
-		$this->hasColumns(array(
-			'id' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'autoincrement' => true,
-			),
-			'title' => array(
-				'type' => 'string',
-				'length' => 255,
-				'default' => null,
-			),
-			'description' => array(
-				'type' => 'string',
-				'length' => 65535,
-				'default' => null,
-			),
-			'position' => array(
-				'type' => 'integer',
-				'unsigned' => true,
-				'default' => 0,
-			),
-		));
-	}
+    /**
+     * Структура таблицы
+     */
+    public function setTableDefinition()
+    {
+        $this->setTableName('pages');
+        $this->hasColumns(array(
+            'id' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'autoincrement' => true,
+            ),
+            'title' => array(
+                'type' => 'string',
+                'length' => 255,
+                'default' => null,
+            ),
+            'description' => array(
+                'type' => 'string',
+                'length' => 65535,
+                'default' => null,
+            ),
+            'position' => array(
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => 0,
+            ),
+        ));
+    }
 }
+
